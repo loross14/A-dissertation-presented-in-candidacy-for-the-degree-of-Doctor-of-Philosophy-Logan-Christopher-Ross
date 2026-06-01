@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --ink:#111; --paper:#fafaf8; --dim:#5a5a55; --rule:#0002; --brass:#8c6a3f;
+    --panel:#ffffff; --panelrule:#0001;
+  }
+  html[data-theme="dark"]{
+    --ink:#f2f2ee; --paper:#0d0d0f; --dim:#9a9a93; --rule:#ffffff22; --brass:#c79a5e;
+    --panel:#141417; --panelrule:#ffffff14;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { width:1200px; height:630px; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:Georgia,"Times New Roman",serif;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; padding-bottom:76px;
+  }
+  /* hairline frame, like a printed plate */
+  .plate { position:absolute; inset:30px; border:1px solid var(--panelrule); border-radius:4px; pointer-events:none; }
+  html[data-theme="dark"] .plate { border-color:var(--rule); }
+
+  .kicker {
+    font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:15px; font-weight:600; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--dim); margin-bottom:30px;
+  }
+  .mark { width:78px; height:78px; margin-bottom:26px; opacity:.95; }
+  .mark .ink { stroke:var(--ink); fill:none; }
+  .mark .ink-fill { fill:var(--ink); stroke:none; }
+  .mark .brass { stroke:var(--brass); fill:none; }
+
+  h1 {
+    font-weight:600; font-size:92px; line-height:1; letter-spacing:.08em;
+    text-transform:uppercase; /* faux small-caps via uppercase + tracking */
+    margin-bottom:26px;
+  }
+  .sub {
+    font-size:31px; line-height:1.32; color:var(--ink); font-style:normal;
+    max-width:880px; text-align:center; margin-bottom:34px;
+  }
+  .hr { width:150px; height:1px; background:var(--ink); opacity:.45; margin-bottom:34px; }
+  .candidacy {
+    font-size:21px; line-height:1.5; color:var(--dim); text-align:center; margin-bottom:8px;
+  }
+  .candidacy .smc { text-transform:uppercase; letter-spacing:.13em; color:var(--ink); }
+  .author {
+    font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:17px; letter-spacing:.05em; color:var(--dim); margin-top:20px;
+  }
+
+  /* provenance footer — the one cryptographic glint */
+  .prov {
+    position:absolute; left:0; right:0; bottom:54px; text-align:center;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:15px; letter-spacing:.02em; color:var(--dim);
+  }
+  .prov .brass { color:var(--brass); }
+</style>
+</head>
+<body>
+  <div class="plate"></div>
+
+  <div class="kicker">Doctoral Dissertation &middot; Room 137</div>
+
+  <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+    <circle class="ink" cx="12" cy="12" r="11" stroke-width="1.1"/>
+    <circle class="ink" cx="12" cy="12" r="8.2" stroke-width="0.8"/>
+    <line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="0.8"/>
+    <line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="0.8"/>
+    <path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.2" stroke-linecap="round"/>
+    <path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.2" stroke-linecap="round"/>
+    <circle class="ink-fill" cx="12" cy="12" r="1.05"/>
+  </svg>
+
+  <h1>Shadow &amp; Mirror</h1>
+  <div class="sub">Treewidth as the Universal Meter of<br/>Computation, Physics, and Consciousness</div>
+  <div class="hr"></div>
+  <div class="candidacy">A dissertation presented in candidacy for the degree of<br/><span class="smc">Doctor of Philosophy</span></div>
+  <div class="author">Logan Christopher Ross &nbsp;&middot;&nbsp; 895 pages &nbsp;&middot;&nbsp; June 1, 2026</div>
+
+  <div class="prov">planisphere-mirror &middot; genesis #0 &middot; <span class="brass">0x19f15104&hellip;ab9b6f99</span></div>
+</body>
+</html>
