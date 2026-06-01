@@ -1,0 +1,73 @@
+{
+  "chain": "planisphere-mirror",
+  "chainId": 1,
+  "number": 0,
+  "genesis": true,
+  "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "timestamp": 1780272000,
+  "sealer": "0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f",
+  "payloadRoot": "0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8",
+  "signature": "0xcc0cbd770df9cb6e10d687539f218900812c250efb44c81f95e86161e98e5e034d4ff0924025f852d9f69ed2bdd9d7be2eafd72f3c9146cfe3f14d1cb1dedf6c1c",
+  "blockHash": "0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99",
+  "payload": {
+    "instrument": "EIP-712 typed structured data, secp256k1 signature (EVM-canonical, ecrecover-verifiable)",
+    "as_above_so_below": "every field shown on the page is a committed field of the signed message; the digest moves if any of them change",
+    "domain": {
+      "name": "Planisphere",
+      "version": "1",
+      "chainId": 1,
+      "salt": "0xb925df4ab950ebc4629e89906422a0ba1282d08cafb284b7daf46e3d97e6a4d6"
+    },
+    "types": {
+      "Attestation": [
+        {
+          "name": "document",
+          "type": "string"
+        },
+        {
+          "name": "signer",
+          "type": "string"
+        },
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "pages",
+          "type": "uint256"
+        },
+        {
+          "name": "documentHash",
+          "type": "bytes32"
+        },
+        {
+          "name": "sealHash",
+          "type": "bytes32"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ]
+    },
+    "message": {
+      "document": "Shadow & Mirror: Treewidth as the Universal Meter of Computation, Physics, and Consciousness",
+      "signer": "Logan Christopher Ross",
+      "room": "137",
+      "pages": 895,
+      "documentHash": "0x1c64a446d7522f1be4677332aa93745c41a3bdd33831ebd61002197f0a1f5711",
+      "sealHash": "0x52bc2a0642988d9c18b48557a0eb13a4265c3ed038c7e04a260473af13608d6a",
+      "timestamp": 1780272000
+    },
+    "digest": "0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8",
+    "signature": "0xcc0cbd770df9cb6e10d687539f218900812c250efb44c81f95e86161e98e5e034d4ff0924025f852d9f69ed2bdd9d7be2eafd72f3c9146cfe3f14d1cb1dedf6c1c",
+    "signer_address": "0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f",
+    "key_origin": "derived-dev",
+    "file_sha256": {
+      "thesis.pdf": "c6529c075d5dedc7bc005ce26d3dc5b1a8ce37d60c843e72203e2bd5fc87b20e",
+      "seal.svg": "f140946418b20d07bcdda7ab858d1f1bfe1449b65c840b3ca97662a722019f70"
+    },
+    "verify": "eth_account.Account.recover_message(encode_typed_data(domain, types, message), signature=signature) == signer_address"
+  },
+  "verify": "blockHash == keccak256(rlp([parentHash, number, timestamp, sealer, payloadRoot, signature])); payloadRoot is the EIP-712 digest in payload \u2014 ecrecover(payload) == sealer"
+}

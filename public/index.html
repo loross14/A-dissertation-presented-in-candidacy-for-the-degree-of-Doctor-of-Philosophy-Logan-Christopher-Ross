@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shadow &amp; Mirror — Treewidth as the Universal Meter</title>
+  <meta name="description" content="A doctoral dissertation by Logan Christopher Ross. Treewidth as the universal meter of computation, physics, and consciousness. Central theorem: Ross's Law. Sealed as the genesis block of the Planisphere mirror chain." />
+  <meta property="og:title" content="Shadow &amp; Mirror" />
+  <meta property="og:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
+  <meta property="og:type" content="article" />
+  <style>
+    :root { --ink:#111; --paper:#fafaf8; --rule:#0001; --dim:#555; --panel:#fff; --panelrule:#0002; --brass:#8c6a3f; }
+    @media (prefers-color-scheme: dark){
+      :root { --ink:#eee; --paper:#0d0d0f; --rule:#fff2; --dim:#999; --panel:#141417; --panelrule:#fff2; --brass:#b8915c; }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin:0; background:var(--paper); color:var(--ink);
+      font:400 17px/1.55 Georgia, "Times New Roman", serif;
+      display:flex; flex-direction:column; min-height:100vh;
+    }
+    .wrap { max-width:720px; margin:0 auto; padding:13vh 24px 6vh; width:100%; flex:1; }
+    .kicker { font:600 12px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); }
+    h1 { font-size:clamp(30px,6vw,46px); line-height:1.08; margin:.5em 0 .1em; font-weight:600; }
+    .sub { font-size:clamp(17px,2.6vw,21px); color:var(--dim); margin:0 0 1.4em; font-style:italic; }
+    .rule { border:0; border-top:1px solid var(--rule); margin:1.8em 0; }
+    .abstract { font-size:16px; color:var(--ink); }
+    .abstract b { font-weight:600; }
+    .claim { margin:1.4em 0; padding:1em 1.2em; border-left:3px solid var(--ink); font-style:italic; }
+    .meta { font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--dim); margin-top:.4em; }
+
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin:2em 0 .5em; }
+    a.btn {
+      font:600 14px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.02em;
+      text-decoration:none; color:var(--paper); background:var(--ink);
+      padding:13px 18px; border-radius:7px; display:inline-flex; align-items:center; gap:8px;
+    }
+
+    /* the Planisphere collaboration mark */
+    .stamp { width:1.4em; height:1.4em; vertical-align:-0.34em; margin:0 .12em 0 .3em; opacity:.92; }
+    .seal  { width:3em; height:3em; flex:none; opacity:.95; }
+    .seal-lg { width:4.4em; height:4.4em; flex:none; opacity:.95; }
+    .stamp .ink, .seal .ink, .seal-lg .ink { stroke:currentColor; fill:none; }
+    .stamp .ink-fill, .seal .ink-fill, .seal-lg .ink-fill { fill:currentColor; stroke:none; }
+    .stamp .brass, .seal .brass, .seal-lg .brass { stroke:var(--brass); fill:none; }
+
+    /* the genesis-block attestation panel */
+    .attest { margin:2.4em 0 1em; border:1px solid var(--panelrule); border-radius:12px; background:var(--panel); padding:20px 22px; }
+    .attest-head { display:flex; align-items:center; gap:16px; }
+    .attest-head .t { font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+    .attest-head .t b { display:block; font-size:16px; letter-spacing:.02em; text-transform:none; color:var(--ink); margin-top:.25em; }
+    .grid { margin:1.2em 0 .2em; display:grid; grid-template-columns:max-content 1fr; gap:.5em 1.1em; align-items:baseline; }
+    .grid dt { font:600 11px/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.04em; text-transform:uppercase; color:var(--dim); }
+    .grid dd { margin:0; font:400 13px/1.5 Georgia, serif; }
+    .hash { font:400 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; color:var(--ink); }
+    .hash.brass { color:var(--brass); }
+    .attest .how { margin:1.1em 0 0; font:400 12px/1.55 ui-sans-serif,system-ui,sans-serif; color:var(--dim); }
+    .attest .links { margin-top:.9em; display:flex; flex-wrap:wrap; gap:8px 16px; }
+    .attest .links a { font:600 12px/1 ui-sans-serif,system-ui,sans-serif; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--panelrule); padding-bottom:2px; }
+    .attest .links a:hover { border-color:var(--ink); }
+
+    /* sign-off */
+    .sign { margin-top:2.2em; }
+    .sign .sig-row { display:flex; align-items:center; gap:16px; }
+    .sign .sig {
+      font-family:"Snell Roundhand","Apple Chancery","Brush Script MT","Segoe Script",cursive;
+      font-size:clamp(28px,5vw,38px); line-height:1; font-weight:500;
+      color:var(--ink); display:inline-block; padding:.05em .1em 0;
+    }
+    .seal-link { display:inline-flex; line-height:0; }
+    .sign .line { width:260px; max-width:100%; border:0; border-top:1px solid var(--ink); margin:.5em 0 .3em; opacity:.5; }
+    .sign .who { font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.04em; color:var(--dim); display:block; }
+
+    footer { font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--dim); text-align:center; padding:3vh 24px; border-top:1px solid var(--rule); }
+    a { color:inherit; }
+
+    /* the reusable mark, defined once */
+    svg.mark .ink { stroke:currentColor; fill:none; }
+    svg.mark .ink-fill { fill:currentColor; stroke:none; }
+    svg.mark .brass { stroke:var(--brass); fill:none; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="kicker">Doctoral Dissertation &middot; Room 137</div>
+    <h1>Shadow &amp; Mirror</h1>
+    <p class="sub">Treewidth as the Universal Meter of Computation, Physics, and Consciousness</p>
+    <p class="meta">Logan Christopher Ross &middot; 895 pages &middot;<svg class="stamp mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere · Room 137"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>June 1, 2026</p>
+
+    <div class="claim">
+      The gap between any separable structure and the inseparable whole it
+      belongs to is measured by one invariant&nbsp;&mdash;&nbsp;treewidth.
+    </div>
+
+    <hr class="rule" />
+
+    <p class="abstract">
+      A series of formal constructions spanning eight substrates, from the
+      hydrogen bond to the cosmic microwave background, each exhibiting the same
+      three&#8209;term <b>shadow&ndash;mirror&ndash;coupling</b> architecture under a shared
+      treewidth meter. The central theorem is <b>Ross&rsquo;s Law</b>: the cost of
+      classically simulating a quantum circuit with entanglement graph <i>G</i>
+      scales as exp(&Theta;(tw(<i>G</i>))) &mdash; quantum advantage exists iff that
+      treewidth grows with input size.
+    </p>
+
+    <div class="actions">
+      <a class="btn" href="/thesis.pdf">Read the dissertation (PDF, 7.8&nbsp;MB)</a>
+    </div>
+    <p class="meta">895 pages. Best read in a desktop PDF viewer.</p>
+
+    <section class="attest" aria-label="Planisphere mirror chain genesis block">
+      <div class="attest-head">
+        <svg class="seal-lg mark" viewBox="0 0 24 24" role="img" aria-label="Planisphere seal"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>
+        <div class="t">Sealed on the Planisphere mirror chain<b>Genesis block &middot; #0</b></div>
+      </div>
+
+      <dl class="grid">
+        <dt>Block hash</dt>
+        <dd class="hash brass">0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99</dd>
+        <dt>Parent</dt>
+        <dd class="hash">0x0000000000000000000000000000000000000000000000000000000000000000</dd>
+        <dt>Payload root</dt>
+        <dd class="hash">0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8 <span style="color:var(--dim)">(EIP-712)</span></dd>
+        <dt>Sealer</dt>
+        <dd class="hash">0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f</dd>
+        <dt>Signer</dt>
+        <dd>Logan Christopher Ross &middot; Room 137</dd>
+        <dt>Timestamp</dt>
+        <dd>2026-06-01T00:00:00Z <span style="color:var(--dim)">(1780272000)</span></dd>
+        <dt>Document</dt>
+        <dd class="hash">0x1c64a446d7522f1be4677332aa93745c41a3bdd33831ebd61002197f0a1f5711 <span style="color:var(--dim)">(keccak256 · 895pp)</span></dd>
+        <dt>Mark</dt>
+        <dd class="hash">0x52bc2a0642988d9c18b48557a0eb13a4265c3ed038c7e04a260473af13608d6a <span style="color:var(--dim)">(keccak256 · seal.svg)</span></dd>
+      </dl>
+
+      <p class="how">
+        EVM-canonical. The block hash is <span class="hash">keccak256(rlp([parent, number, timestamp, sealer, payloadRoot, signature]))</span>;
+        the payload root is an EIP-712 typed-data digest whose signature recovers the sealer by <span class="hash">ecrecover</span>.
+        Every field above is committed &mdash; change any one and the genesis hash moves. As above, so below.
+      </p>
+      <div class="links">
+        <a href="/genesis.json">genesis.json</a>
+        <a href="/seal.json">seal.json (EIP-712)</a>
+        <a href="/seal.svg">seal.svg</a>
+      </div>
+    </section>
+
+    <div class="sign">
+      <div class="sig-row">
+        <span class="sig">Logan Christopher Ross</span>
+        <a class="seal-link" href="/genesis.json" title="Planisphere mirror chain — genesis block" aria-label="Planisphere mirror chain genesis block"><svg class="seal mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere" data-block="0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></a>
+      </div>
+      <hr class="line" />
+      <span class="who">Signed &amp; sealed by Planisphere &middot; Room 137 &middot; June 1, 2026</span>
+    </div>
+  </main>
+  <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
+</body>
+</html>

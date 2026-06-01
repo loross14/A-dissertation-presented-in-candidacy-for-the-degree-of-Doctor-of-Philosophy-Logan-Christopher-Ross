@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere — Shadow & Mirror">
+  <title>Sealed by Planisphere — Shadow &amp; Mirror</title>
+  <desc>Collaboration mark. Planisphere astrolabe limb and mater carrying the dissertation's width-zero separator (the cardinal cross), with two brass projection arcs and a central pivot.</desc>
+  <style>
+    .ink { stroke:#111; fill:none; }
+    .ink-fill { fill:#111; stroke:none; }
+    .brass { stroke:#8c6a3f; fill:none; }
+    @media (prefers-color-scheme: dark){
+      .ink { stroke:#eee; } .ink-fill { fill:#eee; } .brass { stroke:#b8915c; }
+    }
+  </style>
+  <circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/>
+  <circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/>
+  <line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/>
+  <line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/>
+  <path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/>
+  <path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/>
+  <circle class="ink-fill" cx="12" cy="12" r="1.2"/>
+</svg>

@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+tools/index.prev.html
+.DS_Store
