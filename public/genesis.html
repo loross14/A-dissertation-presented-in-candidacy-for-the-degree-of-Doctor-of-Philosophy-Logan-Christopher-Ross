@@ -377,7 +377,7 @@ struct Attestation {
       ['digest', 'recover', 'block', 'seal', 'pdf'].forEach((k) => set(k, 'run'));
       try {
         const { keccak256, toRlp, hashTypedData, recoverTypedDataAddress } =
-          await import('https://esm.sh/viem@2');
+          await import('/vendor/viem-2.52.0.min.js');
         const seal = await (await fetch('/seal.json', { cache: 'no-store' })).json();
         const blk = await (await fetch('/genesis.json', { cache: 'no-store' })).json();
         const { domain, types, message } = seal;

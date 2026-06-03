@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shadow &amp; Mirror — Treewidth as the Universal Meter</title>
-  <meta name="description" content="A doctoral dissertation by Logan Christopher Ross. Treewidth as the universal meter of computation, physics, and consciousness. Central theorem: Ross's Law. Sealed as the genesis block of the Planisphere mirror chain." />
+  <meta name="description" content="A dissertation by Logan Christopher Ross. Treewidth as the universal meter of computation, physics, and consciousness. Central theorem: Ross's Law. Sealed as the genesis block of the Planisphere mirror chain." />
   <meta property="og:title" content="Shadow &amp; Mirror" />
   <meta property="og:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
   <meta property="og:type" content="article" />
@@ -12,7 +12,7 @@
   <meta property="og:image" content="https://lcr.phd/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Shadow &amp; Mirror — a doctoral dissertation by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
+  <meta property="og:image:alt" content="Shadow &amp; Mirror — a dissertation by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Shadow &amp; Mirror" />
   <meta name="twitter:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
@@ -84,6 +84,11 @@
     .checks li.ok  .ck::before { content:'\2713'; } .checks li.ok  { color:var(--ink); } .checks li.ok .ck { color:#2e7d32; }
     .checks li.bad .ck::before { content:'\2717'; } .checks li.bad { color:var(--ink); } .checks li.bad .ck { color:#c62828; }
     @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
+    .witness { margin-top:1.2em; padding-top:1.1em; border-top:1px solid var(--panelrule); }
+    .wlead { font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--brass); margin:0 0 .55em; }
+    .wsig { margin:1em 0 0; padding:.85em 1em; background:var(--panel); border:1px solid var(--panelrule); border-radius:7px; font:400 11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--dim); white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
+    .wsig b { color:var(--ink); font-weight:600; }
+    .wsig .brass { color:var(--brass); }
     .verdict { margin:1.05em 0 0; font:600 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
     .verdict.pass { color:#2e7d32; } .verdict.fail { color:#c62828; }
     @media (prefers-color-scheme: dark){
@@ -114,7 +119,7 @@
 </head>
 <body>
   <main class="wrap">
-    <div class="kicker">Doctoral Dissertation &middot; Room 137</div>
+    <div class="kicker">Dissertation &middot; Room 137</div>
     <h1>Shadow &amp; Mirror</h1>
     <p class="sub">Treewidth as the Universal Meter of Computation, Physics, and Consciousness</p>
     <p class="meta">Logan Christopher Ross &middot; 895 pages &middot;<svg class="stamp mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere · Room 137"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>June 1, 2026</p>
@@ -190,6 +195,20 @@
         </ul>
         <p id="verdict" class="verdict" hidden></p>
       </div>
+
+      <div class="witness">
+        <p class="wlead">Add your own witness mark</p>
+        <p class="vhint">Connect any EVM wallet and sign a gas-free attestation to the genesis block &mdash; from any chain. Nothing is broadcast; the signature recovers your mainnet-canonical address (ENS and all), inherited for free from Ethereum&rsquo;s keyspace.</p>
+        <button id="witnessBtn" type="button" class="vbtn">Sign as a witness with your wallet</button>
+        <ul id="wsteps" class="checks" hidden>
+          <li data-w="connect"><span class="ck" aria-hidden="true"></span><span class="lbl">wallet connected</span></li>
+          <li data-w="sign"><span class="ck" aria-hidden="true"></span><span class="lbl">EIP-712 witness signed (gas-free, off-chain)</span></li>
+          <li data-w="recover"><span class="ck" aria-hidden="true"></span><span class="lbl">signature recovers your connected address</span></li>
+          <li data-w="ens"><span class="ck" aria-hidden="true"></span><span class="lbl">mainnet identity resolved</span></li>
+        </ul>
+        <p id="wverdict" class="verdict" hidden></p>
+        <pre id="wsig" class="wsig" hidden></pre>
+      </div>
     </section>
 
     <div class="sign">
@@ -204,6 +223,10 @@
   <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
 
   <script type="module">
+    // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
+    let _viem = null;
+    const viem = async () => (_viem ||= await import('/vendor/viem-2.52.0.min.js'));
+
     const list = document.getElementById('checks');
     const btn = document.getElementById('verifyBtn');
     const verdict = document.getElementById('verdict');
@@ -227,8 +250,7 @@
       verdict.hidden = true;
       ['digest', 'recover', 'block', 'seal', 'pdf'].forEach((k) => set(k, 'run'));
       try {
-        const { keccak256, toRlp, hashTypedData, recoverTypedDataAddress } =
-          await import('https://esm.sh/viem@2');
+        const { keccak256, toRlp, hashTypedData, recoverTypedDataAddress } = await viem();
         const seal = await (await fetch('/seal.json', { cache: 'no-store' })).json();
         const blk = await (await fetch('/genesis.json', { cache: 'no-store' })).json();
         const { domain, types, message } = seal;
@@ -261,6 +283,138 @@
       } finally {
         btn.disabled = false;
         btn.textContent = 'Verify again';
+      }
+    });
+
+    // ── Witness: connect any EVM wallet, sign a gas-free EIP-712 attestation ──
+    const BLOCK_HASH = '0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99';
+    const wBtn = document.getElementById('witnessBtn');
+    const wSteps = document.getElementById('wsteps');
+    const wVerdict = document.getElementById('wverdict');
+    const wSig = document.getElementById('wsig');
+    const wset = (k, state) => {
+      const li = wSteps.querySelector('[data-w="' + k + '"]');
+      li.classList.remove('run', 'ok', 'bad');
+      li.classList.add(state);
+    };
+    const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+    wBtn.addEventListener('click', async () => {
+      const eth = window.ethereum;
+      if (!eth) {
+        wVerdict.hidden = false;
+        wVerdict.className = 'verdict fail';
+        wVerdict.textContent = 'No EVM wallet found. Install MetaMask, Rabby, or any EIP-1193 wallet, then try again.';
+        return;
+      }
+      wBtn.disabled = true;
+      wBtn.textContent = 'Check your wallet…';
+      wSteps.hidden = false;
+      wVerdict.hidden = true;
+      wSig.hidden = true;
+      ['connect', 'sign', 'recover', 'ens'].forEach((k) => wset(k, 'run'));
+      try {
+        const { recoverTypedDataAddress, getAddress, createPublicClient, http, mainnet } = await viem();
+
+        // 1 · connect
+        const accounts = await eth.request({ method: 'eth_requestAccounts' });
+        const account = getAddress(accounts[0]);
+        let chainId = 1;
+        try { chainId = parseInt(await eth.request({ method: 'eth_chainId' }), 16) || 1; } catch (_) {}
+        wset('connect', 'ok');
+
+        // 2 · sign — off-chain EIP-712, no gas, no broadcast
+        const typedData = {
+          domain: { name: 'Planisphere Mirror Chain', version: '1', chainId },
+          types: {
+            EIP712Domain: [
+              { name: 'name', type: 'string' },
+              { name: 'version', type: 'string' },
+              { name: 'chainId', type: 'uint256' },
+            ],
+            Witness: [
+              { name: 'statement', type: 'string' },
+              { name: 'block', type: 'uint256' },
+              { name: 'blockHash', type: 'bytes32' },
+              { name: 'witnessedAt', type: 'uint256' },
+            ],
+          },
+          primaryType: 'Witness',
+          message: {
+            statement: 'I witness the genesis seal of Shadow & Mirror.',
+            block: 0,
+            blockHash: BLOCK_HASH,
+            witnessedAt: Math.floor(Date.now() / 1000),
+          },
+        };
+        const signature = await eth.request({
+          method: 'eth_signTypedData_v4',
+          params: [account, JSON.stringify(typedData)],
+        });
+        wset('sign', 'ok');
+
+        // 3 · recover — self-hosted viem, proves the signature is the connected key
+        const recovered = await recoverTypedDataAddress({
+          domain: typedData.domain,
+          types: { Witness: typedData.types.Witness },
+          primaryType: 'Witness',
+          message: typedData.message,
+          signature,
+        });
+        const match = eq(recovered, account);
+        wset('recover', match ? 'ok' : 'bad');
+
+        // result renders immediately — the proof never waits on the network
+        const short = recovered.slice(0, 6) + '…' + recovered.slice(-4);
+        const renderSig = (name) => {
+          wSig.innerHTML =
+            '<b>witness</b>  ' + esc(name || recovered) + (name ? '  <span class="brass">(' + esc(short) + ')</span>' : '') + '\n' +
+            '<b>chain</b>    ' + chainId + '  <span class="brass">(signed off-chain — gas-free)</span>\n' +
+            '<b>block</b>    0  ' + esc(BLOCK_HASH.slice(0, 10)) + '…' + esc(BLOCK_HASH.slice(-6)) + '\n' +
+            '<b>sig</b>      ' + esc(signature);
+        };
+        wSig.hidden = false;
+        renderSig(null);
+        wVerdict.hidden = false;
+        wVerdict.className = 'verdict ' + (match ? 'pass' : 'fail');
+        wVerdict.textContent = match
+          ? '✓ Witnessed by ' + short + ' — your signature recovers your own mainnet address. No gas, no chain of ours required.'
+          : '✗ The recovered address did not match the wallet — signature rejected.';
+
+        // 4 · mainnet identity — a gas-free background read, time-boxed so it never blocks the proof
+        if (match) {
+          const ensLbl = wSteps.querySelector('[data-w="ens"] .lbl');
+          ensLbl.textContent = 'mainnet-canonical address recovered';
+          const withTimeout = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
+          try {
+            const client = createPublicClient({ chain: mainnet, transport: http() });
+            const ens = await withTimeout(client.getEnsName({ address: getAddress(recovered) }), 6000);
+            wset('ens', 'ok');
+            if (ens) {
+              ensLbl.textContent = 'mainnet identity: ' + ens;
+              renderSig(ens);
+              wVerdict.textContent = '✓ Witnessed by ' + ens + ' — your signature recovers your own mainnet address. No gas, no chain of ours required.';
+            }
+          } catch (_) {
+            wset('ens', 'ok');
+          }
+        } else {
+          wset('ens', 'bad');
+        }
+      } catch (e) {
+        ['connect', 'sign', 'recover', 'ens'].forEach((k) => {
+          const li = wSteps.querySelector('[data-w="' + k + '"]');
+          if (li.classList.contains('run')) li.classList.remove('run');
+        });
+        wVerdict.hidden = false;
+        wVerdict.className = 'verdict fail';
+        const m = (e && e.message) ? e.message : String(e);
+        wVerdict.textContent = /rejected|denied|4001/i.test(m)
+          ? 'Signature cancelled in your wallet.'
+          : 'Could not complete: ' + m;
+      } finally {
+        wBtn.disabled = false;
+        wBtn.textContent = 'Sign another witness';
       }
     });
   </script>
