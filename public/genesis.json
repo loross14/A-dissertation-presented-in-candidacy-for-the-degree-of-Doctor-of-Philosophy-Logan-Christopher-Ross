@@ -5,10 +5,10 @@
   "genesis": true,
   "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
   "timestamp": 1780272000,
-  "sealer": "0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f",
-  "payloadRoot": "0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8",
-  "signature": "0xcc0cbd770df9cb6e10d687539f218900812c250efb44c81f95e86161e98e5e034d4ff0924025f852d9f69ed2bdd9d7be2eafd72f3c9146cfe3f14d1cb1dedf6c1c",
-  "blockHash": "0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99",
+  "sealer": "0x3B0d7A009aae049828796a28b86230f6c46C1328",
+  "payloadRoot": "0xc014dea72199155f8c1f1bd0aca633a32508946e9c3e3556e7dde905660a5e8f",
+  "signature": "0x391ab37e99d87d22fe7f236b0ec410cab90d77daebb69a5d6ca422d213232dee3fabb4d2bd0a9c5f0fa2b59ae17a5df4189ff36430ade4b51089202a168881af1c",
+  "blockHash": "0x5d4f8afa58b45062f6ba5b1066256a09395859b635fb6fcecd2e3f441d2fa97f",
   "payload": {
     "instrument": "EIP-712 typed structured data, secp256k1 signature (EVM-canonical, ecrecover-verifiable)",
     "as_above_so_below": "every field shown on the page is a committed field of the signed message; the digest moves if any of them change",
@@ -55,16 +55,16 @@
       "signer": "Logan Christopher Ross",
       "room": "137",
       "pages": 895,
-      "documentHash": "0x1c64a446d7522f1be4677332aa93745c41a3bdd33831ebd61002197f0a1f5711",
+      "documentHash": "0x4d5d076648d86a37d80be0fd86db1e3064e3f17d5a7cd868a9a5e26199e243c5",
       "sealHash": "0x52bc2a0642988d9c18b48557a0eb13a4265c3ed038c7e04a260473af13608d6a",
       "timestamp": 1780272000
     },
-    "digest": "0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8",
-    "signature": "0xcc0cbd770df9cb6e10d687539f218900812c250efb44c81f95e86161e98e5e034d4ff0924025f852d9f69ed2bdd9d7be2eafd72f3c9146cfe3f14d1cb1dedf6c1c",
-    "signer_address": "0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f",
+    "digest": "0xc014dea72199155f8c1f1bd0aca633a32508946e9c3e3556e7dde905660a5e8f",
+    "signature": "0x391ab37e99d87d22fe7f236b0ec410cab90d77daebb69a5d6ca422d213232dee3fabb4d2bd0a9c5f0fa2b59ae17a5df4189ff36430ade4b51089202a168881af1c",
+    "signer_address": "0x3B0d7A009aae049828796a28b86230f6c46C1328",
     "key_origin": "derived-dev",
     "file_sha256": {
-      "thesis.pdf": "c6529c075d5dedc7bc005ce26d3dc5b1a8ce37d60c843e72203e2bd5fc87b20e",
+      "thesis.pdf": "25e73df234b1d048d9c8eee4e0db6ab8fc2958c0dda7d13cb39a5715243ea6d7",
       "seal.svg": "f140946418b20d07bcdda7ab858d1f1bfe1449b65c840b3ca97662a722019f70"
     },
     "verify": "eth_account.Account.recover_message(encode_typed_data(domain, types, message), signature=signature) == signer_address"

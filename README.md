@@ -1,9 +1,9 @@
 # Shadow &amp; Mirror
 
 **Treewidth as the Universal Meter of Computation, Physics, and Consciousness**
-A doctoral dissertation by Logan Christopher Ross. 895 pages. Room 137.
+A volume of independent research by Logan Christopher Ross. 895 pages. Room 137.
 
-Live: **lcr.phd**
+Live: **logan.engineering**
 
 Central theorem — *Ross's Law*: the cost of classically simulating a quantum
 circuit with entanglement graph *G* scales as exp(Θ(tw(*G*))); quantum advantage
@@ -11,7 +11,7 @@ exists iff that treewidth grows with input size.
 
 ## The seal — genesis block of the Planisphere mirror chain
 
-The dissertation is sealed, EVM-canonically, as block `#0` of the
+The volume is sealed, EVM-canonically, as block `#0` of the
 `planisphere-mirror` chain.
 
 - **Payload** (`seal.json`) — an EIP-712 typed-structured-data attestation. Its
@@ -41,7 +41,7 @@ is `derived-dev` (deterministic from the committed hashes); set
 ```
 public/
   index.html     the landing page (served by Vercel)
-  thesis.pdf     the dissertation, 895 pages
+  thesis.pdf     the volume, 895 pages
   seal.svg       the Planisphere × Shadow-and-Mirror collaboration mark
   seal.json      the EIP-712 attestation (block payload)
   genesis.json   the mirror-chain genesis block

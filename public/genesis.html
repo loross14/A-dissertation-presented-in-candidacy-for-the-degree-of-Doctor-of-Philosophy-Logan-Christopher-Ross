@@ -4,20 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Genesis Block #0 — Planisphere Mirror Chain</title>
-  <meta name="description" content="Block zero of the Planisphere mirror chain — the first real-world seal. An EIP-712 attestation committing the 895-page dissertation Shadow &amp; Mirror, its Planisphere mark, the signer, Room 137 and the timestamp. Verifiable in your browser." />
-  <link rel="canonical" href="https://lcr.phd/genesis" />
+  <meta name="description" content="Block zero of the Planisphere mirror chain — the first real-world seal. An EIP-712 attestation committing the 895-page volume Shadow &amp; Mirror, its Planisphere mark, the signer, Room 137 and the timestamp. Verifiable in your browser." />
+  <link rel="canonical" href="https://logan.engineering/genesis" />
   <meta property="og:title" content="Genesis Block #0 · Planisphere Mirror Chain" />
   <meta property="og:description" content="The first seal. An EVM-canonical attestation of Shadow &amp; Mirror — verifiable, byte for byte, in your browser." />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://lcr.phd/genesis" />
-  <meta property="og:image" content="https://lcr.phd/og-genesis.png" />
+  <meta property="og:url" content="https://logan.engineering/genesis" />
+  <meta property="og:image" content="https://logan.engineering/og-genesis.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Genesis Block #0 of the Planisphere mirror chain — block hash 0x19f15104…ab9b6f99." />
+  <meta property="og:image:alt" content="Genesis Block #0 of the Planisphere mirror chain — block hash 0x5d4f8afa…1d2fa97f." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Genesis Block #0 · Planisphere Mirror Chain" />
   <meta name="twitter:description" content="The first seal. An EVM-canonical attestation of Shadow &amp; Mirror — verifiable, byte for byte, in your browser." />
-  <meta name="twitter:image" content="https://lcr.phd/og-genesis.png" />
+  <meta name="twitter:image" content="https://logan.engineering/og-genesis.png" />
   <style>
     :root { --ink:#111; --paper:#fafaf8; --rule:#0001; --dim:#555; --panel:#fff; --panelrule:#0002; --brass:#8c6a3f; --good:#2e7d32; --bad:#c62828; }
     @media (prefers-color-scheme: dark){
@@ -165,7 +165,7 @@
 
       <div class="blockhash">
         <span class="lbl">Block hash</span>
-        <span class="h">0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99</span>
+        <span class="h">0x5d4f8afa58b45062f6ba5b1066256a09395859b635fb6fcecd2e3f441d2fa97f</span>
       </div>
 
       <div class="glance">
@@ -199,7 +199,7 @@
             <dt>sha-256</dt><dd class="mono">c6529c07…fc87b20e</dd>
           </dl>
           <p class="commit">→ committed as documentHash = keccak256(bytes)</p>
-          <a class="open" href="/thesis.pdf">Open the dissertation <span class="arr">→</span></a>
+          <a class="open" href="/thesis.pdf">Open the volume <span class="arr">→</span></a>
         </div>
 
         <div class="atom">
@@ -223,7 +223,7 @@
         <div class="field"><div class="k">Room</div><div class="v">137</div><div class="t">string</div></div>
         <div class="field"><div class="k">Pages</div><div class="v">895</div><div class="t">uint256</div></div>
         <div class="field"><div class="k">Timestamp</div><div class="v">2026-06-01</div><div class="t">uint256 · 1780272000</div></div>
-        <div class="field"><div class="k">Document hash</div><div class="v" style="font:400 13px/1.4 ui-monospace,Menlo,monospace;word-break:break-all">0x1c64a446…0a1f5711</div><div class="t">bytes32</div></div>
+        <div class="field"><div class="k">Document hash</div><div class="v" style="font:400 13px/1.4 ui-monospace,Menlo,monospace;word-break:break-all">0x4d5d0766…99e243c5</div><div class="t">bytes32</div></div>
         <div class="field"><div class="k">Seal hash</div><div class="v" style="font:400 13px/1.4 ui-monospace,Menlo,monospace;word-break:break-all">0x52bc2a06…13608d6a</div><div class="t">bytes32</div></div>
       </div>
     </section>
@@ -255,15 +255,15 @@ struct Attestation {
 }
 
 <span class="cm">// digest = keccak256(0x19 0x01 ‖ domainSeparator ‖ hashStruct(message))</span>
-<span class="kw">digest</span> = <span class="ty">0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8</span>
+<span class="kw">digest</span> = <span class="ty">0xc014dea72199155f8c1f1bd0aca633a32508946e9c3e3556e7dde905660a5e8f</span>
       </div>
 
       <div class="panel" style="margin-top:16px">
         <dl class="ledger">
           <dt>Signature</dt>
-          <dd class="mono">0xcc0cbd770df9cb6e10d687539f218900812c250efb44c81f95e86161e98e5e034d4ff0924025f852d9f69ed2bdd9d7be2eafd72f3c9146cfe3f14d1cb1dedf6c1c</dd>
+          <dd class="mono">0x391ab37e99d87d22fe7f236b0ec410cab90d77daebb69a5d6ca422d213232dee3fabb4d2bd0a9c5f0fa2b59ae17a5df4189ff36430ade4b51089202a168881af1c</dd>
           <dt>Recovers to</dt>
-          <dd class="mono brass">0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f</dd>
+          <dd class="mono brass">0x3B0d7A009aae049828796a28b86230f6c46C1328</dd>
           <dt>Key origin</dt>
           <dd>derived-dev <span class="dim">— deterministic from the committed hashes; set an operator key for a production address</span></dd>
         </dl>
@@ -285,9 +285,9 @@ struct Attestation {
           <dt>Parent hash</dt><dd class="mono">0x0000000000000000000000000000000000000000000000000000000000000000 <span class="dim">(genesis)</span></dd>
           <dt>Number</dt><dd>0</dd>
           <dt>Timestamp</dt><dd>1780272000 <span class="dim">· 2026-06-01T00:00:00Z</span></dd>
-          <dt>Sealer</dt><dd class="mono">0xf348EE07BAe8dB1246342fECc8A16B0eC08cc93f</dd>
-          <dt>Payload root</dt><dd class="mono">0x817a8a6beb17a36c84ee2d7fd2e36a0670246164dec8d059bc6b387f718ce4d8 <span class="dim">(EIP-712 digest)</span></dd>
-          <dt>Block hash</dt><dd class="mono brass">0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99</dd>
+          <dt>Sealer</dt><dd class="mono">0x3B0d7A009aae049828796a28b86230f6c46C1328</dd>
+          <dt>Payload root</dt><dd class="mono">0xc014dea72199155f8c1f1bd0aca633a32508946e9c3e3556e7dde905660a5e8f <span class="dim">(EIP-712 digest)</span></dd>
+          <dt>Block hash</dt><dd class="mono brass">0x5d4f8afa58b45062f6ba5b1066256a09395859b635fb6fcecd2e3f441d2fa97f</dd>
         </dl>
         <div class="formula"><span class="brass">blockHash</span> = keccak256( rlp([ parentHash, number, timestamp, sealer, payloadRoot, signature ]) )</div>
         <p class="note"><b>Recursive-length prefix, EVM-canonical.</b> The same encoding Ethereum uses for its own block headers. Change any committed field — a page, the timestamp, one byte of the PDF — and the digest moves, the block hash moves, and every block that ever chains onto this one moves with it.</p>
@@ -309,11 +309,11 @@ struct Attestation {
         </li>
         <li class="here">
           <div class="cl-t">Genesis Block #0 <span class="tag">you are here</span></div>
-          <div class="cl-h">0x19f15104b91927f59591e14f9af18b98c4e7e4a44c4845f86e752427ab9b6f99</div>
+          <div class="cl-h">0x5d4f8afa58b45062f6ba5b1066256a09395859b635fb6fcecd2e3f441d2fa97f</div>
         </li>
         <li class="pending">
           <div class="cl-t">Block #1 <span class="tag">unsealed</span></div>
-          <div class="cl-h">the next attestation will set parentHash = 0x19f15104…ab9b6f99</div>
+          <div class="cl-h">the next attestation will set parentHash = 0x5d4f8afa…1d2fa97f</div>
         </li>
       </ul>
     </section>
@@ -329,13 +329,13 @@ struct Attestation {
       </div>
       <div class="verify">
         <button id="verifyBtn" type="button" class="vbtn">Verify this genesis block</button>
-        <p class="vhint">Recomputes the EIP-712 digest, recovers the signer, rehashes the block header, and re-keccaks the 7.8&nbsp;MB dissertation and the seal — live.</p>
+        <p class="vhint">Recomputes the EIP-712 digest, recovers the signer, rehashes the block header, and re-keccaks the 7.8&nbsp;MB volume and the seal — live.</p>
         <ul id="checks" class="checks" hidden>
           <li data-k="digest"><span class="ck" aria-hidden="true"></span><span class="lbl">EIP-712 digest matches the committed atoms</span></li>
           <li data-k="recover"><span class="ck" aria-hidden="true"></span><span class="lbl">signature recovers the sealer (ecrecover)</span></li>
           <li data-k="block"><span class="ck" aria-hidden="true"></span><span class="lbl">block hash commits to the payload (keccak&middot;rlp)</span></li>
           <li data-k="seal"><span class="ck" aria-hidden="true"></span><span class="lbl">seal.svg bytes match sealHash</span></li>
-          <li data-k="pdf"><span class="ck" aria-hidden="true"></span><span class="lbl">the 895-page dissertation bytes match documentHash</span></li>
+          <li data-k="pdf"><span class="ck" aria-hidden="true"></span><span class="lbl">the 895-page volume bytes match documentHash</span></li>
         </ul>
         <p id="verdict" class="verdict" hidden></p>
       </div>
