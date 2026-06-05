@@ -107,7 +107,7 @@ def jsonld(obj):
             + "</script>")
 
 
-def head(title, desc, canonical, extra_ld=None):
+def head(title, desc, canonical, extra_ld=None, extra_css=""):
     parts = [
         "<!doctype html>", '<html lang="en">', "<head>",
         '<meta charset="utf-8" />',
@@ -125,7 +125,7 @@ def head(title, desc, canonical, extra_ld=None):
         f'<meta name="twitter:title" content="{esc(title)}" />',
         f'<meta name="twitter:description" content="{esc(desc)}" />',
         f'<meta name="twitter:image" content="{SITE}/og.png" />',
-        f"<style>{STYLE}</style>",
+        f"<style>{STYLE}{extra_css}</style>",
     ]
     for ld in (extra_ld or []):
         parts.append(jsonld(ld))
@@ -302,8 +302,13 @@ def render_topics():
             f'<div class="blurb">{esc(cl["desc"])}</div>'
             f'<div class="links">{links}</div></div>')
     body.append("</div>")
+    body.append('<p class="lede" style="margin-top:1.4em">Want the systematic '
+                'view? The <a href="/matrix">complexity matrix</a> crosses every '
+                'substrate with every graph invariant across the Shadow, '
+                'Equilibrium, and Mirror regimes.</p>')
     body.append('<div class="actions">'
-                f'<a class="btn" href="{PDF}">Read the volume (PDF, 895&nbsp;pp)</a></div>')
+                f'<a class="btn" href="{PDF}">Read the volume (PDF, 895&nbsp;pp)</a>'
+                '<a class="btn ghost" href="/matrix">Explore the matrix</a></div>')
 
     doc = (head("Topics — Shadow & Mirror", "Graph theory, quantum simulation, "
                 "and knowledge architecture, all metered by treewidth. The "
@@ -342,14 +347,25 @@ def main():
         for p in PAGES[k]:
             written.append(render_spoke(k, p))
             urls.append((f"{SITE}/{k}/{p['slug']}", "0.7"))
+
+    # the structural matrix (Substrate × Metric × Regime)
+    import matrix
+    ctx = dict(esc=esc, head=head, breadcrumbs=breadcrumbs, write=write,
+               jsonld=jsonld, SITE=SITE, AUTHOR=AUTHOR, PDF=PDF,
+               MODIFIED=MODIFIED, FOOTER=FOOTER)
+    matrix_urls = matrix.render_all(ctx)
+    urls.extend(matrix_urls)
+
     written.append(render_sitemap(urls))
     written.append(render_robots())
 
     n_spokes = sum(len(v) for v in PAGES.values())
-    print(f"generated {len(written)} files: "
-          f"1 index + {len(CLUSTERS)} hubs + {n_spokes} spokes + sitemap + robots")
-    for w in written:
-        print("  public/" + w)
+    print(f"generated {len(written)} cluster files: "
+          f"1 index + {len(CLUSTERS)} hubs + {n_spokes} spokes")
+    print(f"generated {len(matrix_urls)} matrix files "
+          f"({len(matrix.SUBSTRATES)} substrates × {len(matrix.METRICS)} metrics "
+          f"× {len(matrix.REGIME_ORDER)} regimes + hubs + index)")
+    print(f"sitemap: {len(urls)} URLs")
 
 
 if __name__ == "__main__":

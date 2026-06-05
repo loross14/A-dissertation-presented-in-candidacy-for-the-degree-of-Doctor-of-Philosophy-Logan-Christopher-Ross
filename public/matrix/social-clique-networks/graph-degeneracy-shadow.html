@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Social Clique Networks via Graph Degeneracy: the Shadow Regime</title>
+<meta name="description" content="How social clique networks is constrained by graph degeneracy (d(G) = O(1)) — solving np-hard complexity scaling with Ross&#x27;s Law. Shadow regime: Classical simulation profile." />
+<link rel="canonical" href="https://logan.engineering/matrix/social-clique-networks/graph-degeneracy-shadow" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Social Clique Networks via Graph Degeneracy: the Shadow Regime" />
+<meta property="og:description" content="How social clique networks is constrained by graph degeneracy (d(G) = O(1)) — solving np-hard complexity scaling with Ross&#x27;s Law. Shadow regime: Classical simulation profile." />
+<meta property="og:url" content="https://logan.engineering/matrix/social-clique-networks/graph-degeneracy-shadow" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Social Clique Networks via Graph Degeneracy: the Shadow Regime" />
+<meta name="twitter:description" content="How social clique networks is constrained by graph degeneracy (d(G) = O(1)) — solving np-hard complexity scaling with Ross&#x27;s Law. Shadow regime: Classical simulation profile." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.profile-tag{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;color:var(--dim);}
+.trinity{margin:1.8em 0;border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);overflow:hidden;}
+.trinity .row{display:grid;grid-template-columns:9.5em 1fr;gap:.3em 1.1em;padding:1em 1.3em;border-bottom:1px solid var(--panelrule);align-items:baseline;}
+.trinity .row:last-child{border-bottom:0;}
+.trinity dt{font:600 11px/1.5 ui-sans-serif,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:0;}
+.trinity dd{margin:0;font:400 15px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);}
+.phase{display:inline-block;font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.03em;padding:.45em .75em;border-radius:999px;border:1px solid var(--panelrule);}
+.phase.shadow{color:var(--dim);}
+.phase.equilibrium{color:var(--ink);border-color:var(--ink);}
+.phase.mirror{color:var(--brass);border-color:var(--brass);}
+.coupling{margin:1.8em 0;padding:1.15em 1.35em;border-left:3px solid var(--brass);background:var(--panel);font-size:16px;border-radius:0 9px 9px 0;}
+.coupling .law{font:600 14px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--brass);display:block;margin-bottom:.55em;}
+.gap{margin:2.2em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.gap .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin:0 0 .7em;}
+.matrixgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.55em;margin:1.2em 0;}
+.matrixgrid a{text-decoration:none;border:1px solid var(--panelrule);border-radius:8px;background:var(--panel);padding:.7em .8em;font:400 13px/1.4 ui-sans-serif,system-ui,sans-serif;}
+.matrixgrid a:hover{border-color:var(--ink);}
+.matrixgrid a .v{display:block;font:400 11px/1.4 ui-monospace,Menlo,monospace;color:var(--dim);margin-top:.25em;}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Matrix","item":"https://logan.engineering/matrix"},{"@type":"ListItem","position":2,"name":"Social Clique Networks","item":"https://logan.engineering/matrix/social-clique-networks"},{"@type":"ListItem","position":3,"name":"Graph Degeneracy · Shadow"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Modeling Social Clique Networks via Graph Degeneracy in the Shadow Regime","description":"An analysis of the complexity bounds of social clique networks using Ross's Law and graph invariants.","keywords":["social clique networks computation complexity","how to calculate treewidth of social clique networks","graph degeneracy graph theory analysis","Ross law shadow phase"],"mainEntityOfPage":"https://logan.engineering/matrix/social-clique-networks/graph-degeneracy-shadow","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"dateModified":"2026-06-05"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is social clique networks classically simulable in the shadow regime?","acceptedAnswer":{"@type":"Answer","text":"Yes. With d(G) = O(1) the structure is effectively tree-like, so a classical method resolves it efficiently."}},{"@type":"Question","name":"What does d(G) = O(1) mean for social clique networks?","acceptedAnswer":{"@type":"Answer","text":"It is the graph degeneracy of the system's graph in this regime &mdash; the densest local core, a cheap lower bound on width. That value is the exponent governing simulation cost."}},{"@type":"Question","name":"How does Ross's Law apply here?","acceptedAnswer":{"@type":"Answer","text":"Ross's Law states simulation cost scales as exp(Θ(tw(G))). With boundary condition d(G) = O(1), that places social clique networks in a classical simulation profile."}}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/matrix">Matrix</a><span class="sep">/</span><a href="/matrix/social-clique-networks">Social Clique Networks</a><span class="sep">/</span><span>Graph Degeneracy · Shadow</span></nav><div class="profile-tag">NP-Hard Complexity Scaling &middot; Classical profile</div><h1>Social Clique Networks Complexity Profile</h1><p class="sub">The algorithmic boundary of social clique networks modeled via graph theory &mdash; under graph degeneracy, in the shadow regime.</p><hr class="rule" /><div class="trinity" aria-label="Graph Trinity data block"><div class="row"><dt>Metric</dt><dd>Graph Degeneracy <span style="color:var(--dim)">(d(G))</span></dd></div><div class="row"><dt>Calculated value</dt><dd>d(G) = O(1)</dd></div><div class="row"><dt>Assigned phase</dt><dd><span class="phase shadow">Shadow Regime</span></dd></div><div class="row"><dt>Simulation</dt><dd>Classical</dd></div></div><div class="coupling"><span class="law">cost &asymp; exp(Θ(tw(G)))</span>Applying Ross&rsquo;s Law, social clique networks requires a <strong>Classical</strong> simulation profile in this regime because its boundary condition equals <strong>d(G) = O(1)</strong> &mdash; the structure stays close to a tree, so local reasoning suffices and the exponential in Ross&#x27;s Law collapses to a constant.</div><h2>How the constraint arises</h2><p>Social Clique Networks is, structurally, a social graph in which actors are vertices and ties are edges. Community detection and influence inference on a social graph are parameterized by its treewidth; dense overlapping cliques drive it up.</p><p>Constrained by graph degeneracy &mdash; the densest local core, a cheap lower bound on width &mdash; the operative question is how inference cost scales from tractable into intractable. In the shadow regime the graph degeneracy reads d(G) = O(1), so the graph is effectively tree-like and how inference cost scales from tractable into intractable simply does not bite: a classical pass resolves it in near-linear time.</p><div class="gap"><p class="lead">The Treewidth Gap</p><p>This is the <em>shadow</em> &mdash; the separable projection. Its inseparable counterpart, where the same graph degeneracy grows without bound, is the <a href="/matrix/social-clique-networks/graph-degeneracy-mirror">Mirror regime of social clique networks under graph degeneracy</a>. The gap between them is what treewidth measures.</p><div class="actions"><a class="btn" href="/thesis.pdf">Read the canonical source &mdash; the volume (PDF)</a><a class="btn ghost" href="/matrix/social-clique-networks">All Social Clique Networks profiles</a></div></div><div class="faq"><h2>Questions</h2><h3>Is social clique networks classically simulable in the shadow regime?</h3><p>Yes. With d(G) = O(1) the structure is effectively tree-like, so a classical method resolves it efficiently.</p><h3>What does d(G) = O(1) mean for social clique networks?</h3><p>It is the graph degeneracy of the system&#x27;s graph in this regime &amp;mdash; the densest local core, a cheap lower bound on width. That value is the exponent governing simulation cost.</p><h3>How does Ross&#x27;s Law apply here?</h3><p>Ross&#x27;s Law states simulation cost scales as exp(Θ(tw(G))). With boundary condition d(G) = O(1), that places social clique networks in a classical simulation profile.</p></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>
