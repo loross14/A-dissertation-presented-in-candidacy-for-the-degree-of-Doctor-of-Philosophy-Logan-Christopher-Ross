@@ -27,21 +27,6 @@
   <url><loc>https://logan.engineering/matrix/tensor-network-contraction</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/vector-databases-rag</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/neural-network-states</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/treewidth-bounds-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/treewidth-bounds-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/treewidth-bounds-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/graph-degeneracy-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/graph-degeneracy-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/graph-degeneracy-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/volume-law-entanglement-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/volume-law-entanglement-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/volume-law-entanglement-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/fiedler-value-connectivity-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/fiedler-value-connectivity-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/fiedler-value-connectivity-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/bipartite-graph-tw-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/bipartite-graph-tw-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/neural-network-states/bipartite-graph-tw-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
   <url><loc>https://logan.engineering/matrix/biological-connectomes</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/biological-connectomes/treewidth-bounds-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
   <url><loc>https://logan.engineering/matrix/biological-connectomes/treewidth-bounds-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
