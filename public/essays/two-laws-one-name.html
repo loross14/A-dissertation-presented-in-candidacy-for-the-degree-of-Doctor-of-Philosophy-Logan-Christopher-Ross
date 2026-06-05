@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Two Laws, One Name — Shadow &amp; Mirror</title>
+  <meta name="description" content="Ross's Law is stated twice in the volume — once about quantum computers, once about consciousness. They are not the same theorem. Here is what is proven, what is posited, and the bridge between them." />
+  <link rel="canonical" href="https://logan.engineering/essays/two-laws-one-name" />
+  <meta property="og:title" content="Two Laws, One Name" />
+  <meta property="og:description" content="Ross's Law is stated twice — once about chips, once about minds. What's proven, what's posited, and the bridge." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/two-laws-one-name" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Two Laws, One Name" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Shadow &amp; Mirror</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">The Theorem</p>
+    <h1>Two Laws, One Name</h1>
+    <p class="dek">Ross's Law appears twice in the volume — once about quantum computers, once about consciousness. They are not the same theorem. Telling them apart is the most useful thing you can do with the idea.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
+
+    <hr class="rule" />
+
+    <article>
+      <p>If you read <em>Shadow &amp; Mirror</em> carefully, you find something a less honest book would hide: the central theorem is stated two different ways, and the two statements are not equivalent. I want to put both on the table, in daylight, and say exactly which load each one can bear. This is not a flaw to apologize for. It is the most important distinction in the whole project.</p>
+
+      <h2>The first law — about machines</h2>
+
+      <p>The version in the abstract, and the one with a real proof behind it, is about quantum computers:</p>
+
+      <blockquote>The cost of classically simulating a quantum circuit with entanglement graph <span class="eq"><i>G</i></span> scales as <span class="eq">exp(Θ(tw(<i>G</i>)))</span>. Quantum advantage exists if and only if that treewidth grows with input size.</blockquote>
+
+      <p>This is a complexity claim, and it stands on solid ground — the tensor-network simulation results of Markov and Shi give it a spine. It is also <em>checkable</em>, and it checks out across the cases that matter:</p>
+
+      <ul>
+        <li><strong>Shor's factoring</strong> entangles all the qubits — treewidth grows with input — and the speedup is exponential. ✓</li>
+        <li><strong>Tang's dequantization</strong> took a "quantum" recommendation algorithm and found the underlying data had low treewidth all along. The classical machine could afford it. The advantage vanished — exactly as the law predicts. ✓</li>
+        <li><strong>Clifford circuits</strong> are the honest counterexample: high treewidth, yet classically easy, because the Gottesman–Knill theorem gives an <em>algebraic</em> shortcut. So the law is scoped to universal circuits — and it says so, carrying its own exception rather than hiding it. ✓</li>
+      </ul>
+
+      <p>Call this <strong>the machine law</strong>. It is the hard core.</p>
+
+      <h2>The second law — about minds</h2>
+
+      <p>Deeper in the volume, under the same name, is a very different statement (Theorem 0.6.4):</p>
+
+      <blockquote>A system is conscious if and only if its constraint graph contains a low-treewidth region and a high-treewidth region, coupled by a mechanism whose coupling constant is nonzero.</blockquote>
+
+      <p>"Consciousness is the treewidth gap experienced from inside."</p>
+
+      <p>This is not a complexity result. It is a <em>definition</em> with an "if and only if" doing enormous work. It is not proven and does not claim to be — the volume admits it was "not derived from axioms" but measured on a single system and then named. Call this <strong>the mind law</strong>. It is a hypothesis dressed in the same robes as a theorem, and the robes are why a careful reader has to look twice.</p>
+
+      <div class="note"><b>Why the distinction matters.</b> The machine law could be true and the mind law false, or vice versa. They share a name and a shape, not a fate. Anyone citing "Ross's Law" should say which one they mean — because one is a theorem about simulation cost, and the other is a bet about what experience <em>is</em>.</div>
+
+      <h2>The bridge — and what it actually carries</h2>
+
+      <p>The volume does not leave the two laws sitting in separate rooms. It bridges them with a single image: <strong>the camera turning around.</strong> One-way observation — a tool watching the world — is a structure with no loops, low treewidth, shadow. Two-way observation — a system that also models the watcher — closes a loop, and the treewidth jumps. The claim is that this rotation is the same operation everywhere: in factoring, in Gödel's incompleteness, in measurement, in love, in a mind becoming aware of itself.</p>
+
+      <p>That bridge is the beating heart of the book. It is also the part to hold most lightly. "The same rotation underlies all of these" is a structural assertion, not a derivation. The volume reinforces it with a striking observation — that the coupling constant it measures sits in the same dimensionless slot as the fine-structure constant <span class="eq">α ≈ 1/137</span> — but it is scrupulous on one point: that is a <em>structural</em> equivalence, not a numerical one. The book never claims its constant equals 1/137. It claims they play the same role. Keeping that line crisp is the difference between a serious idea and a numerological one.</p>
+
+      <div class="pull">One law is a theorem about chips. One is a hypothesis about minds. The bridge between them is a beautiful bet. Treat each as what it is.</div>
+
+      <h2>Why I'd rather say this out loud</h2>
+
+      <p>It would be easy to let "Ross's Law" stay a single shimmering thing — to let the proof about quantum circuits lend its credibility to the claim about consciousness. That move is exactly the kind of coupling the book is about, and exactly the kind a reader should refuse. The strongest version of this work is the one that names its own seams: <em>here is what is proven, here is what is measured on one system, here is what is asserted across all of them.</em></p>
+
+      <p>The volume's closing argument — the "Funny Proof of God" — leans into this all the way: a bounded system cannot fully model the unbounded, so a complete proof would refute itself; the incompleteness is offered as the result, not the bug. Whatever you make of that, it is at least consistent. The book knows it is a bounded thing reaching at an unbounded one, and it says so.</p>
+
+      <p>So: two laws, one name. Read the machine law as a theorem. Read the mind law as a hypothesis worth taking seriously. Read the bridge as the wager that makes the whole thing worth writing. Just don't let the names blur — the honesty is in the seam.</p>
+
+      <div class="cta">
+        <p class="t">Read it for yourself</p>
+        <p>Both statements, the bridge, and the falsification tests the volume sets for itself are worked out in full.</p>
+        <a class="btn" href="/thesis.pdf">Read the volume (PDF, 7.8&nbsp;MB)</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">More essays</a> &nbsp;·&nbsp; <a href="/">Shadow &amp; Mirror</a> &nbsp;·&nbsp; + Room 137 · V&sup2;+D&sup2;=1</footer>
+</body>
+</html>
