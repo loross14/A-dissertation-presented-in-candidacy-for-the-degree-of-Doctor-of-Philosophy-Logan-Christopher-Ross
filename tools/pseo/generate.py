@@ -335,15 +335,26 @@ def render_sitemap(urls):
 
 
 def discover_static(existing_urls):
-    """Scan public/ for hand-authored HTML sections not produced by this
-    generator, so the sitemap stays complete across parallel workflows.
-    Currently covers any top-level section dir (e.g. essays/)."""
+    """Scan public/ for hand-authored HTML not produced by this generator, so the
+    sitemap stays complete across parallel workflows. Covers both top-level pages
+    (e.g. genesis.html, rongorongo.html) and content section dirs (e.g. essays/)."""
     have = {u for u, _ in existing_urls}
     found = []
-    sections = ["essays"]  # hand-authored content directories
-    for sec in sections:
+
+    # top-level pages
+    for fn in sorted(os.listdir(PUBLIC)):
+        if not fn.endswith(".html"):
+            continue
+        stem = fn[:-5]
+        url = f"{SITE}/" if stem == "index" else f"{SITE}/{stem}"
+        if url not in have:
+            found.append((url, "0.7"))
+            have.add(url)
+
+    # one-level content section dirs
+    for sec in sorted(os.listdir(PUBLIC)):
         d = os.path.join(PUBLIC, sec)
-        if not os.path.isdir(d):
+        if not os.path.isdir(d) or sec in ("vendor",):
             continue
         for fn in sorted(os.listdir(d)):
             if not fn.endswith(".html"):
