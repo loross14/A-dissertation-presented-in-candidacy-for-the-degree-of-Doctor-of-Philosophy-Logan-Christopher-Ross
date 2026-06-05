@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
