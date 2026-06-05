@@ -3,7 +3,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true }
+    { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true },
+    { "source": "/matrix/tensor-network-contraction/:slug", "destination": "/matrix/tensor-network-contraction", "permanent": true }
   ],
   "headers": [
     {
