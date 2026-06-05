@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Equals Sign as a Rotation | Logan Engineering</title>
+<meta name="description" content="Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity." />
+<link rel="canonical" href="https://logan.engineering/vault/equals-sign-as-rotation" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Equals Sign as a Rotation | Logan Engineering" />
+<meta property="og:description" content="Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity." />
+<meta property="og:url" content="https://logan.engineering/vault/equals-sign-as-rotation" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Equals Sign as a Rotation | Logan Engineering" />
+<meta name="twitter:description" content="Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.vmeta{margin:1.6em 0;border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.1em 1.3em;}
+.vmeta dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:.5em 1.2em;align-items:baseline;}
+.vmeta dt{font:600 11px/1.5 ui-sans-serif,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:0;}
+.vmeta dd{margin:0;font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--ink);}
+.vmeta dd code{font:400 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--brass);}
+.vmeta a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.vmeta a:hover{border-color:var(--ink);}
+.vaultlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.vaultlist a{text-decoration:none;display:block;padding:.9em 1.05em;border:1px solid var(--panelrule);border-radius:10px;background:var(--panel);}
+.vaultlist a:hover{border-color:var(--ink);}
+.vaultlist .t{font-weight:600;display:block;}
+.vaultlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.25em;display:block;}
+.vaultlist .x{font:400 11px/1.5 ui-monospace,Menlo,monospace;color:var(--brass);margin-top:.35em;display:block;}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://logan.engineering#website","url":"https://logan.engineering/","name":"Logan Engineering","publisher":{"@id":"https://logan.engineering#author"}},{"@type":"Person","@id":"https://logan.engineering#author","name":"Logan Christopher Ross","url":"https://logan.engineering/"},{"@type":"ScholarlyArticle","@id":"https://logan.engineering/vault/equals-sign-as-rotation#article","isPartOf":{"@id":"https://logan.engineering#website"},"author":{"@id":"https://logan.engineering#author"},"publisher":{"@id":"https://logan.engineering#author"},"headline":"The Equals Sign as a Rotation","name":"The Equals Sign as a Rotation","description":"Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity.","url":"https://logan.engineering/vault/equals-sign-as-rotation","mainEntityOfPage":"https://logan.engineering/vault/equals-sign-as-rotation","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19448861"},"sameAs":["https://zenodo.org/records/19448861","https://doi.org/10.5281/zenodo.19448861"],"keywords":["Equals sign geometry","l2 norm rotation proof","mathematical complementarity equations","algebraic structural mechanics"],"dateModified":"2026-06-05"},{"@type":"BreadcrumbList","@id":"https://logan.engineering/vault/equals-sign-as-rotation#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vault","item":"https://logan.engineering/vault"},{"@type":"ListItem","position":2,"name":"The Equals Sign as a Rotation","item":"https://logan.engineering/vault/equals-sign-as-rotation"}]}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/vault">Vault</a><span class="sep">/</span><span>The Equals Sign as a Rotation</span></nav><div class="kicker">Deposited record &middot; Zenodo</div><h1>The Equals Sign as a Rotation</h1><p class="sub">Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity.</p><div class="vmeta"><dl><dt>Primary metric</dt><dd><code>Fiedler Value Connectivity</code></dd><dt>Phase regime</dt><dd><code>Shadow</code></dd><dt>DOI</dt><dd><a href="https://doi.org/10.5281/zenodo.19448861" rel="noopener">doi:10.5281/zenodo.19448861</a></dd><dt>Zenodo record</dt><dd><a href="https://zenodo.org/records/19448861" rel="noopener">https://zenodo.org/records/19448861</a></dd></dl></div><h2>Abstract &amp; analytical mapping</h2><p>Proving V² + D² = 1 from the ℓ² norm, geometrically defining the structural mechanics of algorithmic complementarity.</p><p>This record is one node in the structural map developed in the core volume. Using graph-theoretic invariants, it isolates a systemic boundary in a mathematical, linguistic, or physical dataset and prices it with Ross&rsquo;s Law &mdash; the claim that complexity limits behave uniformly under structural phase transitions, metered by treewidth. Here the operative invariant is <strong>Fiedler Value Connectivity</strong>, in the <strong>Shadow</strong> regime.</p><div class="actions"><a class="btn" href="/thesis.pdf">Read the volume (PDF, 895&nbsp;pp)</a><a class="btn ghost" href="https://zenodo.org/records/19448861" rel="noopener">View on Zenodo &rarr;</a></div><div class="related"><p class="lead">More from the vault</p><ul class="vaultlist"><li><a href="/vault/riemann-hypothesis-treewidth-gap"><span class="t">The Riemann Hypothesis as a Treewidth Gap</span><span class="x">Treewidth Gap &middot; Equilibrium</span></a></li><li><a href="/vault/yang-mills-existence-mass-gap"><span class="t">Yang–Mills Existence and Mass Gap through Treewidth</span><span class="x">Degeneracy Phase Transition &middot; Mirror</span></a></li><li><a href="/vault/deciphering-rongorongo-corpus-analysis"><span class="t">Reading Rongorongo: LLM-Driven Corpus Structural Analysis</span><span class="x">Graph Co-occurrence Entropy &middot; Shadow→Mirror Transition</span></a></li></ul><div class="actions" style="margin-top:1.3em"><a class="btn ghost" href="/matrix">The complexity matrix</a><a class="btn ghost" href="/topics">Topic guides</a></div></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>

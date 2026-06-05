@@ -305,10 +305,13 @@ def render_topics():
     body.append('<p class="lede" style="margin-top:1.4em">Want the systematic '
                 'view? The <a href="/matrix">complexity matrix</a> crosses every '
                 'substrate with every graph invariant across the Shadow, '
-                'Equilibrium, and Mirror regimes.</p>')
+                'Equilibrium, and Mirror regimes &mdash; and the '
+                '<a href="/vault">vault</a> maps every deposited Zenodo record to '
+                'its place on that meter.</p>')
     body.append('<div class="actions">'
                 f'<a class="btn" href="{PDF}">Read the volume (PDF, 895&nbsp;pp)</a>'
-                '<a class="btn ghost" href="/matrix">Explore the matrix</a></div>')
+                '<a class="btn ghost" href="/matrix">Explore the matrix</a>'
+                '<a class="btn ghost" href="/vault">The vault</a></div>')
 
     doc = (head("Topics — Shadow & Mirror", "Graph theory, quantum simulation, "
                 "and knowledge architecture, all metered by treewidth. The "
@@ -378,6 +381,11 @@ def main():
     matrix_urls = matrix.render_all(ctx)
     urls.extend(matrix_urls)
 
+    # the Zenodo vault (deposited-record landing pages)
+    import vault
+    vault_urls = vault.render_all(ctx)
+    urls.extend(vault_urls)
+
     # Discover hand-authored sections (e.g. essays/) so regenerating the sitemap
     # never drops pages maintained outside this generator.
     discovered = discover_static(urls)
@@ -392,6 +400,8 @@ def main():
     print(f"generated {len(matrix_urls)} matrix files "
           f"({len(matrix.SUBSTRATES)} substrates × {len(matrix.METRICS)} metrics "
           f"× {len(matrix.REGIME_ORDER)} regimes + hubs + index)")
+    print(f"generated {len(vault_urls)} vault files "
+          f"({len(vault.ARTICLES)} Zenodo records + index)")
     print(f"sitemap: {len(urls)} URLs")
 
 
