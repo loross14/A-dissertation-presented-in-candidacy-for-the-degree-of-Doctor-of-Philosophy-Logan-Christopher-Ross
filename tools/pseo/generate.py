@@ -331,6 +331,28 @@ def render_sitemap(urls):
     return write("sitemap.xml", xml)
 
 
+def discover_static(existing_urls):
+    """Scan public/ for hand-authored HTML sections not produced by this
+    generator, so the sitemap stays complete across parallel workflows.
+    Currently covers any top-level section dir (e.g. essays/)."""
+    have = {u for u, _ in existing_urls}
+    found = []
+    sections = ["essays"]  # hand-authored content directories
+    for sec in sections:
+        d = os.path.join(PUBLIC, sec)
+        if not os.path.isdir(d):
+            continue
+        for fn in sorted(os.listdir(d)):
+            if not fn.endswith(".html"):
+                continue
+            stem = fn[:-5]
+            url = f"{SITE}/{sec}" if stem == "index" else f"{SITE}/{sec}/{stem}"
+            if url not in have:
+                found.append((url, "0.9" if stem == "index" else "0.8"))
+                have.add(url)
+    return found
+
+
 def render_robots():
     txt = ("User-agent: *\nAllow: /\n\n"
            f"Sitemap: {SITE}/sitemap.xml\n")
@@ -355,6 +377,11 @@ def main():
                MODIFIED=MODIFIED, FOOTER=FOOTER)
     matrix_urls = matrix.render_all(ctx)
     urls.extend(matrix_urls)
+
+    # Discover hand-authored sections (e.g. essays/) so regenerating the sitemap
+    # never drops pages maintained outside this generator.
+    discovered = discover_static(urls)
+    urls.extend(discovered)
 
     written.append(render_sitemap(urls))
     written.append(render_robots())
