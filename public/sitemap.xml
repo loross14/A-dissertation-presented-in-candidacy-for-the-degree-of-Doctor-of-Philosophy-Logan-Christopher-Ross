@@ -28,21 +28,6 @@
   <url><loc>https://logan.engineering/matrix/vector-databases-rag</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/neural-network-states</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/biological-connectomes</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/treewidth-bounds-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/treewidth-bounds-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/treewidth-bounds-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/graph-degeneracy-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/graph-degeneracy-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/graph-degeneracy-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/volume-law-entanglement-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/volume-law-entanglement-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/volume-law-entanglement-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/fiedler-value-connectivity-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/fiedler-value-connectivity-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/fiedler-value-connectivity-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/bipartite-graph-tw-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/bipartite-graph-tw-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
-  <url><loc>https://logan.engineering/matrix/biological-connectomes/bipartite-graph-tw-mirror</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
   <url><loc>https://logan.engineering/matrix/social-clique-networks</loc><lastmod>2026-06-05</lastmod><priority>0.7</priority></url>
   <url><loc>https://logan.engineering/matrix/social-clique-networks/treewidth-bounds-shadow</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
   <url><loc>https://logan.engineering/matrix/social-clique-networks/treewidth-bounds-equilibrium</loc><lastmod>2026-06-05</lastmod><priority>0.6</priority></url>
