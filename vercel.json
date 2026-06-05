@@ -4,7 +4,8 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true },
-    { "source": "/matrix/tensor-network-contraction/:slug", "destination": "/matrix/tensor-network-contraction", "permanent": true }
+    { "source": "/matrix/tensor-network-contraction/:slug", "destination": "/matrix/tensor-network-contraction", "permanent": true },
+    { "source": "/matrix/vector-databases-rag/:slug", "destination": "/matrix/vector-databases-rag", "permanent": true }
   ],
   "headers": [
     {
