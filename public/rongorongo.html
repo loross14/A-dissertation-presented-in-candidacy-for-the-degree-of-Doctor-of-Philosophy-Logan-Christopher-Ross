@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deciphering Rongorongo — a structural reading — Shadow &amp; Mirror</title>
+  <meta name="description" content="An LLM-driven structural analysis of the Rongorongo corpus of Easter Island: a proposed 119-entry dictionary covering 96.9% of surviving tokens, the Mamari tablet read as an eclipse calendar. The claim, the method, and how to read it honestly." />
+  <link rel="canonical" href="https://logan.engineering/rongorongo" />
+  <meta property="og:title" content="Deciphering Rongorongo — a structural reading" />
+  <meta property="og:description" content="An LLM-driven structural analysis of the Rongorongo corpus: a proposed 119-entry dictionary, the Mamari tablet as eclipse calendar. The claim, the method, and how to read it honestly." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/rongorongo" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Deciphering Rongorongo — a structural reading" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Deciphering Rongorongo","name":"Deciphering Rongorongo","description":"An LLM-driven structural analysis of the surviving Rongorongo corpus of Easter Island, proposing a 119-entry dictionary that covers 96.9% of tokens and reading the Mamari tablet as an eclipse-prediction calendar.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/rongorongo","url":"https://logan.engineering/rongorongo","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19355299"},"sameAs":["https://zenodo.org/records/19355299","https://doi.org/10.5281/zenodo.19355299"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-05","keywords":"Rongorongo, Easter Island script, corpus structural analysis, treewidth, co-occurrence network, Mamari tablet, computational decipherment"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Shadow &amp; Mirror</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Applied · Decipherment</p>
+    <h1>Deciphering Rongorongo</h1>
+    <p class="dek">An LLM-driven structural reading of Easter Island's undeciphered script: a proposed 119-entry dictionary covering 96.9% of surviving tokens, and the Mamari tablet read as an eclipse calendar. Here is the claim, the method — and how to read a claim like this honestly.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a claim, not a verdict.</b> Rongorongo is one of the world's few genuinely undeciphered scripts, and the graveyard of confident "solutions" is large. What follows summarizes a published preprint and its method honestly — including why a structural reading can be strong evidence without being proof. The full preprint, data, and license are on Zenodo; judge it there.</p>
+
+      <p>Rongorongo is the glyph system carved into a few dozen wooden objects from Rapa Nui (Easter Island). Roughly two dozen artifacts survive, holding on the order of fifteen thousand glyphs. No bilingual exists — no Rosetta Stone — and the last people who could read it, if anyone fully could, died in the nineteenth century. That combination, a tiny corpus and no anchor, is exactly what makes the script so resistant: there is barely enough signal to test a hypothesis against.</p>
+
+      <p>The preprint <em>Deciphering Rongorongo</em> takes a structural route. Rather than guessing meanings glyph by glyph, it treats the corpus as a network and measures it — the same meter the rest of <em>Shadow &amp; Mirror</em> applies to circuits and knowledge graphs, pointed at an ancient text.</p>
+
+      <h2>The claims, stated plainly</h2>
+      <ul>
+        <li>A proposed <strong>119-entry dictionary</strong> that assigns readings to glyphs and glyph-clusters.</li>
+        <li>Coverage of <strong>96.9% of tokens</strong> in the surviving corpus by that dictionary.</li>
+        <li>The <strong>Mamari tablet</strong> read as an <strong>eclipse-prediction calendar</strong> — a lunar/astronomical reckoning, consistent with a long-standing minority view that part of Mamari is calendrical.</li>
+        <li>Several narrative tablets read as <strong>liturgical / genealogical</strong> texts.</li>
+      </ul>
+
+      <h2>The method, and why it's the interesting part</h2>
+
+      <p>The work leans on structure before semantics. Three measurements do the load-bearing:</p>
+
+      <h3>Co-occurrence networks</h3>
+      <p>Which glyphs sit next to which, how often, in what order. This builds a graph whose shape constrains what any reading can be — a glyph that only ever appears in one position is doing a different job than one that floats freely.</p>
+
+      <h3>Entropy</h3>
+      <p>How predictable the next glyph is. Real language sits in a characteristic band — neither random (high entropy, no structure) nor rigidly repetitive (low entropy, no information). Measuring where Rongorongo falls is a test of whether it encodes language at all, before any reading is proposed.</p>
+
+      <h3>Treewidth and the graph's backbone</h3>
+      <p>How far the co-occurrence graph is from separable — whether it has a dense, load-bearing core (the kind of structure a grammar imposes) or comes apart into independent pieces. This is the volume's central meter, here used as a structural fingerprint of the script.</p>
+
+      <p>The bet behind all three: if a proposed dictionary is right, it should make the corpus's measured structure <em>click into place</em> — coverage rises, entropy lands in the language band, the network's backbone resolves into something grammar-shaped. A wrong dictionary leaves the numbers ragged. The method is, in effect, "decipher by making the structure cohere."</p>
+
+      <div class="pull">A structural decipherment doesn't prove a reading is right. It shows the reading is consistent with measurements a wrong reading would fail. That's strong evidence — and it is not the same thing as proof.</div>
+
+      <h2>How to read a claim like this</h2>
+
+      <p>I'd hold it the way I hold the rest of this project's bolder moves — <a href="/essays/two-laws-one-name">proven core, honest about the reach</a>. Three things to keep in view:</p>
+
+      <ul>
+        <li><strong>Coverage is not correctness.</strong> 96.9% token coverage means the dictionary <em>assigns</em> a reading to almost everything. It does not, by itself, mean those readings are the ones the carvers intended. A self-consistent but wrong system can still cover a corpus.</li>
+        <li><strong>The corpus is tiny.</strong> With ~15,000 glyphs and no bilingual, the statistical power to distinguish a true decipherment from a plausible-but-wrong one is genuinely limited. This is the hardest constraint, and no method removes it.</li>
+        <li><strong>The Mamari calendar reading is the most testable part.</strong> Astronomical content makes predictions — eclipse and lunar cycles either line up with the historical sky or they don't. That's where this claim can most cleanly be confirmed or broken, and it's where scrutiny is most worth spending.</li>
+      </ul>
+
+      <p>None of that is a dismissal. A structural decipherment that makes the numbers cohere across coverage, entropy, and network backbone is a real result and a serious contribution to a field that has had very few. It is exactly the kind of claim that should be published with its data, framed as a hypothesis, and handed to specialists to attack. That is what the preprint does.</p>
+
+      <div class="cta">
+        <p class="t">The preprint &amp; data</p>
+        <p>The full paper, the dictionary, and the corpus measurements are deposited on Zenodo under CC&nbsp;BY-NC&nbsp;4.0. DOI <span class="mono">10.5281/zenodo.19355299</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19355299">Read on Zenodo (DOI)</a>
+        <a class="btn ghost" href="/thesis.pdf" style="margin-left:8px">The volume the meter comes from</a>
+      </div>
+
+      <p style="font-size:.92em;color:var(--dim);margin-top:1.4em">Related: <a href="/essays/the-tree-and-the-tree-algorithm">treewidth, made plain</a> · <a href="/essays/self-modeling-knowledge-graphs">measuring a graph's backbone</a></p>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Shadow &amp; Mirror</a> &nbsp;·&nbsp; + Room 137 · V&sup2;+D&sup2;=1</footer>
+</body>
+</html>
