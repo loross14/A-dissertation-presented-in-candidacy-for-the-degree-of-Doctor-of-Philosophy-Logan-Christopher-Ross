@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graph Phase Transitions in RAG and Agent Systems — Shadow &amp; Mirror</title>
+  <meta name="description" content="Why retrieval and agent performance can change kind, not just degree, at a specific data density. The treewidth phase transition — what the thesis proves, and what it predicts if you point the meter at RAG." />
+  <link rel="canonical" href="https://logan.engineering/essays/graph-phase-transitions-in-rag-and-agents" />
+  <meta property="og:title" content="Graph Phase Transitions in RAG and Agent Systems" />
+  <meta property="og:description" content="Why retrieval and agent behavior changes kind at a density threshold — read through the treewidth phase transition." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/graph-phase-transitions-in-rag-and-agents" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Graph Phase Transitions in RAG and Agent Systems" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Shadow &amp; Mirror</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Applied · Graph ML</p>
+    <h1>Graph Phase Transitions in RAG and Agent Systems</h1>
+    <p class="dek">Retrieval and agent behavior sometimes changes <em>kind</em>, not just degree, at a particular data density. The treewidth phase transition is the cleanest lens I know for why — and what to watch for.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Up front, so the line stays clean:</b> the volume does <b>not</b> study RAG pipelines or vector databases. What it proves is a treewidth phase transition in constraint graphs, and it measures one in a real knowledge system. The application to retrieval and agents below is <b>mine</b> — an extrapolation of the meter, offered as a lens to test, not a finding to cite.</p>
+
+      <p>Engineers running retrieval-augmented generation and multi-step agents keep reporting the same uncanny thing: a system behaves one way up to some corpus size or graph density, and then — not gradually, but fairly suddenly — it behaves like a different system. Retrieval that was crisp starts dragging in half the corpus. An agent that stayed on-task starts looping. Or, more happily, a system that was dumb suddenly starts making cross-document connections it never made before. The curve has a knee.</p>
+
+      <p>Smooth inputs, sudden output changes: that is the fingerprint of a <strong>phase transition</strong>. And there is a graph-theoretic quantity that undergoes exactly one.</p>
+
+      <h2>The transition the thesis actually proves</h2>
+
+      <p>Take the constraint graph of your system — nodes are items (documents, memories, tools, facts), edges are the couplings the system can traverse in one step. The governing quantity is <a href="/essays/the-tree-and-the-tree-algorithm">treewidth</a>: how far that graph is from being separable into independent pieces.</p>
+
+      <p>While treewidth is low, the graph is shadow. You can decompose it, index it, retrieve from it along clean local paths. Cost grows gently. But treewidth does not rise smoothly with density. There is a threshold — tracked by the graph's <strong>degeneracy</strong> crossing roughly <span class="eq">log₂(n)</span> — past which a dense interlinked core forms and no decomposition stays narrow. The graph becomes mirror: inseparable, globally bound. The volume proves this as a phase transition and measures it on a real system, where it coincided with the system's output jumping from "one known thing at a time" to a flood of cross-domain connections.</p>
+
+      <div class="pull">Below the threshold: separable, cheap, local. Above it: bound, expensive, global. The crossing is a knee, not a slope.</div>
+
+      <h2>Reading your RAG/agent symptoms through the lens</h2>
+
+      <p>If the extrapolation holds, several familiar pains line up as two sides of one threshold:</p>
+
+      <h3>Retrieval that "spreads"</h3>
+      <p>Below threshold, a query lands in a local neighborhood and returns it. Above threshold, neighborhoods have merged into one core — so the same query pulls in loosely-related material because, structurally, everything is now near everything. This reads as precision collapse. It is not your reranker failing; it may be your graph having crossed into the mirror regime, where "local" no longer means much.</p>
+
+      <h3>Agents that loop</h3>
+      <p>Cycles are what raise treewidth, and an agent whose action graph has crossed the threshold is operating in a structure thick with cycles. Infinite-recursion and revisit loops are the behavioral shadow of high treewidth in the traversal graph. The <a href="/essays/the-camera-that-turns-around">camera-turning-around</a> picture is the same point: once the agent's state references its own prior states densely enough, the loop closes and traversal stops being a clean forward walk.</p>
+
+      <h3>Sudden competence</h3>
+      <p>The cheerful version. The same crossing that wrecks separability is what lets a system bind distant facts into a single inference. The capability jump and the cost jump are the same event seen from two sides. You do not get the cross-document reasoning without paying the treewidth that also ends easy sharding.</p>
+
+      <h2>What to do with it</h2>
+
+      <ul>
+        <li><strong>Measure the cheap proxies.</strong> Degeneracy and the Fiedler value are polynomial to compute on your item graph. Watch them as your corpus or memory grows. A knee in degeneracy near <span class="eq">log₂(n)</span> is your early warning that behavior is about to change kind.</li>
+        <li><strong>Decide which regime you want — per subsystem.</strong> For deterministic, shardable retrieval, keep the graph below threshold: prune cross-links, partition hard, keep neighborhoods real. For emergent cross-domain reasoning, you may <em>want</em> to be above it — but then budget for global cost and stop expecting clean locality.</li>
+        <li><strong>Don't fight the knee with knobs that can't reach it.</strong> If the issue is structural (you crossed into the mirror regime), tuning <span class="mono">top_k</span> or temperature won't restore separability. The fix lives in the graph's edge structure, not the retrieval hyperparameters.</li>
+      </ul>
+
+      <h2>The honest boundary</h2>
+
+      <p>I want to be exact about what is load-bearing here. The phase transition in constraint-graph treewidth is real and proven. Its measurement on a self-modeling knowledge system is real (though <a href="/essays/self-modeling-knowledge-graphs">n = 1</a>). The claim that <em>your</em> RAG precision drop or <em>your</em> agent's looping is this same transition is a hypothesis I am handing you to test on your own telemetry — not a result the volume establishes. That is exactly the line the pSEO temptation wants to blur, and exactly the line worth holding: the meter is sharp, the application is yours to verify.</p>
+
+      <div class="cta">
+        <p class="t">The proof, not the pitch</p>
+        <p>The phase-transition theorem and its measurement are in the volume. Point the meter at your own graph and see if the knee is where it says.</p>
+        <a class="btn" href="/thesis.pdf">Read the volume (PDF, 7.8&nbsp;MB)</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">More essays</a> &nbsp;·&nbsp; <a href="/">Shadow &amp; Mirror</a> &nbsp;·&nbsp; + Room 137 · V&sup2;+D&sup2;=1</footer>
+</body>
+</html>
