@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tensor Network Contraction and Treewidth</title>
+<meta name="description" content="The cost of contracting a tensor network is exponential in the treewidth of its structure. Why contraction order is everything." />
+<link rel="canonical" href="https://logan.engineering/quantum/tensor-network-contraction" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Tensor Network Contraction and Treewidth" />
+<meta property="og:description" content="The cost of contracting a tensor network is exponential in the treewidth of its structure. Why contraction order is everything." />
+<meta property="og:url" content="https://logan.engineering/quantum/tensor-network-contraction" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tensor Network Contraction and Treewidth" />
+<meta name="twitter:description" content="The cost of contracting a tensor network is exponential in the treewidth of its structure. Why contraction order is everything." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Topics","item":"https://logan.engineering/topics"},{"@type":"ListItem","position":2,"name":"Quantum Simulation & Advantage","item":"https://logan.engineering/quantum"},{"@type":"ListItem","position":3,"name":"tensor network contraction complexity"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Tensor Network Contraction and Treewidth","description":"The cost of contracting a tensor network is exponential in the treewidth of its structure. Why contraction order is everything.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/quantum/tensor-network-contraction","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"dateModified":"2026-06-05","about":"classical simulation of quantum circuits","keywords":"tensor network contraction complexity"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is finding the optimal contraction order NP-hard?","acceptedAnswer":{"@type":"Answer","text":"Yes — it is equivalent to computing treewidth, which is NP-hard. Simulators use the same heuristics (min-fill, greedy) that the treewidth community uses."}},{"@type":"Question","name":"Why does memory blow up during contraction?","acceptedAnswer":{"@type":"Answer","text":"Because intermediate tensors are exponential in the width of the cut you are contracting across. A bad order creates a huge intermediate even if the final answer is a single number."}}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/topics">Topics</a><span class="sep">/</span><a href="/quantum">Quantum Simulation &amp; Advantage</a><span class="sep">/</span><span>tensor network contraction complexity</span></nav><div class="kicker">Quantum Simulation &amp; Advantage</div><h1>Tensor network contraction</h1><p class="sub">Why the contraction order is the whole game, and treewidth scores it.</p><hr class="rule" /><h2>Contraction order is the cost</h2><p>Contracting a tensor network means summing over its internal indices, and the order you do it in determines the size of the largest intermediate tensor you ever hold in memory. That largest intermediate is exponential in the treewidth of the network — so finding a good contraction order is finding a good tree decomposition.</p><p>This is why state-of-the-art quantum-circuit simulators are, under the hood, treewidth heuristics: they search elimination orderings to minimize the width of the contraction, because the width is the exponent in both time and memory.</p><h2>From bond dimension to width</h2><p>The cost is more precisely exponential in the width times the log of the bond dimension. For a qubit circuit the bond dimension is 2, so the exponent is essentially the treewidth itself. Raise the bond dimension — qudits, fused gates — and you scale the same exponent.</p><div class="faq"><h2>Questions</h2><h3>Is finding the optimal contraction order NP-hard?</h3><p>Yes — it is equivalent to computing treewidth, which is NP-hard. Simulators use the same heuristics (min-fill, greedy) that the treewidth community uses.</p><h3>Why does memory blow up during contraction?</h3><p>Because intermediate tensors are exponential in the width of the cut you are contracting across. A bad order creates a huge intermediate even if the final answer is a single number.</p></div><div class="actions"><a class="btn" href="/thesis.pdf">Read the volume (PDF, 895&nbsp;pp)</a><a class="btn ghost" href="/quantum">More in Quantum Simulation &amp; Advantage</a></div><div class="related"><p class="lead">Related</p><ul class="cardlist"><li><a href="/quantum/classical-simulation-of-quantum-circuits"><span class="t">Classical simulation of quantum circuits</span><span class="d">Classical Simulation of Quantum Circuits</span></a></li><li><a href="/quantum/entanglement-entropy-treewidth"><span class="t">Entanglement entropy area law treewidth</span><span class="d">Entanglement Entropy, Area Laws, and Treewidth</span></a></li><li><a href="/quantum/matrix-product-states-bond-dimension"><span class="t">Matrix product states bond dimension</span><span class="d">Matrix Product States and Bond Dimension</span></a></li></ul></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brambles and Tangles: Lower Bounds on Treewidth</title>
+<meta name="description" content="A bramble certifies that treewidth is large. The duality between brambles and tree decompositions, explained simply." />
+<link rel="canonical" href="https://logan.engineering/graph-theory/treewidth-brambles-and-tangles" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Brambles and Tangles: Lower Bounds on Treewidth" />
+<meta property="og:description" content="A bramble certifies that treewidth is large. The duality between brambles and tree decompositions, explained simply." />
+<meta property="og:url" content="https://logan.engineering/graph-theory/treewidth-brambles-and-tangles" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Brambles and Tangles: Lower Bounds on Treewidth" />
+<meta name="twitter:description" content="A bramble certifies that treewidth is large. The duality between brambles and tree decompositions, explained simply." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Topics","item":"https://logan.engineering/topics"},{"@type":"ListItem","position":2,"name":"Graph Theory & Treewidth","item":"https://logan.engineering/graph-theory"},{"@type":"ListItem","position":3,"name":"brambles and tangles treewidth"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Brambles and Tangles: Lower Bounds on Treewidth","description":"A bramble certifies that treewidth is large. The duality between brambles and tree decompositions, explained simply.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/graph-theory/treewidth-brambles-and-tangles","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"dateModified":"2026-06-05","about":"treewidth and tree decomposition","keywords":"brambles and tangles treewidth"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the bramble number?","acceptedAnswer":{"@type":"Answer","text":"The maximum order of any bramble in the graph. By Seymour&ndash;Thomas it equals treewidth + 1, giving an exact lower-bound certificate."}},{"@type":"Question","name":"Are tangles and brambles the same?","acceptedAnswer":{"@type":"Answer","text":"Closely related but distinct. Both certify high connectivity; tangles are central to graph-minor theory, brambles give the cleanest treewidth duality."}}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/topics">Topics</a><span class="sep">/</span><a href="/graph-theory">Graph Theory &amp; Treewidth</a><span class="sep">/</span><span>brambles and tangles treewidth</span></nav><div class="kicker">Graph Theory &amp; Treewidth</div><h1>Brambles and tangles</h1><p class="sub">How you prove a graph&#x27;s treewidth is large, not just small.</p><hr class="rule" /><h2>The duality</h2><p>Finding a narrow tree decomposition proves treewidth is <em>small</em>. To prove it is <em>large</em> you need a witness in the other direction — and that witness is a bramble. A bramble is a collection of mutually touching connected subgraphs; its order is the smallest set of vertices hitting all of them. The bramble number equals treewidth plus one. This is Seymour and Thomas's treewidth duality theorem.</p><p>Tangles are the closely related object that organizes the high-connectivity structure of a graph and underpins the graph-minors theory of Robertson and Seymour. Both brambles and tangles formalize the same idea: a region of the graph that cannot be separated cheaply.</p><h2>The shadow–mirror reading</h2><p>A bramble is the inseparable core — the part of the structure that no small cut can pull apart. In the thesis's language it is exactly the irreducible coupling: the width is large precisely because there is a whole that resists decomposition into shadow and mirror.</p><div class="faq"><h2>Questions</h2><h3>What is the bramble number?</h3><p>The maximum order of any bramble in the graph. By Seymour&amp;ndash;Thomas it equals treewidth + 1, giving an exact lower-bound certificate.</p><h3>Are tangles and brambles the same?</h3><p>Closely related but distinct. Both certify high connectivity; tangles are central to graph-minor theory, brambles give the cleanest treewidth duality.</p></div><div class="actions"><a class="btn" href="/thesis.pdf">Read the volume (PDF, 895&nbsp;pp)</a><a class="btn ghost" href="/graph-theory">More in Graph Theory &amp; Treewidth</a></div><div class="related"><p class="lead">Related</p><ul class="cardlist"><li><a href="/graph-theory/what-is-treewidth"><span class="t">What is treewidth</span><span class="d">What Is Treewidth? A Plain-Language Definition</span></a></li><li><a href="/graph-theory/treewidth-vs-pathwidth"><span class="t">Treewidth vs pathwidth</span><span class="d">Treewidth vs Pathwidth: The Difference</span></a></li><li><a href="/graph-theory/tree-decomposition-explained"><span class="t">Tree decomposition explained</span><span class="d">Tree Decomposition Explained, With Examples</span></a></li></ul></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Treewidth &amp; Tree Decomposition — The Graph-Theory Cluster</title>
+<meta name="description" content="Treewidth, tree decomposition, brambles, and bounded-width algorithms — the graph invariant that meters the whole thesis." />
+<link rel="canonical" href="https://logan.engineering/graph-theory" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Treewidth &amp; Tree Decomposition — The Graph-Theory Cluster" />
+<meta property="og:description" content="Treewidth, tree decomposition, brambles, and bounded-width algorithms — the graph invariant that meters the whole thesis." />
+<meta property="og:url" content="https://logan.engineering/graph-theory" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Treewidth &amp; Tree Decomposition — The Graph-Theory Cluster" />
+<meta name="twitter:description" content="Treewidth, tree decomposition, brambles, and bounded-width algorithms — the graph invariant that meters the whole thesis." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Topics","item":"https://logan.engineering/topics"},{"@type":"ListItem","position":2,"name":"Graph Theory & Treewidth"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Treewidth & Tree Decomposition — The Graph-Theory Cluster","description":"Treewidth, tree decomposition, brambles, and bounded-width algorithms — the graph invariant that meters the whole thesis.","url":"https://logan.engineering/graph-theory","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"hasPart":[{"@type":"Article","headline":"What Is Treewidth? A Plain-Language Definition","url":"https://logan.engineering/graph-theory/what-is-treewidth"},{"@type":"Article","headline":"Tree Decomposition Explained, With Examples","url":"https://logan.engineering/graph-theory/tree-decomposition-explained"},{"@type":"Article","headline":"Treewidth vs Pathwidth: The Difference","url":"https://logan.engineering/graph-theory/treewidth-vs-pathwidth"},{"@type":"Article","headline":"How to Compute Treewidth (and Why It's Hard)","url":"https://logan.engineering/graph-theory/how-to-compute-treewidth"},{"@type":"Article","headline":"Dynamic Programming on Bounded-Treewidth Graphs","url":"https://logan.engineering/graph-theory/bounded-treewidth-algorithms"},{"@type":"Article","headline":"Courcelle's Theorem, Intuitively","url":"https://logan.engineering/graph-theory/courcelles-theorem"},{"@type":"Article","headline":"Brambles and Tangles: Lower Bounds on Treewidth","url":"https://logan.engineering/graph-theory/treewidth-brambles-and-tangles"},{"@type":"Article","headline":"Treewidth in Machine Learning & Probabilistic Inference","url":"https://logan.engineering/graph-theory/treewidth-in-machine-learning"}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/topics">Topics</a><span class="sep">/</span><span>Graph Theory &amp; Treewidth</span></nav><div class="kicker">Topic cluster</div><h1>Graph Theory &amp; Treewidth</h1><p class="sub">treewidth and tree decomposition</p><p class="lede">Treewidth is the single invariant the volume runs on. It measures how far a graph is from being a tree — and a tree is the structure dynamic programming sweeps in linear time. These pages build the graph-theory toolkit the rest of the thesis leans on, from the formal definition of a tree decomposition to the bramble duality that lower-bounds width.</p><div class="actions"><a class="btn" href="/thesis.pdf">Read the volume (PDF, 895&nbsp;pp)</a></div><hr class="rule" /><ul class="cardlist"><li><a href="/graph-theory/what-is-treewidth"><span class="t">What is treewidth</span><span class="d">Treewidth measures how close a graph is to a tree. A clear definition with intuition, examples, and why it governs algorithmic cost.</span></a></li><li><a href="/graph-theory/tree-decomposition-explained"><span class="t">Tree decomposition explained</span><span class="d">A tree decomposition reshapes a graph into a tree of bags. The formal definition, the three conditions, and a worked example.</span></a></li><li><a href="/graph-theory/treewidth-vs-pathwidth"><span class="t">Treewidth vs pathwidth</span><span class="d">Pathwidth is treewidth restricted to a path-shaped decomposition. When they coincide, when they diverge, and why it matters.</span></a></li><li><a href="/graph-theory/how-to-compute-treewidth"><span class="t">How to compute treewidth</span><span class="d">Computing treewidth is NP-hard, but heuristics, exact FPT algorithms, and solvers make it tractable in practice. A practical guide.</span></a></li><li><a href="/graph-theory/bounded-treewidth-algorithms"><span class="t">Bounded treewidth dynamic programming</span><span class="d">Why hard problems become easy when treewidth is small: the bag-by-bag dynamic programming pattern that runs in linear time.</span></a></li><li><a href="/graph-theory/courcelles-theorem"><span class="t">Courcelle&#x27;s theorem</span><span class="d">Every property expressible in monadic second-order logic is decidable in linear time on bounded-treewidth graphs. What that really means.</span></a></li><li><a href="/graph-theory/treewidth-brambles-and-tangles"><span class="t">Brambles and tangles treewidth</span><span class="d">A bramble certifies that treewidth is large. The duality between brambles and tree decompositions, explained simply.</span></a></li><li><a href="/graph-theory/treewidth-in-machine-learning"><span class="t">Treewidth graphical models inference</span><span class="d">Exact inference in a graphical model is exponential in the treewidth of its structure. Why junction trees are tree decompositions.</span></a></li></ul><div class="related"><p class="lead">Other clusters</p><ul class="cardlist"><li><a href="/quantum"><span class="t">Quantum Simulation &amp; Advantage</span><span class="d">Tensor-network contraction, entanglement entropy, and the treewidth cost of simulating quantum circuits — where Ross&#x27;s Law lives.</span></a></li><li><a href="/knowledge"><span class="t">Knowledge Architecture</span><span class="d">Treewidth as a meter for note networks, knowledge graphs, and second-brain systems — the shadow–mirror architecture applied to thought.</span></a></li></ul></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>

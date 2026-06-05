@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Second-Brain Topology: What Treewidth Reveals</title>
+<meta name="description" content="Building a second brain is building a graph. Its topology — measured by treewidth — determines what you can recall and reason over locally." />
+<link rel="canonical" href="https://logan.engineering/knowledge/second-brain-treewidth" />
+<meta name="author" content="Logan Christopher Ross" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Second-Brain Topology: What Treewidth Reveals" />
+<meta property="og:description" content="Building a second brain is building a graph. Its topology — measured by treewidth — determines what you can recall and reason over locally." />
+<meta property="og:url" content="https://logan.engineering/knowledge/second-brain-treewidth" />
+<meta property="og:image" content="https://logan.engineering/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Second-Brain Topology: What Treewidth Reveals" />
+<meta name="twitter:description" content="Building a second brain is building a graph. Its topology — measured by treewidth — determines what you can recall and reason over locally." />
+<meta name="twitter:image" content="https://logan.engineering/og.png" />
+<style>:root{--ink:#111;--paper:#fafaf8;--rule:#0001;--dim:#555;--panel:#fff;--panelrule:#0002;--brass:#8c6a3f;}
+@media (prefers-color-scheme:dark){:root{--ink:#eee;--paper:#0d0d0f;--rule:#fff2;--dim:#999;--panel:#141417;--panelrule:#fff2;--brass:#b8915c;}}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Georgia,"Times New Roman",serif;display:flex;flex-direction:column;min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:9vh 24px 6vh;width:100%;flex:1;}
+a{color:inherit;}
+.crumbs{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);letter-spacing:.02em;margin-bottom:1.6em;}
+.crumbs a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.crumbs a:hover{border-color:var(--ink);}
+.crumbs .sep{margin:0 .5em;opacity:.5;}
+.kicker{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;margin:.45em 0 .15em;font-weight:600;}
+.sub{font-size:clamp(16px,2.5vw,20px);color:var(--dim);margin:0 0 1.4em;font-style:italic;}
+h2{font-size:clamp(20px,3vw,25px);font-weight:600;margin:1.9em 0 .5em;line-height:1.2;}
+p{margin:.85em 0;}
+em{font-style:italic;}
+strong{font-weight:600;}
+.rule{border:0;border-top:1px solid var(--rule);margin:1.9em 0;}
+.lede{font-size:18px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:2em 0 .4em;}
+a.btn{font:600 14px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;text-decoration:none;color:var(--paper);background:var(--ink);padding:13px 18px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;}
+a.btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--ink);}
+.meta{font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);}
+.faq{margin:1.4em 0;}
+.faq h3{font:600 16px/1.4 Georgia,serif;margin:1.2em 0 .25em;}
+.faq p{margin:.2em 0 .9em;color:var(--ink);}
+.related{margin:2.4em 0 1em;border-top:1px solid var(--panelrule);padding-top:1.3em;}
+.related .lead{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 .8em;}
+.cardlist{list-style:none;margin:0;padding:0;display:grid;gap:.7em;}
+.cardlist a{text-decoration:none;display:block;padding:.85em 1em;border:1px solid var(--panelrule);border-radius:9px;background:var(--panel);}
+.cardlist a:hover{border-color:var(--ink);}
+.cardlist .t{font-weight:600;display:block;}
+.cardlist .d{font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:.2em;display:block;}
+.pillars{display:grid;gap:1em;margin:1.6em 0;}
+.pillar{border:1px solid var(--panelrule);border-radius:12px;background:var(--panel);padding:1.2em 1.3em;}
+.pillar a.h{text-decoration:none;font-size:21px;font-weight:600;display:inline-block;margin-bottom:.2em;}
+.pillar a.h:hover{color:var(--brass);}
+.pillar .blurb{font-size:15px;color:var(--dim);margin:.3em 0 .7em;}
+.pillar .links{font:400 13px/1.9 ui-sans-serif,system-ui,sans-serif;}
+.pillar .links a{text-decoration:none;border-bottom:1px solid var(--panelrule);}
+.pillar .links a:hover{border-color:var(--ink);}
+.stamp{width:1.3em;height:1.3em;vertical-align:-0.3em;margin:0 .1em 0 .25em;opacity:.9;}
+.stamp .ink{stroke:currentColor;fill:none;}.stamp .ink-fill{fill:currentColor;stroke:none;}.stamp .brass{stroke:var(--brass);fill:none;}
+footer{font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);text-align:center;padding:3vh 24px;border-top:1px solid var(--rule);}
+footer a{text-decoration:none;border-bottom:1px solid var(--panelrule);}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Topics","item":"https://logan.engineering/topics"},{"@type":"ListItem","position":2,"name":"Knowledge Architecture","item":"https://logan.engineering/knowledge"},{"@type":"ListItem","position":3,"name":"second brain note-taking topology"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Second-Brain Topology: What Treewidth Reveals","description":"Building a second brain is building a graph. Its topology — measured by treewidth — determines what you can recall and reason over locally.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/knowledge/second-brain-treewidth","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"dateModified":"2026-06-05","about":"knowledge graph structure and note-taking topology","keywords":"second brain note-taking topology"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is a bigger second brain harder to use?","acceptedAnswer":{"@type":"Answer","text":"Not necessarily — size is linear, width is the exponent. A large, low-treewidth vault can be easier than a small, high-width one."}},{"@type":"Question","name":"How would I lower my vault's treewidth?","acceptedAnswer":{"@type":"Answer","text":"By factoring dense clusters into smaller, locally-coherent notes with tree-like links — separating what can be separated, per the shadow–mirror frame."}}]}</script>
+</head><body><main class="wrap"><nav class="crumbs"><a href="/topics">Topics</a><span class="sep">/</span><a href="/knowledge">Knowledge Architecture</a><span class="sep">/</span><span>second brain note-taking topology</span></nav><div class="kicker">Knowledge Architecture</div><h1>Second-brain topology</h1><p class="sub">The shape of your external memory has a measurable cost.</p><hr class="rule" /><h2>Topology over volume</h2><p>Second-brain systems are usually judged by how much they hold. The more useful question is what shape they hold it in. Two note collections of the same size can have wildly different treewidth, and the low-width one is the one you can actually navigate and reason over without holding the whole thing in working memory.</p><p>Treewidth is, almost literally, the amount of context you must keep active to make sense of a region. That is why a sprawling but tree-like vault feels manageable while a smaller but densely cross-linked one feels overwhelming: the second has higher width.</p><h2>The meter applied to memory</h2><p>The thesis's eighth substrate is cognition, and the claim is the same as for the other seven: the cost of holding a structure is exponential in its treewidth. Your external memory obeys the same law as a tensor network.</p><div class="faq"><h2>Questions</h2><h3>Is a bigger second brain harder to use?</h3><p>Not necessarily — size is linear, width is the exponent. A large, low-treewidth vault can be easier than a small, high-width one.</p><h3>How would I lower my vault&#x27;s treewidth?</h3><p>By factoring dense clusters into smaller, locally-coherent notes with tree-like links — separating what can be separated, per the shadow–mirror frame.</p></div><div class="actions"><a class="btn" href="/thesis.pdf">Read the volume (PDF, 895&nbsp;pp)</a><a class="btn ghost" href="/knowledge">More in Knowledge Architecture</a></div><div class="related"><p class="lead">Related</p><ul class="cardlist"><li><a href="/knowledge/zettelkasten-graph-structure"><span class="t">Zettelkasten graph structure</span><span class="d">The Zettelkasten as a Graph: Structure and Width</span></a></li><li><a href="/knowledge/knowledge-graph-complexity"><span class="t">Knowledge graph structure complexity</span><span class="d">Knowledge Graph Complexity and Treewidth</span></a></li><li><a href="/knowledge/shadow-and-mirror-knowledge-framework"><span class="t">Shadow and mirror knowledge framework</span><span class="d">The Shadow–Mirror Framework for Knowledge</span></a></li></ul></div></main><footer>Read the volume: <a href="/thesis.pdf">Shadow &amp; Mirror</a> (PDF, 895&nbsp;pp) &middot; <a href="/">logan.engineering</a> &middot; Room 137 &middot; V&sup2; &plus; D&sup2; &equals; 1</footer></body></html>

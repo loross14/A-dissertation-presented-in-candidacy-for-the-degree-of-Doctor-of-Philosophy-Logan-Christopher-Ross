@@ -36,16 +36,36 @@ Both re-derive the published hashes from the bytes in `public/`. The signing key
 is `derived-dev` (deterministic from the committed hashes); set
 `PLANISPHERE_SECP256K1_PRIVKEY_HEX` to an operator key for a production address.
 
+## Discovery — the pSEO campaign
+
+`tools/pseo/` generates a hub-and-spoke content campaign (three pillar clusters —
+graph theory, quantum simulation, knowledge architecture — and 18 keyword-targeted
+pages) that all route to the volume. Regenerate with:
+
+```bash
+python3 tools/pseo/generate.py
+```
+
+It emits `public/topics`, the three hubs, the spoke pages, `sitemap.xml`, and
+`robots.txt`, each with `Article`/`FAQPage`/`BreadcrumbList` JSON-LD and full
+internal linking. Off-site link-building plans live in `outreach/`. Add pages by
+appending to `tools/pseo/corpus.py` and re-running the generator.
+
 ## Layout
 
 ```
 public/
   index.html     the landing page (served by Vercel)
+  topics.html    the pSEO campaign index
+  graph-theory/  quantum/  knowledge/   the generated topic clusters
+  sitemap.xml    robots.txt             crawl surface
   thesis.pdf     the volume, 895 pages
   seal.svg       the Planisphere × Shadow-and-Mirror collaboration mark
   seal.json      the EIP-712 attestation (block payload)
   genesis.json   the mirror-chain genesis block
 tools/
+  pseo/          the programmatic-SEO generator (corpus.py + generate.py)
   seal_eip712.py mint the EIP-712 seal
   mint_block.py  mint a mirror-chain block
+outreach/        off-site link-building plans (Hacker News, academic, directories)
 ```
