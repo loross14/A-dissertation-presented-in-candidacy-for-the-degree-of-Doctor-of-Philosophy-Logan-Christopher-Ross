@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bitcoin Is Quantum Resistant — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to Logan Ross's Bitcoin Is Quantum Resistant: SHA-256, ECDSA, proof of work, and which parts of Bitcoin are quantum-exposed." />
+  <link rel="canonical" href="https://logan.engineering/essays/bitcoin-is-quantum-resistant" />
+  <meta property="og:title" content="Bitcoin Is Quantum Resistant" />
+  <meta property="og:description" content="Bitcoin has two cryptographic layers: hash-chain proof of work and signatures. The paper separates their quantum risk." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/bitcoin-is-quantum-resistant" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bitcoin Is Quantum Resistant" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Bitcoin Is Quantum Resistant","name":"Bitcoin Is Quantum Resistant","description":"Bitcoin's hash-chain foundation and signature layer separated under quantum attack analysis.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/bitcoin-is-quantum-resistant","url":"https://logan.engineering/essays/bitcoin-is-quantum-resistant","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19312598"},"sameAs":["https://zenodo.org/records/19312599","https://doi.org/10.5281/zenodo.19312598"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-11","keywords":"Bitcoin, quantum resistance, SHA-256, ECDSA, proof of work, Shor's algorithm"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Cryptography · Bitcoin</p>
+    <h1>Bitcoin Is Quantum Resistant</h1>
+    <p class="dek">The paper separates Bitcoin's foundation from its signature layer: SHA-256 proof of work is not the same quantum target as ECDSA signatures.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a layer separation.</b> The DOI record does not say every part of Bitcoin is immune to quantum computers. It says the hash-chain foundation and the signature layer have different quantum exposure.</p>
+
+      <p>Bitcoin is often discussed as if it had one cryptographic surface. It does not. Mining and the hash chain depend on SHA-256 and proof of work. Spending coins depends on digital signatures, historically ECDSA.</p>
+
+      <p>Those two layers face different quantum algorithms. Shor's algorithm attacks algebraic structure with hidden periodicity. That is why signatures based on elliptic-curve discrete logarithms are exposed. SHA-256 does not present the same period-finding target.</p>
+
+      <div class="pull">The signatures are a software-upgrade problem. The accumulated proof-of-work history is not the same kind of quantum target.</div>
+
+      <h2>The Hash Layer</h2>
+      <p>Hashing is local and independent. A SHA-256 output does not reveal a rhythm for the quantum Fourier transform to extract. A quantum computer can use Grover-type search to gain a quadratic speedup against brute force, but that is not the exponential break Shor gives against hidden-period problems.</p>
+
+      <p>That is the paper's first separation: the proof-of-work foundation is not broken merely because quantum computers threaten elliptic-curve signatures.</p>
+
+      <h2>The Signature Layer</h2>
+      <p>ECDSA is different. It relies on elliptic-curve discrete logarithms, and that is exactly the kind of algebraic structure Shor's algorithm threatens. The DOI record states this plainly: the signatures are not quantum resistant.</p>
+
+      <p>The practical interpretation is upgrade pressure. A network can move signature schemes; it cannot rewrite the proof-of-work history without ceasing to be the same chain.</p>
+
+      <h2>The Shadow-Mirror Reading</h2>
+      <p>The paper then reads Bitcoin as a coupling system. A single hash is local: shadow. The blockchain is global and irreducible: mirror. Proof of work couples them by forcing local hash attempts to accumulate into one shared public history.</p>
+
+      <h2>What Is Claimed</h2>
+      <ul>
+        <li><strong>SHA-256 is not a Shor target:</strong> it lacks the hidden periodicity that the quantum Fourier transform exploits.</li>
+        <li><strong>ECDSA is quantum-exposed:</strong> signatures require migration to post-quantum alternatives.</li>
+        <li><strong>Bitcoin's foundation is the hash-chain coupling:</strong> the paper treats proof of work as the durable layer.</li>
+      </ul>
+
+      <h2>What to Keep Honest</h2>
+      <p>"Quantum resistant" here means the foundation of Bitcoin is not erased by Shor's algorithm. It does not mean users can ignore exposed public keys, old address practices, signature migration, or future protocol governance.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>Concept DOI <span class="mono">10.5281/zenodo.19312598</span>; current version <span class="mono">10.5281/zenodo.19312599</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19312598">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/shors-algorithm-mirror-search" style="margin-left:8px">Read Shor first</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Interval-Graph Collapse — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to The Interval-Graph Collapse: Separator Growth in One-Dimensional Point Processes, explaining why one-dimensional threshold graph treewidth is maximal window occupancy." />
+  <link rel="canonical" href="https://logan.engineering/essays/interval-graph-collapse-separator-growth" />
+  <meta property="og:title" content="The Interval-Graph Collapse" />
+  <meta property="og:description" content="On a line, separator width is local crowding. This theorem turns one-dimensional spectral graph questions into extreme counting statistics." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/interval-graph-collapse-separator-growth" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Interval-Graph Collapse" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Interval-Graph Collapse: Separator Growth in One-Dimensional Point Processes","name":"The Interval-Graph Collapse: Separator Growth in One-Dimensional Point Processes","description":"For any finite point set on the real line, the distance-threshold graph is a unit interval graph whose treewidth and pathwidth equal maximal window occupancy minus one. This converts separator growth into extreme counting statistics and separates Poisson from repulsive spectra.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/interval-graph-collapse-separator-growth","url":"https://logan.engineering/essays/interval-graph-collapse-separator-growth","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.20649768"},"sameAs":["https://zenodo.org/records/20649769","https://doi.org/10.5281/zenodo.20649768"],"license":"https://creativecommons.org/licenses/by/4.0/","dateModified":"2026-06-11","keywords":"interval graph, treewidth, pathwidth, separator growth, Poisson process, sine-kernel process"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Graph Theory · Separator Growth</p>
+    <h1>The Interval-Graph Collapse</h1>
+    <p class="dek">Take points on a line. Connect nearby points. The whole graph-theoretic separator question collapses to one statistic: the fullest local window.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>The theorem is elementary and load-bearing.</b> It says that one-dimensional threshold graphs have no hidden global width invariant. Any width question for spectra on a line factors through local occupancy.</p>
+
+      <p>Suppose you have a finite set of points on the real line. Choose a distance threshold <span class="eq">delta</span>. Now draw a graph: each point becomes a vertex, and two vertices are adjacent when the corresponding points are at most <span class="eq">delta</span> apart.</p>
+
+      <p>At first glance, this looks like a graph decomposition problem. How large are the separators? How large is the treewidth? Does a repulsive spectrum have a global graph backbone?</p>
+
+      <p>The collapse theorem says the answer is much simpler. Assign each point <span class="eq">x</span> the interval <span class="eq">[x, x + delta]</span>. Two such intervals intersect exactly when the original points are within <span class="eq">delta</span>. So the threshold graph is a unit interval graph. Its largest clique is the largest number of points in any width-<span class="eq">delta</span> window, and its sweep decomposition has bags of exactly that size.</p>
+
+      <div class="pull">For one-dimensional threshold graphs, treewidth equals pathwidth equals maximal window occupancy minus one.</div>
+
+      <h2>The Formal Spine</h2>
+      <ul>
+        <li><strong>Input:</strong> a finite point set <span class="eq">X</span> on the real line and a threshold <span class="eq">delta &gt; 0</span>.</li>
+        <li><strong>Graph:</strong> connect two points when their distance is at most <span class="eq">delta</span>.</li>
+        <li><strong>Occupancy:</strong> let <span class="eq">M(X, delta)</span> be the largest number of points in any window of width <span class="eq">delta</span>.</li>
+        <li><strong>Conclusion:</strong> <span class="eq">tw(G_delta(X)) = pw(G_delta(X)) = M(X, delta) - 1</span>.</li>
+      </ul>
+
+      <h2>Why It Matters</h2>
+      <p>This is a no-go theorem for overlarge one-dimensional separator claims. If the data live on a line and the graph only connects nearby points, then treewidth cannot see more than local crowding. It cannot carry a separate global rigidity invariant.</p>
+
+      <p>That does not make the graph useless. It makes the right question sharper. Separator growth becomes an extreme-value statistic: how quickly does the fullest local window fill as the point process grows?</p>
+
+      <h2>Poisson Versus Repulsion</h2>
+      <p>For unit-intensity Poisson points, the fullest window grows like <span class="eq">log n / log log n</span>. That is the independent null: random clumps appear, and the worst clump grows slowly.</p>
+
+      <p>For the sine-kernel determinantal process, a model of repulsive random matrix spectra, the paper proves an almost-sure upper bound of the form <span class="eq">delta + C(delta) sqrt(log n)</span>. The proof uses the Bernoulli decomposition of determinantal counts and eigenvalue decay for the restricted sine-kernel operator.</p>
+
+      <p>The result separates universality classes. Independent points crowd more; repulsive points crowd less. Treewidth survives as a useful measurement only after it is understood as occupancy.</p>
+
+      <h2>What Is Still Open</h2>
+      <p>The sharp lower/extreme law for sine-kernel overcrowding remains conjectural. The paper proves the upper envelope and the Poisson comparison; the exact asymptotic constant and a full two-sided maximum law are left as open problems.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>The formal preprint is deposited on Zenodo. Concept DOI <span class="mono">10.5281/zenodo.20649768</span>; current version <span class="mono">10.5281/zenodo.20649769</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.20649768">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/riemann-repulsion-collapse-treewidth" style="margin-left:8px">Read the Riemann application</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

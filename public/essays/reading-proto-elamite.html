@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reading Proto-Elamite — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to Logan Ross's Reading Proto-Elamite: dictionary coverage, treewidth hierarchy, administrative structure, and claim status." />
+  <link rel="canonical" href="https://logan.engineering/essays/reading-proto-elamite" />
+  <meta property="og:title" content="Reading Proto-Elamite" />
+  <meta property="og:description" content="A computational reading of Proto-Elamite through dictionary coverage, site hierarchy, and treewidth." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/reading-proto-elamite" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reading Proto-Elamite" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Reading Proto-Elamite","name":"Reading Proto-Elamite","description":"A computational reading of Proto-Elamite using open-weight language models, dictionary coverage, and treewidth analysis of administrative structure.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/reading-proto-elamite","url":"https://logan.engineering/essays/reading-proto-elamite","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19362527"},"sameAs":["https://zenodo.org/records/19362528","https://doi.org/10.5281/zenodo.19362527"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-11","keywords":"Proto-Elamite, undeciphered scripts, treewidth, ancient administration, language models"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Decipherment · Proto-Elamite</p>
+    <h1>Reading Proto-Elamite</h1>
+    <p class="dek">The paper reports a full-sign dictionary and a treewidth map of administrative complexity across the Proto-Elamite corpus.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a claim-bearing decipherment companion.</b> The DOI record presents a computational reading. The reader's job is to separate coverage, structure, and semantic interpretation.</p>
+
+      <p>Proto-Elamite is among the oldest undeciphered writing systems. The paper approaches it as a corpus problem: what signs occur, where they occur, how they co-occur, and what administrative structure those patterns imply.</p>
+
+      <p>The record reports a dictionary of 349 entries covering every unique sign in the corpus: 1,275 tablets and 15,534 sign tokens. Of those signs, 272 receive semantic readings and 77 receive structural classifications.</p>
+
+      <div class="pull">The main bridge from data to reading is structure: signs are not interpreted alone, but through position, dependency, site, and administrative role.</div>
+
+      <h2>The Treewidth Signal</h2>
+      <p>The striking measurement is the site hierarchy. Susa, the capital, is reported at treewidth 116, which the paper reads as complex bookkeeping with combinatorial sign dependencies. Peripheral sites collapse to treewidth 2 through 7, read as commodity labels on sealed containers.</p>
+
+      <p>That contrast matters because it lets the corpus be read as an administrative system rather than a flat list of marks. The same script behaves differently when used at the center of a bureaucracy versus the edge.</p>
+
+      <h2>The Proposed Form</h2>
+      <p>The tablets are described as livestock records, personnel accounts, and commodity ledgers. The reported structure is four-part: HEADER, COMMODITY, ADMINISTRATIVE, TOTAL.</p>
+
+      <p>The DOI record also names one specific cross-linguistic mapping: sign M269 is assigned the reading LORD, tied to a light-as-authority metaphor also found in Sumerian EN.</p>
+
+      <h2>What Is Claimed</h2>
+      <ul>
+        <li><strong>Coverage:</strong> every unique sign in the corpus is included in the dictionary.</li>
+        <li><strong>Structure:</strong> treewidth separates capital bookkeeping from peripheral commodity labeling.</li>
+        <li><strong>Reading:</strong> the corpus is interpreted as administrative records with a four-part formula.</li>
+      </ul>
+
+      <h2>What to Check</h2>
+      <p>The strongest future checks are independent philological review, tablet-by-tablet reproducibility, and whether the proposed readings predict unseen sign contexts better than competing accounts. Seven signs are reported as supported by prior scholarship; the rest need to earn confidence through structure and external validation.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>Concept DOI <span class="mono">10.5281/zenodo.19362527</span>; current version <span class="mono">10.5281/zenodo.19362528</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19362527">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/reading-indus-valley-script" style="margin-left:8px">Read the Indus companion</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

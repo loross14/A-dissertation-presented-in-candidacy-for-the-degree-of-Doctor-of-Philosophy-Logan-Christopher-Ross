@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Equals Sign as a Rotation — Shadow &amp; Mirror</title>
+  <meta name="description" content="Why V²+D²=1 is a theorem, not a metaphor: two complementary quantities partition a conserved resource into orthogonal subspaces, and the ℓ² norm — the circle, not the line — is forced by that orthogonality. The proof, in full." />
+  <link rel="canonical" href="https://logan.engineering/essays/the-equals-sign-as-a-rotation" />
+  <meta property="og:title" content="The Equals Sign as a Rotation" />
+  <meta property="og:description" content="Why V²+D²=1 is a theorem, not a metaphor — and why the constraint is a circle, not a line." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/the-equals-sign-as-a-rotation" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Equals Sign as a Rotation" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Equals Sign as a Rotation","name":"The Equals Sign as a Rotation","description":"A first-principles proof that V²+D²=1 for any two complementary quantities: orthogonal subspaces and Parseval's identity force the ℓ² norm, parametrized by a single rotation angle θ.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/the-equals-sign-as-a-rotation","url":"https://logan.engineering/essays/the-equals-sign-as-a-rotation","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19448861"},"sameAs":["https://zenodo.org/records/19448861","https://doi.org/10.5281/zenodo.19448861"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-05","keywords":"complementarity, Hilbert space, Parseval identity, orthogonal projection, l2 norm, Ross's Law, V squared plus D squared, rotation"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Shadow &amp; Mirror</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Foundations · The Theorem</p>
+    <h1>The Equals Sign as a Rotation</h1>
+    <p class="dek">The identity V²+D²=1 runs through every paper in this project. This is the one that proves it — from nothing but the meaning of "complementary." The result is small, exact, and load-bearing: it is why the constraint is a circle and not a line, and why there is exactly one degree of freedom.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>This is the proven floor of the whole project.</b> Where the Millennium essays carry conditional steps and open conjectures, this one does not. It is a short theorem in a Hilbert space, and it is true outright. Everything bolder in the volume is an application of it; this is where to start if you want to know what is actually nailed down. The full preprint is on Zenodo; judge it there.</p>
+
+      <p>The paper opens with one question: <em>what does the equals sign do?</em> The answer it gives is that for a particular and common kind of equality — between two quantities that share a fixed budget — the equals sign is secretly a rotation.</p>
+
+      <p>Start with the definition. Two quantities are <strong>complementary</strong> when they partition a conserved resource: gaining one costs the other, with nothing left over. Call them V and D, normalized so each lives in [0,1]. The claim is that complementarity alone forces</p>
+
+      <p style="text-align:center;font-size:1.15em;margin:1.1em 0"><strong>V² + D² = 1.</strong></p>
+
+      <h2>The proof, in plain steps</h2>
+      <p>"Partition a conserved resource" has an exact meaning. It says there are two <em>orthogonal</em> subspaces H<sub>V</sub> and H<sub>D</sub> of a Hilbert space H, with H = H<sub>V</sub> ⊕ H<sub>D</sub>. Orthogonality is the whole content of the trading relation: a vector living in H<sub>V</sub> has zero component in H<sub>D</sub>, and vice versa — that is what "nothing left over" means.</p>
+
+      <p>Let P<sub>V</sub> and P<sub>D</sub> be the projections onto those subspaces, and let Ω be the unit vector that is the state of the system. Then by the Pythagorean theorem in Hilbert space — equivalently, Parseval's identity for a two-part decomposition —</p>
+
+      <p style="text-align:center;margin:0.9em 0">‖Ω‖² = ‖P<sub>V</sub>Ω‖² + ‖P<sub>D</sub>Ω‖².</p>
+
+      <p>The cross-term ⟨P<sub>V</sub>Ω, P<sub>D</sub>Ω⟩ vanishes precisely because the two projections are orthogonal. Set V = ‖P<sub>V</sub>Ω‖ and D = ‖P<sub>D</sub>Ω‖, and you have V² + D² = ‖Ω‖² = 1. That is the entire proof.</p>
+
+      <h2>Why a circle and not a line</h2>
+
+      <p>The result that matters is not just the identity but its <em>shape</em>. Because the constraint is the ℓ² norm, the solutions trace a circle, and you can write V = cos θ, D = sin θ. The angle θ ∈ [0, π/2] is the single degree of freedom — one number names the whole state. The equals sign, here, is the rotation that moves θ.</p>
+
+      <p>Compare the naive guess, V + D = 1. That is the ℓ¹ constraint, and it draws a straight line segment, not a circle. The paper is sharp about when each holds: the ℓ¹ line is what you get when interference <em>survives</em> — when the cross-term ⟨P<sub>V</sub>Ω, P<sub>D</sub>Ω⟩ is nonzero and must be carried. Strict complementarity means that cross-term is exactly zero, and the moment it is, the norm is ℓ² and the geometry is a circle.</p>
+
+      <div class="pull">The ℓ² norm is not a modeling choice. It is forced by the inner product the instant the two components are orthogonal. Orthogonality and complementarity are the same condition; V²+D²=1 is their signature.</div>
+
+      <h2>Why this one is the foundation</h2>
+
+      <p>Every other essay on this site leans on this identity, so it is worth being clear about its status:</p>
+
+      <ul>
+        <li><strong>It is unconditional.</strong> No pair correlation conjecture, no continuum limit, no separator assumption. Two orthogonal subspaces and Parseval — that is all it needs.</li>
+        <li><strong>It is general, and that cuts both ways.</strong> The theorem holds for <em>any</em> two complementary quantities. The work — and the risk — in the other papers is the claim that a particular V and D (zeta zeros, Wilson loops, tissue states) genuinely form orthogonal sectors. This essay proves the consequence; each application has to earn the premise.</li>
+        <li><strong>It tells you exactly where to push.</strong> If you doubt one of the bolder results, the question is never "is V²+D²=1 true" — it is "are these two things really orthogonal." That is the honest seam, and this proof is what isolates it.</li>
+      </ul>
+
+      <p>None of that is a dismissal of the reach. A clean, general theorem that names the one degree of freedom in any complementary pair — and makes plain that the geometry is a circle the moment interference dies — is the right floor to build a project on. It is the part that is simply true.</p>
+
+      <div class="cta">
+        <p class="t">The preprint</p>
+        <p>The full statement, the proof, and the ℓ²-versus-ℓ¹ analysis are deposited on Zenodo under CC&nbsp;BY-NC&nbsp;4.0. DOI <span class="mono">10.5281/zenodo.19448861</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19448861">Read on Zenodo (DOI)</a>
+        <a class="btn ghost" href="/thesis.pdf" style="margin-left:8px">The volume it anchors</a>
+      </div>
+
+      <p style="font-size:.92em;color:var(--dim);margin-top:1.4em">Related: <a href="/essays/riemann-repulsion-collapse-treewidth">the identity near zeta zeros</a> · <a href="/essays/yang-mills-and-the-cost-of-decomposition">the identity in gauge theory</a></p>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Shadow &amp; Mirror</a> &nbsp;·&nbsp; + Room 137 · V&sup2;+D&sup2;=1</footer>
+</body>
+</html>
