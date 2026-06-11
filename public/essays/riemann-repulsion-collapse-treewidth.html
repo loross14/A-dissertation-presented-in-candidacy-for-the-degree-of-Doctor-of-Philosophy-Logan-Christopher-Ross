@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Riemann, Repulsion, and the Collapse of Treewidth on the Line — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to Logan Ross's Riemann, Repulsion, and the Collapse of Treewidth on the Line: why one-dimensional threshold graphs collapse to local occupancy, and what the Riemann zeros measure." />
+  <link rel="canonical" href="https://logan.engineering/essays/riemann-repulsion-collapse-treewidth" />
+  <meta property="og:title" content="Riemann, Repulsion, and the Collapse of Treewidth on the Line" />
+  <meta property="og:description" content="The Riemann zeros as a measured repulsive spectrum: not a proof of RH, but a clean graph-theoretic correction where treewidth becomes local occupancy." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/riemann-repulsion-collapse-treewidth" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Riemann, Repulsion, and the Collapse of Treewidth on the Line" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Riemann, Repulsion, and the Collapse of Treewidth on the Line","name":"Riemann, Repulsion, and the Collapse of Treewidth on the Line","description":"Take points on a line, join nearby points, and the resulting graph is a unit interval graph whose treewidth is maximal local window occupancy minus one. Applied to the Riemann zeros, this makes spectral repulsion visible as suppressed separator growth, not large global treewidth.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/riemann-repulsion-collapse-treewidth","url":"https://logan.engineering/essays/riemann-repulsion-collapse-treewidth","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19449047"},"sameAs":["https://zenodo.org/records/20649826","https://doi.org/10.5281/zenodo.19449047"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-11","keywords":"Riemann zeros, spectral repulsion, treewidth, unit interval graph, separator growth, Montgomery-Odlyzko"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Number Theory · Riemann Zeros</p>
+    <h1>Riemann, Repulsion, and the Collapse of Treewidth on the Line</h1>
+    <p class="dek">The Riemann zeros do not produce a large global treewidth graph. On the line, treewidth collapses to the fullest local window. That turns the question into a sharper measurement: how strongly does spectral repulsion suppress local crowding?</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a measurement-facing companion.</b> The paper does not prove the Riemann Hypothesis and does not assume it. It explains the graph-theoretic signature of zero repulsion: small, slow-growing local occupancy in one-dimensional threshold graphs.</p>
+
+      <p>Start with a set of points on a line. Put an edge between two points whenever they are within a fixed distance of each other. This construction sounds like graph theory, but in one dimension it has very little room to hide: the graph is a unit interval graph.</p>
+
+      <p>That fact pins the treewidth exactly. The treewidth is not measuring some mysterious global backbone. It is the largest number of points you can fit into any window of the chosen width, minus one. In symbols, for a point set <span class="eq">X</span> and threshold <span class="eq">delta</span>, <span class="eq">tw(G_delta(X)) = M(X, delta) - 1</span>, where <span class="eq">M</span> is maximal local occupancy.</p>
+
+      <h2>Why This Matters for Spectra</h2>
+      <p>Spectra are ordered point sets. Eigenvalues, zeta zeros, and random point processes all sit on a line after unfolding to unit mean spacing. Once you build a distance-threshold graph from them, interval-graph collapse applies. The only remaining question is how crowded the fullest local window becomes as the data set grows.</p>
+
+      <p>For an independent Poisson process, crowding grows like <span class="eq">log n / log log n</span>. Independent points sometimes clump by chance, and the largest clump grows slowly but visibly. For a repulsive sine-kernel process, the paper proves a much smaller upper bound: <span class="eq">delta + O(sqrt(log n))</span>. Repulsion keeps points apart, so the fullest window stays sparse.</p>
+
+      <div class="pull">The graph-theoretic shadow of spectral repulsion is not large treewidth. It is suppressed separator growth.</div>
+
+      <h2>The Riemann Connection</h2>
+      <p>The Montgomery-Odlyzko law predicts that the unfolded nontrivial zeros of the Riemann zeta function have the same local statistics as eigenvalues from random matrix theory. If that prediction governs the relevant scale, then the zeros should sit on the repulsive side of the separator-growth divide.</p>
+
+      <p>The computation does exactly that. On the first <span class="eq">100,000</span> unfolded Odlyzko zeros, the measured treewidth at threshold one is <strong>2</strong>. A Poisson sample of the same size is around <strong>9</strong>; a simulated GUE spectrum is around <strong>3</strong>. The zeros behave like a repulsive spectrum by this occupancy-derived treewidth meter.</p>
+
+      <h2>What Is Proven</h2>
+      <ul>
+        <li><strong>Interval-graph collapse:</strong> every one-dimensional threshold graph is a unit interval graph, with treewidth equal to maximal window occupancy minus one.</li>
+        <li><strong>Poisson benchmark:</strong> independent points have maximal occupancy, hence treewidth, growing like <span class="eq">log n / log log n</span>.</li>
+        <li><strong>Sine-kernel upper bound:</strong> repulsive spectra have almost-sure treewidth at most <span class="eq">delta + O(sqrt(log n))</span> for fixed threshold.</li>
+        <li><strong>Measured zeta behavior:</strong> the first <span class="eq">100,000</span> unfolded Riemann zeros land on the repulsive side of the benchmark.</li>
+      </ul>
+
+      <h2>What Remains Open</h2>
+      <p>The sharp extreme law for the sine-kernel process is still conjectural. The upper bound is proved; the matching lower bound and the window-decoupling argument needed for a precise maximum law remain open. The transfer from random sine-kernel theory to the deterministic zeta zeros also rests on the Montgomery-Odlyzko statistical picture.</p>
+
+      <p>So the paper should be read as a correction and a measurement theorem, not as a resolution of RH. It identifies the right invariant for one-dimensional spectral threshold graphs and shows where the Riemann zeros sit under that invariant.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>The formal preprint is deposited on Zenodo. Concept DOI <span class="mono">10.5281/zenodo.19449047</span>; current version <span class="mono">10.5281/zenodo.20649826</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19449047">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/interval-graph-collapse-separator-growth" style="margin-left:8px">Read the bridge theorem</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

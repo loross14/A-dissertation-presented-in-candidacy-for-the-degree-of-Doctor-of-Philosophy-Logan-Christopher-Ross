@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shor's Algorithm as Mirror Search — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to Logan Ross's Shor's Algorithm as Mirror Search: factoring, hidden periodicity, and why the quantum Fourier transform sees rhythm." />
+  <link rel="canonical" href="https://logan.engineering/essays/shors-algorithm-mirror-search" />
+  <meta property="og:title" content="Shor's Algorithm as Mirror Search" />
+  <meta property="og:description" content="Factoring as hidden periodicity: the classical clock tests candidates, while the quantum Fourier transform reads the rhythm." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/shors-algorithm-mirror-search" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shor's Algorithm as Mirror Search" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Shor's Algorithm as Mirror Search","name":"Shor's Algorithm as Mirror Search","description":"Factoring read as a hidden-period problem where the quantum Fourier transform exposes rhythm that classical search reads one candidate at a time.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/shors-algorithm-mirror-search","url":"https://logan.engineering/essays/shors-algorithm-mirror-search","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19312540"},"sameAs":["https://zenodo.org/records/19312541","https://doi.org/10.5281/zenodo.19312540"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-11","keywords":"Shor's algorithm, factoring, quantum Fourier transform, hidden periodicity, mirror search"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">Quantum Computing · Factoring</p>
+    <h1>Shor's Algorithm as Mirror Search</h1>
+    <p class="dek">The speedup is not magic parallelism. It comes from turning factoring into a rhythm problem, then using the quantum Fourier transform to read the rhythm directly.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a guide to the mechanism.</b> The DOI record frames Shor's algorithm as a contrast between local candidate search and global period detection.</p>
+
+      <p>To factor a number classically, the naive picture is local: try candidates, test divisibility, move on. Better classical algorithms are far more subtle, but they still do not get the same clean access to the hidden period that Shor's algorithm uses.</p>
+
+      <p>Shor's insight is that factoring can be reduced to order finding. Order finding asks for the period of a modular exponentiation sequence. Once the problem has rhythm, the quantum Fourier transform becomes useful.</p>
+
+      <div class="pull">The quantum advantage appears where the problem has hidden periodicity. No rhythm, no Fourier doorway.</div>
+
+      <h2>Shadow Search</h2>
+      <p>The shadow side is candidate-by-candidate reading. Each test is local. You learn something about one possible divisor or one computed value, then continue.</p>
+
+      <p>This mode is not foolish; it is just structurally expensive when the thing you need is a global period. If the relevant information is distributed across a cycle, reading single points is the slow way to find it.</p>
+
+      <h2>Mirror Search</h2>
+      <p>The mirror side is period reading. A quantum state can encode the modular exponentiation structure, and the quantum Fourier transform extracts frequency information from it. Measurement then returns data from which the hidden period can be recovered with high probability.</p>
+
+      <p>In the DOI record's language, the quantum Fourier transform reads all candidates as one rhythm. That is the cost difference: local trial versus global structure.</p>
+
+      <h2>What Is Claimed</h2>
+      <ul>
+        <li><strong>Factoring has a hidden rhythm:</strong> the reduction to order finding exposes periodicity.</li>
+        <li><strong>The quantum Fourier transform reads that rhythm:</strong> it is the algorithmic bridge from local values to global period.</li>
+        <li><strong>The advantage is conditional:</strong> this pathway works for problems with exploitable periodic structure, not for arbitrary search.</li>
+      </ul>
+
+      <h2>Why This Matters</h2>
+      <p>This companion also clarifies nearby cryptography claims. Shor's algorithm is devastating where the security assumption is a hidden-period problem, as in discrete logarithms and related signature schemes. It does not automatically turn every cryptographic primitive into the same kind of target.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>Concept DOI <span class="mono">10.5281/zenodo.19312540</span>; current version <span class="mono">10.5281/zenodo.19312541</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19312540">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/bitcoin-is-quantum-resistant" style="margin-left:8px">Read the Bitcoin companion</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

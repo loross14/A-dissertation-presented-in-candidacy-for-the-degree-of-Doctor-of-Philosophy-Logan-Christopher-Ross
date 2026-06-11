@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yang–Mills and the Cost of Decomposition — Shadow &amp; Mirror</title>
+  <meta name="description" content="The Yang–Mills mass gap read as a treewidth gap: a lattice transfer matrix proves V²+D²=1, four theorems set the treewidth hierarchy, and one conjecture — survival of the gap in the continuum limit — remains open." />
+  <link rel="canonical" href="https://logan.engineering/essays/yang-mills-and-the-cost-of-decomposition" />
+  <meta property="og:title" content="Yang–Mills and the Cost of Decomposition" />
+  <meta property="og:description" content="The mass gap as a treewidth gap — four theorems on the lattice, and the one conjecture that remains open in the continuum limit." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/yang-mills-and-the-cost-of-decomposition" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Yang–Mills and the Cost of Decomposition" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Yang–Mills and the Cost of Decomposition","name":"Yang–Mills and the Cost of Decomposition","description":"The Yang–Mills existence and mass gap problem read through treewidth: a lattice transfer matrix proves V²+D²=1, four theorems establish the treewidth hierarchy, and the survival of the gap in the continuum limit remains the open conjecture.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/yang-mills-and-the-cost-of-decomposition","url":"https://logan.engineering/essays/yang-mills-and-the-cost-of-decomposition","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19412756"},"sameAs":["https://zenodo.org/records/19412756","https://doi.org/10.5281/zenodo.19412756"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-05","keywords":"Yang-Mills, mass gap, treewidth, lattice gauge theory, transfer matrix, Wilson loop, string tension, continuum limit"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Shadow &amp; Mirror</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">The Millennium Wing · Gauge Theory</p>
+    <h1>Yang–Mills and the Cost of Decomposition</h1>
+    <p class="dek">Why a quantum field with massless equations still produces only massive particles — read as the same gap the rest of the volume measures. On the lattice it is four theorems and a clean proof that V²+D²=1. Whether it survives the continuum is the one thing left open, and the paper says so.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as a lattice result with an honest continuum gap.</b> The four theorems below are established on the lattice, where the transfer matrix is a finite object you can actually hold. The Clay problem asks for the continuum field, and the bridge to it is stated here as an open conjecture, not a crossed one. The full preprint and its proofs are on Zenodo; judge it there.</p>
+
+      <p>The Yang–Mills puzzle is that the equations look massless and the particles are not. The classical field theory has no mass term anywhere in it, yet the quantum theory only ever produces excitations with a strictly positive lowest energy — the <em>mass gap</em>. Explaining how the gap appears, rigorously, from a theory that has no mass written into it, is the Clay Millennium problem.</p>
+
+      <p>This preprint reads that gap as a treewidth gap — the same backbone-versus-no-backbone meter the volume points at primes, circuits, and ancient scripts. Two quantities carry the load. Let <strong>V</strong> be the Wilson loop expectation ⟨W(C)⟩ in the zero-flux sector, and <strong>D</strong> be the string tension σa² in the nonzero-flux sector.</p>
+
+      <h2>The claims, stated plainly</h2>
+      <ul>
+        <li><strong>V² + D² = 1, proved by the transfer matrix.</strong> Zero-flux and nonzero-flux states partition the lattice Hilbert space into two orthogonal sectors. Their squared norms sum to one by Parseval's theorem — and V and D <em>are</em> those norms. The identity is forced, not fitted.</li>
+        <li><strong>The classical field carries treewidth Θ(N^((d−1)/d)).</strong> A surface-area law — the backbone of a smooth field grows like the boundary of its volume.</li>
+        <li><strong>The quantum field at strong coupling carries treewidth Ω(N).</strong> Confinement makes the field globally coupled; no small separator cuts it apart.</li>
+        <li><strong>The running coupling interpolates between them.</strong> As g(μ) flows, the treewidth moves between the classical surface law and the strong-coupling volume law — and the mass gap Δ&gt;0 bounds the correlation length ξ = 1/Δ, which in turn bounds the treewidth to O(ξ^(d−1)).</li>
+      </ul>
+
+      <h2>Why the gap and the mass are the same fact</h2>
+
+      <p>The chain is short. A positive mass gap Δ means correlations die over a finite length ξ = 1/Δ. A finite correlation length means the field decomposes into nearly-independent blocks of size ξ — which bounds how large its treewidth can grow. So "the theory has a mass gap" and "the field's backbone stays bounded by its correlation length" are the same statement read at two altitudes. The mass gap <em>is</em> the cost the field pays to be decomposable.</p>
+
+      <div class="pull">A massless equation, a massive world. The resolution here: the mass is what it costs to cut the field into pieces — and a field you cannot cut cheaply is a field with a gap.</div>
+
+      <h2>How to read a claim like this</h2>
+
+      <p>I hold it the way I hold the rest of this project's bolder moves — <a href="/essays/the-equals-sign-as-a-rotation">proven core, honest about the reach</a>. Three things to keep in view:</p>
+
+      <ul>
+        <li><strong>The lattice is solid; the continuum is the open question.</strong> All four theorems live on the lattice, where the transfer matrix is finite and the sectors are exactly orthogonal. That is real, and it is not yet the Clay problem.</li>
+        <li><strong>One conjecture carries the weight.</strong> Whether the treewidth gap <em>survives the continuum limit a → 0</em> is stated as open. Lattice gauge theory has a long history of quantities that behave on the lattice and misbehave in the limit; the paper does not pretend this one is settled.</li>
+        <li><strong>The V²+D²=1 step is the strongest part.</strong> It is a clean consequence of orthogonal sectors and Parseval, independent of the harder treewidth claims — the same identity proven from first principles in <a href="/essays/the-equals-sign-as-a-rotation">The Equals Sign as a Rotation</a>.</li>
+      </ul>
+
+      <p>None of that is a dismissal. A lattice proof that organizes confinement, the mass gap, and the running coupling under one structural meter — and isolates the remaining difficulty into a single named limit — is a real contribution. It is the kind of claim that should be published with its open conjecture stated plainly and handed to specialists to attack.</p>
+
+      <div class="cta">
+        <p class="t">The preprint &amp; proofs</p>
+        <p>The four theorems, the transfer-matrix proof of V²+D²=1, and the open continuum conjecture are deposited on Zenodo under CC&nbsp;BY-NC&nbsp;4.0. DOI <span class="mono">10.5281/zenodo.19412756</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19412756">Read on Zenodo (DOI)</a>
+        <a class="btn ghost" href="/thesis.pdf" style="margin-left:8px">The volume the meter comes from</a>
+      </div>
+
+      <p style="font-size:.92em;color:var(--dim);margin-top:1.4em">Related: <a href="/essays/interval-graph-collapse-separator-growth">separator growth in one dimension</a> · <a href="/essays/the-equals-sign-as-a-rotation">where V²+D²=1 comes from</a></p>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Shadow &amp; Mirror</a> &nbsp;·&nbsp; + Room 137 · V&sup2;+D&sup2;=1</footer>
+</body>
+</html>

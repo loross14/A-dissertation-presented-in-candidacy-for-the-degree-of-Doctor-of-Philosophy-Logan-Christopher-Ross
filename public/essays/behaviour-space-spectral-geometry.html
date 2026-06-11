@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Behaviour-Space Spectral Geometry — Logan Engineering</title>
+  <meta name="description" content="A reader-facing companion to Logan Ross's Behaviour-Space Spectral Geometry: direct variance attribution and bounded attestation for LoRA adapter fleets." />
+  <link rel="canonical" href="https://logan.engineering/essays/behaviour-space-spectral-geometry" />
+  <meta property="og:title" content="Behaviour-Space Spectral Geometry" />
+  <meta property="og:description" content="Measure adapter behaviour directly, decompose the response geometry, and attest without exposing weights or raw responses." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://logan.engineering/essays/behaviour-space-spectral-geometry" />
+  <meta property="og:image" content="https://logan.engineering/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Behaviour-Space Spectral Geometry" />
+  <meta name="twitter:image" content="https://logan.engineering/og.png" />
+  <link rel="stylesheet" href="/essays/essay.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Behaviour-Space Spectral Geometry: Direct Variance Attribution and Bounded Attestation for Fine-Tuned Adapter Fleets","name":"Behaviour-Space Spectral Geometry","description":"A direct-behaviour measurement method for LoRA adapter fleets using synthetic probes, trinary grade vectors, SVD, and bounded attestation.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/behaviour-space-spectral-geometry","url":"https://logan.engineering/essays/behaviour-space-spectral-geometry","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.20372606"},"sameAs":["https://zenodo.org/records/20372607","https://doi.org/10.5281/zenodo.20372606"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-11","keywords":"LoRA, adapter fleets, behaviour geometry, spectral analysis, SVD, attestation"}</script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="crumb"><a href="/">Logan Engineering</a><span class="sep">/</span><a href="/essays">Essays</a></nav>
+
+    <p class="kicker">AI Systems · Adapter Fleets</p>
+    <h1>Behaviour-Space Spectral Geometry</h1>
+    <p class="dek">Instead of decomposing adapter weights and guessing behaviour, the paper measures behaviour first and decomposes the response geometry directly.</p>
+    <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 11, 2026</p>
+
+    <hr class="rule" />
+
+    <article>
+      <p class="note" style="margin-top:0"><b>Read this as an audit method.</b> The paper is about measuring what a fielded adapter fleet does, while keeping model weights, activations, and raw responses inside the boundary.</p>
+
+      <p>LoRA adapters are a common way to specialize large language models. But once an organization has many adapters, it becomes hard to know what behavioural differences the fleet actually contains.</p>
+
+      <p>The usual path starts from weights: decompose the adapter parameters, then try to predict behaviour. The paper inverts that. It starts from behaviour: run a fixed battery of synthetic probes, grade the responses, and decompose the resulting behaviour matrix.</p>
+
+      <div class="pull">The measurement target is not what the adapter contains. It is what the adapter does.</div>
+
+      <h2>The Method</h2>
+      <p>Each adapter is evaluated on a fixed probe set. Responses are reduced to trinary grade vectors. Those vectors form a behaviour matrix. Singular value decomposition then identifies the principal axes of variation across the fleet.</p>
+
+      <p>Because the decomposition happens on measured behaviour, variance attribution is direct. The paper's phrase is that the two-stage decompose-then-predict pipeline collapses to a single stage.</p>
+
+      <h2>The Reported Findings</h2>
+      <p>On a fleet of 53 adapters, the record reports 18 distinct behavioural profiles. The first principal component captures 57.8% of variance, while all five components remain non-negligible, with the smallest at 3.9%.</p>
+
+      <p>On a controlled six-corpus sub-fleet, the geometry collapses to rank one. A single axis, the response to a null prompt, captures 100% of the variance. The paper interprets that as the geometric signature of a training objective that structurally precludes refusal.</p>
+
+      <h2>The Attestation Boundary</h2>
+      <p>The paper also describes a bounded verification surface. Only derived behavioural metadata, fixed-dimensional spectral coordinates, and a Merkle root over pinned artifacts cross to an external verifier. Weights, activations, and raw responses stay inside.</p>
+
+      <h2>What Is Claimed</h2>
+      <ul>
+        <li><strong>Direct measurement:</strong> behaviour is measured before it is explained.</li>
+        <li><strong>Spectral map:</strong> SVD turns response grades into principal behavioural axes.</li>
+        <li><strong>Bounded attestation:</strong> third parties can verify derived structure without receiving the model or raw outputs.</li>
+      </ul>
+
+      <h2>Why This Matters</h2>
+      <p>The result is useful when an adapter fleet is sensitive, air-gapped, or proprietary. It gives the outside verifier something structured to check without asking the operator to disclose the model itself.</p>
+
+      <div class="cta">
+        <p class="t">Academic Record</p>
+        <p>Concept DOI <span class="mono">10.5281/zenodo.20372606</span>; current version <span class="mono">10.5281/zenodo.20372607</span>.</p>
+        <a class="btn" href="https://doi.org/10.5281/zenodo.20372606">Read on Zenodo</a>
+        <a class="btn ghost" href="/essays/two-laws-one-name" style="margin-left:8px">Read the foundation</a>
+      </div>
+
+      <div class="sign">
+        <span class="sig">Logan Christopher Ross</span>
+        <span class="who">Room 137 · The Forge</span>
+      </div>
+    </article>
+  </main>
+  <footer><a href="/essays">Essays</a> &nbsp;·&nbsp; <a href="/">Logan Engineering</a> &nbsp;·&nbsp; Room 137</footer>
+</body>
+</html>

@@ -20,15 +20,15 @@ render_all(ctx) is called by generate.py with shared helpers; returns
 """
 
 ARTICLES = [
- dict(slug="riemann-hypothesis-treewidth-gap",
-      headline="The Riemann Hypothesis as a Treewidth Gap",
-      description="Mapping the Euler product over primes to graph-theoretic "
-                  "complexity, and reading the Riemann zeta function as carrying "
-                  "a distinct treewidth gap.",
-      doi="10.5281/zenodo.19449048",
-      keywords=["Riemann Hypothesis proof", "zeta function treewidth",
-                "Euler product graph theory", "prime number distribution complexity"],
-      metric="Treewidth Gap", regime="Equilibrium"),
+ dict(slug="riemann-repulsion-collapse-treewidth",
+      headline="Riemann, Repulsion, and the Collapse of Treewidth on the Line",
+      description="Reading the Riemann zeros through one-dimensional separator "
+                  "growth: distance-threshold graphs collapse to local occupancy, "
+                  "and spectral repulsion suppresses separator growth.",
+      doi="10.5281/zenodo.20649826",
+      keywords=["Riemann zeros", "spectral repulsion", "treewidth",
+                "unit interval graph", "separator growth"],
+      metric="Unit Interval Treewidth", regime="Repulsive Point Process"),
  dict(slug="yang-mills-existence-mass-gap",
       headline="Yang–Mills Existence and Mass Gap through Treewidth",
       description="Deriving V² + D² = 1 on the lattice via the transfer matrix to "
