@@ -53,6 +53,32 @@
     .rosetta-head { padding:18px 20px 14px; border-bottom:1px solid var(--panelrule); }
     .rosetta h2 { font-size:clamp(24px,4vw,34px); line-height:1.1; margin:.25em 0 .2em; font-weight:600; }
     .rosetta .lede { margin:.65em 0 0; color:var(--dim); font-size:15px; }
+    .manual { border-bottom:1px solid var(--panelrule); background:linear-gradient(90deg, color-mix(in srgb, var(--brass) 10%, transparent), transparent 72%); }
+    .manual summary { list-style:none; cursor:pointer; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .manual summary::-webkit-details-marker { display:none; }
+    .manual summary b { display:block; font:600 13px/1.2 ui-sans-serif,system-ui,sans-serif; letter-spacing:.11em; text-transform:uppercase; color:var(--ink); }
+    .manual summary small { display:block; margin-top:4px; color:var(--dim); font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:0; text-transform:none; }
+    .manual-cue { flex:none; border:1px solid var(--ink); border-radius:999px; padding:8px 11px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .manual[open] .manual-cue { background:var(--ink); color:var(--paper); }
+    .manual-cue .cue-close { display:none; }
+    .manual[open] .cue-open { display:none; }
+    .manual[open] .cue-close { display:inline; }
+    .manual-body { padding:0 20px 18px; border-top:1px solid var(--panelrule); display:grid; gap:14px; }
+    .manual-intro { padding:14px 0 0; display:grid; gap:10px; }
+    .manual-intro p { margin:0; color:var(--dim); font:400 13px/1.55 ui-sans-serif,system-ui,sans-serif; }
+    .manual-intro b { color:var(--ink); }
+    .manual-path { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:7px; }
+    .manual-path span { border:1px solid var(--panelrule); background:var(--panel); padding:8px; text-align:center; color:var(--dim); font:600 10px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .manual-section h3 { margin:4px 0 8px; font:600 14px/1.2 Georgia, "Times New Roman", serif; }
+    .manual-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:9px; }
+    .manual-card { border:1px solid var(--panelrule); background:var(--panel); padding:12px; display:grid; gap:7px; }
+    .manual-card .tag { color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .manual-card b { font:600 14px/1.25 ui-sans-serif,system-ui,sans-serif; }
+    .manual-card p { margin:0; color:var(--dim); font:400 12px/1.45 ui-sans-serif,system-ui,sans-serif; }
+    .manual-card .links { display:flex; flex-wrap:wrap; gap:7px; margin-top:2px; }
+    .manual-card a { color:var(--ink); text-decoration:none; border-bottom:1px solid var(--panelrule); font:600 12px/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .manual-card a:hover { border-color:var(--ink); }
+    .manual-note { border-left:3px solid var(--brass); padding-left:11px; }
     .gamebar { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 20px; border-bottom:1px solid var(--panelrule); background:color-mix(in srgb, var(--brass) 8%, transparent); }
     .keyring { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
     .key { min-width:35px; height:35px; border:1px solid var(--panelrule); border-radius:999px; display:grid; place-items:center; color:var(--dim); background:var(--panel); font:600 13px/1 ui-sans-serif,system-ui,sans-serif; }
@@ -180,6 +206,9 @@
       .play-top { display:block; }
       .status-pill { display:inline-block; margin-top:10px; }
       .score-grid, .evidence-grid, .method-hand { grid-template-columns:1fr; }
+      .manual summary { display:block; }
+      .manual-cue { display:inline-block; margin-top:10px; }
+      .manual-path, .manual-grid { grid-template-columns:1fr; }
       .gamebar { display:block; }
       .game-status { text-align:left; margin-top:10px; }
     }
@@ -216,8 +245,91 @@
       <div class="rosetta-head">
         <div class="kicker">Homepage game &middot; The evidence room</div>
         <h2 id="rosetta-title">The Four Locked Rooms</h2>
-        <p class="lede">Four doors are locked. The first one opens by doing the work: choose evidence, spend a method, test the calendar reading, and leave with a proof trace.</p>
+        <p class="lede">Four doors are locked. The first one opens by doing the work: choose evidence, spend a method, test the calendar reading, and leave with a proof trace. If the board feels strange, open the instructions booklet first.</p>
       </div>
+
+      <details class="manual" id="field-manual">
+        <summary>
+          <span>
+            <b>Instructions booklet</b>
+            <small>Two-axis field manual: what the game asks, and where Logan explains it at full scale.</small>
+          </span>
+          <span class="manual-cue"><span class="cue-open">Open</span><span class="cue-close">Close</span></span>
+        </summary>
+        <div class="manual-body">
+          <div class="manual-intro">
+            <p><b>The board is not the whole argument.</b> The player plays with patterns; the game reveals the methods; the essays tie it together; Zenodo stamps the record.</p>
+            <div class="manual-path" aria-label="Reader path">
+              <span>Play</span>
+              <span>Method</span>
+              <span>Essay</span>
+              <span>Record</span>
+              <span>Matrix</span>
+            </div>
+            <p class="manual-note">Zenodo is the deposited record, not consensus. Claim status lives beside the companion essay and the proof trace.</p>
+          </div>
+
+          <div class="manual-section">
+            <h3>Axis I: What The Game Asks</h3>
+            <div class="manual-grid">
+              <div class="manual-card">
+                <span class="tag">Find signal</span>
+                <b>Repeated signs are evidence only after they survive counting.</b>
+                <p>That is why the first method card is frequency, not translation.</p>
+                <div class="links"><a href="/essays/deciphering-rongorongo">Rongorongo essay</a><a href="/graph-theory/what-is-treewidth">Treewidth basics</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">Constrain position</span>
+                <b>A sign needs a job in context, not a beautiful isolated meaning.</b>
+                <p>Position, neighbor, and separator pressure are the small rules the game makes visible.</p>
+                <div class="links"><a href="/graph-theory/tree-decomposition-explained">Tree decomposition</a><a href="/matrix">Complexity matrix</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">Risk a hypothesis</span>
+                <b>A calendar fit becomes serious when it predicts and can be attacked.</b>
+                <p>The proof trace is where confidence, parsimony, overfit, and counterexample pressure meet.</p>
+                <div class="links"><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="/essays/riemann-repulsion-collapse-treewidth">Measurement example</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">Open the receipt</span>
+                <b>Winning the room routes you out of the toy case and into the corpus.</b>
+                <p>The essay is the readable argument, the vault is the record drawer, and the seal proves the served bytes.</p>
+                <div class="links"><a href="/vault">Vault</a><a href="/genesis">Genesis seal</a></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-section">
+            <h3>Axis II: Where The Corpus Lives</h3>
+            <div class="manual-grid">
+              <div class="manual-card">
+                <span class="tag">Field guides</span>
+                <b>Essays are the humane instructions.</b>
+                <p>Start with the proven floor, then the theorem-vs-wager distinction, then the rooms.</p>
+                <div class="links"><a href="/essays/the-equals-sign-as-a-rotation">Equals sign</a><a href="/essays/two-laws-one-name">Two Laws</a><a href="/essays">All essays</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">Locked rooms</span>
+                <b>Decipherment is the first wing of the game.</b>
+                <p>Rongorongo is playable now; Proto-Elamite, Indus, and Cadence are live routes before full room expansion.</p>
+                <div class="links"><a href="/essays/reading-proto-elamite">Proto-Elamite</a><a href="/essays/reading-indus-valley-script">Indus</a><a href="/vault/dying-language-sounds-like-noise">Cadence</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">The meter</span>
+                <b>The matrix shows why the same scoring language keeps returning.</b>
+                <p>Substrate, graph invariant, and structural regime are the deeper board underneath the rooms.</p>
+                <div class="links"><a href="/matrix">Matrix</a><a href="/matrix/tensor-network-contraction">Tensor networks</a><a href="/quantum/rosss-law">Ross's Law</a></div>
+              </div>
+              <div class="manual-card">
+                <span class="tag">Learn the rules</span>
+                <b>Topic guides are support, not the spine.</b>
+                <p>Use them when a hard word blocks play: treewidth, quantum simulation, knowledge graphs.</p>
+                <div class="links"><a href="/topics">Topic guides</a><a href="/quantum">Quantum</a><a href="/knowledge">Knowledge</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
 
       <div class="gamebar">
         <div class="keyring" data-keyring aria-label="Keys won">
