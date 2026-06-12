@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shadow &amp; Mirror | Calendar or Coincidence?</title>
-  <meta name="description" content="Play a one-minute Rongorongo pattern game, then follow Logan Ross's proof trace to the companion essay, vault record, Zenodo DOI, and catalogue." />
+  <title>Shadow &amp; Mirror | The Four Locked Rooms</title>
+  <meta name="description" content="Play the Shadow & Mirror locked-room game: solve Rongorongo, Proto-Elamite, and Indus to earn the Whale Cadence final boss, then follow the proof traces to essays, vault records, Zenodo, and the catalogue." />
   <link rel="canonical" href="https://logan.engineering/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Logan Engineering" />
-  <meta property="og:title" content="Shadow &amp; Mirror: Calendar or Coincidence?" />
-  <meta property="og:description" content="Play a one-minute Rongorongo pattern game, then follow Logan Ross's proof trace to the essay, vault, Zenodo DOI, and full catalogue." />
+  <meta property="og:title" content="Shadow &amp; Mirror: The Four Locked Rooms" />
+  <meta property="og:description" content="A homepage-native game where three human script rooms unlock the Whale Cadence final boss." />
   <meta property="og:url" content="https://logan.engineering/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Shadow &amp; Mirror: Calendar or Coincidence?" />
-  <meta name="twitter:description" content="A homepage-native pattern game that reveals Logan Ross's method before routing readers to the proof trace." />
+  <meta name="twitter:title" content="Shadow &amp; Mirror: The Four Locked Rooms" />
+  <meta name="twitter:description" content="Solve the human script rooms, earn the Whale Cadence final boss, and route into Logan Ross's essays and DOI records." />
   <meta property="og:image" content="https://logan.engineering/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -136,6 +136,60 @@
     .toplinks a:hover, .toplinks a:focus-visible, .toplinks button:hover, .toplinks button:focus-visible {
       outline:0;
       border-color:var(--gold);
+    }
+    .room-rail {
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:8px;
+    }
+    .room-tab {
+      appearance:none;
+      border:1px solid var(--line);
+      background:#0005;
+      color:var(--dim);
+      cursor:pointer;
+      min-height:78px;
+      padding:11px;
+      text-align:left;
+      display:grid;
+      gap:5px;
+      transition:border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .room-tab span {
+      color:var(--gold);
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .room-tab b {
+      color:var(--ink);
+      font:950 14px/1.1 ui-sans-serif, system-ui, sans-serif;
+    }
+    .room-tab small {
+      color:var(--faint);
+      font:850 10px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .room-tab:hover, .room-tab:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+      background:#d9a85c12;
+      transform:translateY(-2px);
+    }
+    .room-tab.active {
+      border-color:var(--gold);
+      background:#d9a85c18;
+      box-shadow:0 0 0 1px #d9a85c44 inset;
+    }
+    .room-tab.solved small { color:var(--green); }
+    .room-tab.boss {
+      border-style:dashed;
+    }
+    .room-tab:disabled {
+      cursor:not-allowed;
+      opacity:.48;
+      transform:none;
     }
     .game {
       display:grid;
@@ -291,6 +345,58 @@
       transform:rotate(9deg);
       pointer-events:none;
     }
+    .artifact-card {
+      position:relative;
+      z-index:2;
+      width:min(430px, 82%);
+      border:1px solid #2b1b1070;
+      background:#f6d99055;
+      color:#24150b;
+      padding:18px;
+      box-shadow:inset 0 1px 0 #fff5, 0 20px 55px #2d160d66;
+    }
+    .artifact-card h2 {
+      margin:0 0 8px;
+      font:950 clamp(30px,4vw,54px)/.92 Georgia, "Times New Roman", serif;
+      letter-spacing:-.03em;
+    }
+    .artifact-card p {
+      margin:0;
+      color:#28160c;
+      font-weight:850;
+    }
+    .artifact-kicker {
+      margin:0 0 10px !important;
+      color:#4a2b14 !important;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .artifact-signs {
+      position:absolute;
+      z-index:1;
+      inset:22px;
+      display:flex;
+      flex-wrap:wrap;
+      align-content:flex-end;
+      justify-content:center;
+      gap:10px;
+      opacity:.58;
+      pointer-events:none;
+    }
+    .artifact-token {
+      border:1px solid #2b1b1055;
+      border-radius:7px;
+      background:#f9d99345;
+      color:#28160c;
+      padding:9px 11px;
+      font:950 17px/1 Georgia, "Times New Roman", serif;
+      transform:rotate(calc((var(--i) - 2) * 1.5deg));
+    }
+    .artifact-token.noise-token {
+      opacity:.55;
+      border-style:dashed;
+    }
     .caption {
       display:flex;
       flex-wrap:wrap;
@@ -336,6 +442,70 @@
     .choices {
       display:grid;
       gap:10px;
+    }
+    .evidence-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .evidence-card {
+      appearance:none;
+      border:1px solid var(--line);
+      background:#ffffff08;
+      color:var(--ink);
+      cursor:pointer;
+      min-height:132px;
+      padding:13px;
+      text-align:left;
+      display:grid;
+      gap:7px;
+      align-content:start;
+      transition:border-color .14s ease, transform .14s ease, background .14s ease;
+    }
+    .evidence-card small {
+      width:max-content;
+      max-width:100%;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--gold);
+      padding:5px 7px;
+      font:950 10px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    .evidence-card b {
+      font:950 15px/1.12 ui-sans-serif, system-ui, sans-serif;
+    }
+    .evidence-card code {
+      color:var(--blue);
+      font:850 12px/1.25 ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space:normal;
+    }
+    .evidence-card span {
+      color:var(--dim);
+      font-size:13px;
+    }
+    .evidence-card:hover, .evidence-card:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+      background:#d9a85c14;
+      transform:translateY(-2px);
+    }
+    .evidence-card.good, .evidence-card.picked.good {
+      border-color:var(--green);
+      background:#74d98512;
+    }
+    .evidence-card.bad, .evidence-card.picked.bad {
+      border-color:var(--red);
+      background:#e55d4e12;
+    }
+    .evidence-card.picked {
+      border-color:var(--gold);
+      background:#d9a85c12;
+    }
+    .evidence-card.guide {
+      border-color:var(--gold);
+      box-shadow:0 0 0 1px var(--gold) inset, 0 0 24px #d9a85c22;
     }
     .choice {
       appearance:none;
@@ -830,6 +1000,7 @@
       .tablet-wrap { min-height:auto; }
       .tablet { min-height:430px; }
       .glyph-grid { grid-template-columns:repeat(6, minmax(36px,1fr)); }
+      .room-rail { grid-template-columns:repeat(2, minmax(0,1fr)); }
     }
     @media (max-width:700px) {
       .grid { grid-template-columns:1fr; }
@@ -845,6 +1016,10 @@
       .tablet { min-height:330px; padding:22px 18px; border-radius:18px; }
       .glyph-grid { grid-template-columns:repeat(5, minmax(34px,1fr)); gap:8px; }
       .mark { min-height:44px; font-size:22px; }
+      .room-rail, .evidence-grid { grid-template-columns:1fr; }
+      .room-tab { min-height:auto; }
+      .artifact-card { width:100%; }
+      .artifact-signs { inset:12px; opacity:.32; }
       .question-card p { font-size:26px; }
       .meters { grid-template-columns:1fr; }
       .prediction-options { grid-template-columns:1fr; }
@@ -854,9 +1029,10 @@
 <body>
   <noscript>
     Play needs JavaScript. Reader routes remain available:
-    <a href="https://logan.engineering/essays/deciphering-rongorongo">essay</a>,
-    <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">vault</a>,
-    <a href="https://zenodo.org/records/19362491">Zenodo</a>,
+    <a href="/essays/deciphering-rongorongo">Rongorongo</a>,
+    <a href="/essays/reading-proto-elamite">Proto-Elamite</a>,
+    <a href="/essays/reading-indus-valley-script">Indus</a>,
+    <a href="/vault/dying-language-sounds-like-noise">Whale Cadence</a>,
     <a href="/matrix">matrix</a>,
     <a href="/genesis">seal</a>,
     <a href="/thesis.pdf">volume</a>,
@@ -866,9 +1042,8 @@
     <header class="topbar">
       <div class="brand">Shadow &amp; Mirror</div>
       <nav class="toplinks" aria-label="Reader routes">
-        <a href="https://logan.engineering/essays/deciphering-rongorongo">Essay</a>
-        <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">Vault</a>
-        <a href="https://zenodo.org/records/19362491">Zenodo</a>
+        <a href="/essays">Catalogue</a>
+        <a href="/vault">Vault</a>
         <a href="/matrix">Matrix</a>
         <a href="/genesis">Seal</a>
         <button type="button" data-open-booklet>Instructions</button>
@@ -879,59 +1054,64 @@
     <section class="game">
       <section class="table-side" aria-label="Damaged tablet">
         <div>
-          <p class="eyebrow">Calendar Room · Rongorongo</p>
-          <h1>Calendar or coincidence?</h1>
-          <p class="lede">A damaged tablet repeats. Is there a real calendar hiding here, or are we fooling ourselves?</p>
+          <p class="eyebrow">Four Locked Rooms · Game board</p>
+          <h1>The Four Locked Rooms</h1>
+          <p class="lede">Solve the human script rooms first: Rongorongo, Proto-Elamite, and Indus. Only then does the Whale Cadence final boss open.</p>
+        </div>
+        <div class="room-rail" data-room-rail aria-label="Locked rooms">
+          <button class="room-tab active" type="button"><span>I</span><b>Calendar Room</b><small>Open</small></button>
+          <button class="room-tab" type="button"><span>II</span><b>Ledger Room</b><small>Locked</small></button>
+          <button class="room-tab" type="button"><span>III</span><b>Seal Room</b><small>Locked</small></button>
+          <button class="room-tab boss" type="button"><span>IV</span><b>Whale Room</b><small>Boss locked</small></button>
         </div>
 
         <div class="tablet-wrap">
           <div class="tablet" aria-label="Tap repeated marks on the damaged tablet">
             <div class="shine" aria-hidden="true"></div>
-            <div class="crack"></div>
-            <div class="glyph-grid">
-              <button class="mark" type="button" data-mark="a">730</button>
-              <button class="mark" type="button">✶</button>
-              <button class="mark" type="button">II</button>
-              <button class="mark" type="button">∿</button>
-              <button class="mark" type="button" data-mark="b">730</button>
-              <button class="mark" type="button">○</button>
-              <button class="mark" type="button">29</button>
-              <button class="mark" type="button">☾</button>
-              <button class="mark" type="button">edge</button>
-              <button class="mark" type="button">|</button>
-              <button class="mark" type="button">mark</button>
-              <button class="mark" type="button">30</button>
-              <button class="mark" type="button">☽</button>
-              <button class="mark" type="button">gap</button>
-              <button class="mark" type="button">✕</button>
-              <button class="mark" type="button" data-mark="c">730</button>
-              <button class="mark" type="button">line</button>
-              <button class="mark" type="button">◇</button>
-              <button class="mark" type="button">29</button>
-              <button class="mark" type="button">scar</button>
-              <button class="mark" type="button">☉</button>
-              <button class="mark" type="button">30</button>
-              <button class="mark" type="button">?</button>
-              <button class="mark" type="button">twin</button>
+            <div class="artifact-card">
+              <p class="artifact-kicker">Homepage game</p>
+              <h2>Pattern first.</h2>
+              <p>The player plays with patterns. The game reveals the methods. The essays tie it together. Zenodo stamps record.</p>
+            </div>
+            <div class="artifact-signs" aria-hidden="true">
+              <span class="artifact-token">730</span>
+              <span class="artifact-token">349 signs</span>
+              <span class="artifact-token">tw 26</span>
+              <span class="artifact-token noise-token">cadence</span>
             </div>
           </div>
         </div>
 
         <div class="caption">
-          <span class="pill">First move: tap the repeated marks</span>
-          <span>The game is small. The method it reveals is Logan's full-scale move.</span>
+          <span class="pill">First move: inspect evidence</span>
+          <span>Rongorongo is the teaching template. The homepage is the full game ladder.</span>
         </div>
       </section>
 
       <section class="story-side" aria-label="Game controls">
         <div class="question-card">
-          <b data-step-label>Step 1 · Notice</b>
-          <p data-question>Tap the repeated marks.</p>
+          <b data-step-label>Room I · Inspect</b>
+          <p data-question>Which marks deserve pressure?</p>
         </div>
-        <p class="prompt" data-prompt>Start with the object. Find the same mark twice before naming what it means.</p>
+        <p class="prompt" data-prompt>Start with evidence. Pick cards that can be counted, tested, or used against the theory.</p>
         <div class="depth-card" data-depth-card>
           <b data-depth-title>Automagic tutorial</b>
-          <p data-depth>Follow the gold pulse. The page will keep pointing at the next honest move until you take it.</p>
+          <p data-depth>Follow the gold pulse. The first room teaches the verbs the later rooms reuse.</p>
+        </div>
+
+        <div class="evidence-grid" data-evidence>
+          <button class="evidence-card" type="button">
+            <small>Signal</small>
+            <b>Repeated cluster</b>
+            <code>730 | 730 | 730</code>
+            <span>Count recurrence before assigning meaning.</span>
+          </button>
+          <button class="evidence-card" type="button">
+            <small>Fit</small>
+            <b>Lunar spacing</b>
+            <code>29 / 30 / 173</code>
+            <span>Make the pattern risk a calendar-shaped prediction.</span>
+          </button>
         </div>
 
         <div class="choices" data-choices hidden>
@@ -999,20 +1179,19 @@
           <details class="booklet" data-booklet>
             <summary>Instructions booklet</summary>
             <div class="booklet-body">
-              <p>You just played the small version. Logan did this at corpus scale: count recurrence, test calendar structure, and keep the breaks visible.</p>
-              <p>The essay ties it together. Zenodo stamps the academic record.</p>
-              <p><a href="https://logan.engineering/essays/deciphering-rongorongo">Open the companion essay</a></p>
+              <p>The homepage is the board: Rongorongo teaches the verbs, Proto-Elamite and Indus prove the method generalizes, and Whale Cadence is the earned final boss.</p>
+              <p>The essays tie it together. Zenodo stamps the academic records.</p>
+              <p><a href="/essays">Open the full catalogue</a></p>
             </div>
           </details>
 
           <div class="result" data-result>
-            <b>Proof trace open.</b>
-            <p>You did not decode Rongorongo. You learned the shape of Logan's argument: pattern first, prediction second, honesty always.</p>
+            <b>Room open.</b>
+            <p>Solve each room to unlock the next proof trace.</p>
             <div class="outlinks">
-              <a href="https://logan.engineering/essays/deciphering-rongorongo">Essay</a>
-              <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">Vault</a>
-              <a href="https://zenodo.org/records/19362491">Zenodo</a>
-              <a href="https://logan.engineering/essays">Catalogue</a>
+              <a href="/essays">Catalogue</a>
+              <a href="/vault">Vault</a>
+              <a href="/matrix">Matrix</a>
             </div>
           </div>
         </aside>
@@ -1120,7 +1299,7 @@
     </section>
     <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-live></p>
   </main>
-  <div class="coach" data-coach aria-hidden="true"><b>Try this</b><span data-coach-text>Tap a repeated mark.</span></div>
+  <div class="coach" data-coach aria-hidden="true"><b>Try this</b><span data-coach-text>Pick a structural evidence card.</span></div>
   <div class="ghost-hand" data-hand aria-hidden="true">•</div>
 
   <script type="module" src="/game/homepage-runtime.v2.js"></script>

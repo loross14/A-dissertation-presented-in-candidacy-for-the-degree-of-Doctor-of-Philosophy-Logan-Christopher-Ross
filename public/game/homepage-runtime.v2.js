@@ -1,480 +1,452 @@
 const MANIFEST_URL = "/game/homepage-game.v2.json";
 
-const FALLBACK = {
-  schemaVersion: 2,
-  runtime: {
-    mount: "[data-game]",
-    acceptedMarks: { minUnique: 2, values: ["a", "b", "c"] },
-    startingScores: { signal: 0, overfit: 1 },
-    meterStep: 33,
-    guide: {
-      notice: "Tap a repeated 730 mark.",
-      twin: "Now tap any matching 730.",
-      test: "Choose the testable calendar move.",
-      predict: "Choose 30 to test the cycle.",
-      break: "Keep the counterexample visible."
-    }
-  },
-  routes: {
-    essay: "/essays/deciphering-rongorongo",
-    vault: "/vault/deciphering-rongorongo-corpus-analysis",
-    zenodo: "https://zenodo.org/records/19362491",
-    catalogue: "/essays"
-  },
-  steps: {
-    notice: {
-      label: "Step 1 - Notice",
-      question: "Tap the repeated marks.",
-      prompt: "Start with the object. Find the same mark twice before naming what it means.",
-      depthTitle: "Automagic tutorial",
-      depth: "Follow the gold pulse. The page will keep pointing at the next honest move until you take it.",
-      announce: "Game ready. Tap a repeated 730 mark."
-    },
-    twin: {
-      label: "Step 1 - Notice",
-      question: "Tap the repeated marks.",
-      prompt: "Good. One repeat is a clue. Find its twin before telling a story.",
-      depthTitle: "Pattern found",
-      depth: "One repeat is suggestive; two repeats become a count. That is the first bridge from mystery to method.",
-      announce: "One repeated mark found. Find its twin."
-    },
-    test: {
-      label: "Step 2 - Test",
-      question: "Calendar or coincidence?",
-      prompt: "A repeated mark is only the start. Cost: spend one method seal to make the calendar idea risk prediction.",
-      depthTitle: "Deeper move",
-      depth: "A calendar claim becomes serious only when it spends a method seal to make the pattern answer back.",
-      announce: "Two repeated marks found. Choose the testable calendar move."
-    },
-    predict: {
-      label: "Step 3 - Predict",
-      question: "What should come next?",
-      prompt: "If the tablet is calendrical, the short/long moon-count pattern has to risk a next mark. Cost: confidence.",
-      depthTitle: "Prediction test",
-      depth: "Now the player risks confidence on a tiny forecast: if short and long moon counts alternate, the next honest move is 30.",
-      announce: "Prediction test open. Choose the next count in the rhythm."
-    },
-    break: {
-      label: "Step 4 - Break",
-      question: "A mark is missing. What now?",
-      prompt: "The good move is not the cleanest story. Cost: lose elegance by keeping the break visible.",
-      depthTitle: "Honesty gate",
-      depth: "The cost is elegance. The hard part is keeping the break visible when it makes the story less clean.",
-      announce: "The prediction held. Now keep the counterexample visible."
-    },
-    open: {
-      label: "Step 5 - Open",
-      question: "The trace opens.",
-      prompt: "This is the bridge: the player felt the method, then the essay carries the proof.",
-      depthTitle: "Trace unlocked",
-      depth: "The small game is over. The essay now carries the full proof, with the DOI record as the academic stamp.",
-      announce: "Proof trace open. Routes to essay, vault, Zenodo, and catalogue are available."
-    },
-    temptation: {
-      depthTitle: "Temptation priced",
-      depth: "That move feels satisfying because it explains too easily. The notebook raises overfit so the player can feel the cost.",
-      announce: "Overfit rose. Try the honest move."
-    }
-  },
-  choices: {
-    method: [
-      { id: "calendar", correct: true, nextStep: "predict", recoveryPrompt: "" },
-      { id: "story", correct: false, recoveryPrompt: "That makes the story easier and the proof weaker. Try the move that risks prediction." },
-      { id: "gap", correct: false, recoveryPrompt: "That makes the story cleaner by becoming less honest. Try the move that risks prediction." }
-    ],
-    prediction: [
-      { id: "30", correct: true, nextStep: "break" },
-      { id: "29", correct: false, recoveryPrompt: "That answer explains less of the rhythm. Try the count that preserves the alternation." },
-      { id: "story", correct: false, recoveryPrompt: "That is a satisfying story, not a test. Try the count that preserves the alternation." }
-    ],
-    counter: [
-      { id: "keep", correct: true, nextStep: "open" },
-      { id: "hide", correct: false, recoveryPrompt: "Clean, but dishonest. The counterexample has to remain visible." }
-    ]
-  },
-  trace: {
-    initial: {
-      count: "Count recurrence before translation.",
-      test: "Make the calendar reading predict something.",
-      counter: "Keep the counterexample inside the proof."
-    },
-    done: {
-      count: "This is what Logan did at full scale: counted recurrence before translating.",
-      test: "This is what Logan did at full scale: treated short and long moon counts as a testable lunar rhythm.",
-      counter: "This is what Logan did at full scale: kept counterexamples inside the proof trace."
-    }
-  },
-  result: {
-    title: "Proof trace open.",
-    body: "You did not decode Rongorongo. You learned the shape of Logan's argument: pattern first, prediction second, honesty always.",
-    links: [
-      { label: "Essay", route: "essay" },
-      { label: "Vault", route: "vault" },
-      { label: "Zenodo", route: "zenodo" },
-      { label: "Catalogue", route: "catalogue" }
-    ]
-  }
-};
-
-const mergeManifest = (remote) => ({
-  ...FALLBACK,
-  ...remote,
-  runtime: { ...FALLBACK.runtime, ...(remote.runtime || {}) },
-  routes: { ...FALLBACK.routes, ...(remote.routes || {}) },
-  steps: { ...FALLBACK.steps, ...(remote.steps || {}) },
-  choices: { ...FALLBACK.choices, ...(remote.choices || {}) },
-  trace: {
-    initial: { ...FALLBACK.trace.initial, ...((remote.trace || {}).initial || {}) },
-    done: { ...FALLBACK.trace.done, ...((remote.trace || {}).done || {}) }
-  },
-  result: { ...FALLBACK.result, ...(remote.result || {}) }
-});
+const stageOrder = ["inspect", "method", "test", "counter", "open"];
 
 const loadManifest = async () => {
-  try {
-    const response = await fetch(MANIFEST_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-    return mergeManifest(await response.json());
-  } catch (error) {
-    console.warn("Shadow & Mirror homepage manifest fallback:", error);
-    return FALLBACK;
-  }
+  const response = await fetch(MANIFEST_URL, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Could not load homepage game manifest: ${response.status}`);
+  return response.json();
 };
 
 const mountHomepageGame = (manifest) => {
-  const game = document.querySelector(manifest.runtime.mount || "[data-game]");
+  const game = document.querySelector("[data-game]");
   if (!game) return;
 
-  const q = (selector) => game.querySelector(selector);
-  const qa = (selector) => Array.from(game.querySelectorAll(selector));
-  const stepLabel = q("[data-step-label]");
-  const question = q("[data-question]");
-  const prompt = q("[data-prompt]");
-  const choices = q("[data-choices]");
-  const prediction = q("[data-prediction]");
-  const counter = q("[data-counter]");
-  const result = q("[data-result]");
-  const live = q("[data-live]");
-  const booklet = q("[data-booklet]");
-  const coach = document.querySelector("[data-coach]");
-  const coachText = document.querySelector("[data-coach-text]");
-  const hand = document.querySelector("[data-hand]");
-  const depthTitle = q("[data-depth-title]");
-  const depth = q("[data-depth]");
-  const meterStep = Number(manifest.runtime.meterStep || 33);
-  const acceptedMarks = manifest.runtime.acceptedMarks || FALLBACK.runtime.acceptedMarks;
+  const $ = (selector) => game.querySelector(selector);
+  const $$ = (selector) => Array.from(game.querySelectorAll(selector));
+  const rooms = manifest.rooms || [];
+  const roomById = new Map(rooms.map((room) => [room.id, room]));
+  const metrics = new Map((manifest.metrics || []).map((metric) => [metric.id, metric]));
+  const progress = manifest.progression || {};
+  const storageKey = progress.storageKey || "shadowMirrorFourRooms.v1";
+
+  const nodes = {
+    brand: $(".brand"),
+    topLinks: $(".toplinks"),
+    rail: $("[data-room-rail]"),
+    eyebrow: $(".eyebrow"),
+    title: $("h1"),
+    lede: $(".lede"),
+    tablet: $(".tablet"),
+    caption: $(".caption"),
+    stepLabel: $("[data-step-label]"),
+    question: $("[data-question]"),
+    prompt: $("[data-prompt]"),
+    depthTitle: $("[data-depth-title]"),
+    depth: $("[data-depth]"),
+    evidence: $("[data-evidence]"),
+    method: $("[data-choices]"),
+    test: $("[data-prediction]"),
+    counter: $("[data-counter]"),
+    meters: $(".meters"),
+    trace: $(".trace"),
+    booklet: $("[data-booklet]"),
+    result: $("[data-result]"),
+    live: $("[data-live]"),
+    coach: document.querySelector("[data-coach]"),
+    coachText: document.querySelector("[data-coach-text]"),
+    hand: document.querySelector("[data-hand]")
+  };
+
+  const saved = (() => {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey) || "{}");
+    } catch (_) {
+      return {};
+    }
+  })();
 
   const state = {
-    phase: 0,
-    tapped: new Set(),
-    signal: Number(manifest.runtime.startingScores?.signal || 0),
-    overfit: Number(manifest.runtime.startingScores?.overfit || 1),
-    noise: 0
+    roomId: progress.defaultRoom || rooms[0]?.id,
+    stage: "inspect",
+    selectedEvidence: new Set(),
+    solvedRooms: new Set(saved.solvedRooms || []),
+    scores: {},
+    traceIndex: 0
   };
 
-  const methodChoice = new Map((manifest.choices.method || []).map((item) => [item.id, item]));
-  const predictionChoice = new Map((manifest.choices.prediction || []).map((item) => [item.id, item]));
-  const counterChoice = new Map((manifest.choices.counter || []).map((item) => [item.id, item]));
+  const clamp = (metricId, value) => {
+    if (metricId === "seals") return Math.max(0, Math.min(3, value));
+    const spec = metrics.get(metricId);
+    if (!spec) return value;
+    return Math.max(spec.min, Math.min(spec.max, value));
+  };
 
   const announce = (text) => {
-    if (live) live.textContent = text || "";
+    if (nodes.live) nodes.live.textContent = text || "";
   };
 
-  const writeStep = (stepId, options = {}) => {
-    const copy = manifest.steps[stepId];
-    if (!copy) return;
-    if (!options.depthOnly) {
-      if (stepLabel && copy.label) stepLabel.textContent = copy.label;
-      if (question && copy.question) question.textContent = copy.question;
-      if (prompt && copy.prompt) prompt.textContent = copy.prompt;
+  const persist = () => {
+    localStorage.setItem(storageKey, JSON.stringify({ solvedRooms: Array.from(state.solvedRooms) }));
+  };
+
+  const isUnlocked = (room) => (room.unlockAfter || []).every((id) => state.solvedRooms.has(id));
+
+  const nextLockedReason = (room) => {
+    if (room.id === progress.finalBoss) return progress.bossLockedCopy || "Solve the human rooms first.";
+    return progress.lockedCopy || "Solve the earlier room first.";
+  };
+
+  const activeRoom = () => roomById.get(state.roomId) || rooms[0];
+
+  const resetScores = (room) => {
+    state.scores = { ...(room.startingScores || {}) };
+    for (const metric of metrics.keys()) {
+      if (!(metric in state.scores)) state.scores[metric] = 0;
     }
-    if (depthTitle && copy.depthTitle) depthTitle.textContent = copy.depthTitle;
-    if (depth && copy.depth) depth.textContent = copy.depth;
+    if (!("seals" in state.scores)) state.scores.seals = 3;
   };
 
-  const clearGuide = () => {
-    qa(".guide").forEach((item) => item.classList.remove("guide"));
-    coach?.classList.remove("show");
-    hand?.classList.remove("show");
+  const applyEffect = (effect = {}) => {
+    for (const [metric, delta] of Object.entries(effect)) {
+      const current = Number(state.scores[metric] || 0);
+      state.scores[metric] = clamp(metric, current + Number(delta || 0));
+    }
+    renderMeters();
   };
 
-  const nextUntappedMark = () => {
-    const marks = qa("button[data-mark]");
-    return marks.find((button) => !state.tapped.has(button.dataset.mark)) || marks[0] || null;
+  const setStage = (stage) => {
+    state.stage = stage;
+    renderStage();
+    window.requestAnimationFrame(updateGuide);
   };
 
-  const guideTarget = () => {
-    if (state.phase === 0) return nextUntappedMark();
-    if (state.phase === 1) return q('[data-choice="calendar"]');
-    if (state.phase === 2) return q('[data-predict="30"]');
-    if (state.phase === 3) return q('[data-counter-choice="keep"]');
-    return null;
+  const resetRoom = (roomId = state.roomId) => {
+    const room = roomById.get(roomId) || rooms[0];
+    state.roomId = room.id;
+    state.stage = "inspect";
+    state.selectedEvidence = new Set();
+    state.traceIndex = 0;
+    resetScores(room);
+    render();
+    announce(`${room.name} ready. ${room.stages.inspect.guide}`);
   };
 
-  const guideText = () => {
-    const guide = manifest.runtime.guide || FALLBACK.runtime.guide;
-    if (state.phase === 0) return state.tapped.size ? guide.twin : guide.notice;
-    if (state.phase === 1) return guide.test;
-    if (state.phase === 2) return guide.predict;
-    if (state.phase === 3) return guide.break;
-    return "";
+  const selectRoom = (roomId) => {
+    const room = roomById.get(roomId);
+    if (!room) return;
+    if (!isUnlocked(room)) {
+      announce(nextLockedReason(room));
+      renderRooms();
+      return;
+    }
+    resetRoom(room.id);
+    history.replaceState(null, "", `#room=${room.id}`);
   };
 
-  const updateGuide = () => {
-    clearGuide();
-    const target = guideTarget();
-    if (!target || !coach || !coachText || !hand) return;
-    target.classList.add("guide");
-    const rect = target.getBoundingClientRect();
-    const coachWidth = Math.min(280, window.innerWidth - 28);
-    const x = Math.min(window.innerWidth - coachWidth / 2 - 14, Math.max(coachWidth / 2 + 14, rect.left + rect.width / 2));
-    const y = Math.min(window.innerHeight - 24, Math.max(70, rect.top));
-    coachText.textContent = guideText();
-    coach.style.left = `${x}px`;
-    coach.style.top = `${y}px`;
-    hand.style.left = `${Math.min(window.innerWidth - 28, Math.max(18, rect.right - 8))}px`;
-    hand.style.top = `${Math.min(window.innerHeight - 28, Math.max(18, rect.top + rect.height / 2))}px`;
-    coach.classList.add("show");
-    hand.classList.add("show");
+  const htmlEscape = (value) => String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+  const routeHref = (room, link) => room.routes?.[link.route] || manifest.routes?.[link.route] || link.href || "#";
+
+  const renderRooms = () => {
+    if (!nodes.rail) return;
+    nodes.rail.replaceChildren(...rooms.map((room) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "room-tab";
+      button.dataset.room = room.id;
+      button.disabled = !isUnlocked(room);
+      button.classList.toggle("active", room.id === state.roomId);
+      button.classList.toggle("solved", state.solvedRooms.has(room.id));
+      button.classList.toggle("boss", room.kind === "final-boss");
+      const lock = isUnlocked(room) ? (state.solvedRooms.has(room.id) ? "Solved" : "Open") : "Locked";
+      button.innerHTML = `<span>${htmlEscape(room.roomNumber)}</span><b>${htmlEscape(room.name)}</b><small>${htmlEscape(lock)}</small>`;
+      button.addEventListener("click", () => selectRoom(room.id));
+      return button;
+    }));
   };
 
-  const pulseStage = () => {
-    game.classList.add("pulse-stage");
-    window.setTimeout(() => game.classList.remove("pulse-stage"), 520);
+  const renderShell = (room) => {
+    document.title = "Shadow & Mirror | The Four Locked Rooms";
+    if (nodes.brand) nodes.brand.textContent = "Shadow & Mirror";
+    if (nodes.eyebrow) nodes.eyebrow.textContent = `${room.name} - ${room.script}`;
+    if (nodes.title) nodes.title.textContent = room.headline;
+    if (nodes.lede) nodes.lede.textContent = room.lede;
+    if (nodes.caption) {
+      nodes.caption.innerHTML = `<span class="pill">${htmlEscape(room.firstAction)}</span><span>${htmlEscape(room.method)}</span>`;
+    }
   };
 
-  const setMeter = () => {
-    const signal = q('[data-meter="signal"]');
-    const overfit = q('[data-meter="overfit"]');
-    if (signal) signal.style.width = `${Math.min(100, state.signal * meterStep)}%`;
-    if (overfit) overfit.style.width = `${Math.min(100, state.overfit * meterStep)}%`;
+  const renderArtifact = (room) => {
+    if (!nodes.tablet) return;
+    nodes.tablet.innerHTML = `
+      <div class="shine" aria-hidden="true"></div>
+      <div class="artifact-card">
+        <p class="artifact-kicker">${htmlEscape(room.artifactLabel)}</p>
+        <h2>${htmlEscape(room.script)}</h2>
+        <p>${htmlEscape(room.claimNote)}</p>
+      </div>
+      <div class="artifact-signs" aria-hidden="true">
+        ${room.evidence.map((item, index) => `<span class="artifact-token ${item.correct ? "signal-token" : "noise-token"}" style="--i:${index}">${htmlEscape(item.code)}</span>`).join("")}
+      </div>
+    `;
   };
 
-  const markTrace = (key) => {
-    const item = q(`[data-trace="${key}"]`);
-    if (!item) return;
-    item.classList.add("done");
-    item.textContent = manifest.trace.done[key];
+  const renderEvidence = (room) => {
+    if (!nodes.evidence) return;
+    nodes.evidence.hidden = state.stage !== "inspect";
+    nodes.evidence.replaceChildren(...room.evidence.map((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "evidence-card";
+      button.dataset.evidence = item.id;
+      button.classList.toggle("picked", state.selectedEvidence.has(item.id));
+      button.innerHTML = `
+        <small>${htmlEscape(item.tag)}</small>
+        <b>${htmlEscape(item.title)}</b>
+        <code>${htmlEscape(item.code)}</code>
+        <span>${htmlEscape(item.text)}</span>
+      `;
+      button.addEventListener("click", () => handleEvidence(room, item, button));
+      return button;
+    }));
   };
 
-  const priceTemptation = (text) => {
-    state.overfit += 1;
-    setMeter();
-    if (prompt) prompt.textContent = text || manifest.steps.temptation.prompt || "That move costs proof strength. Try the honest move.";
-    writeStep("temptation", { depthOnly: true });
-    announce(manifest.steps.temptation.announce);
-    updateGuide();
+  const renderChoiceButton = (item, attr) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = attr === "data-test" ? "predict" : "choice";
+    button.setAttribute(attr, item.id);
+    if (attr === "data-test") {
+      button.innerHTML = `<span class="predict-value">${htmlEscape(item.label)}</span><small class="num-label">${htmlEscape(item.subLabel || "")}</small><small class="cost">${htmlEscape(item.cost)}</small>`;
+    } else {
+      button.innerHTML = `<b>${htmlEscape(item.title)}</b><small class="cost">${htmlEscape(item.cost)}</small><span>${htmlEscape(item.copy)}</span>`;
+    }
+    return button;
   };
 
-  const enterTest = () => {
-    state.phase = 1;
-    state.signal += 1;
-    setMeter();
-    markTrace("count");
-    writeStep("test");
-    if (choices) choices.hidden = false;
-    qa("button[data-mark]").forEach((button) => button.classList.add("locked"));
-    announce(manifest.steps.test.announce);
-    pulseStage();
-    updateGuide();
+  const renderStageChoices = (room) => {
+    const method = room.stages.method;
+    const test = room.stages.test;
+    const counter = room.stages.counter;
+
+    if (nodes.method) {
+      nodes.method.hidden = state.stage !== "method";
+      nodes.method.replaceChildren(...(method.choices || []).map((item) => {
+        const button = renderChoiceButton(item, "data-method");
+        button.addEventListener("click", () => handleChoice(item, "method"));
+        return button;
+      }));
+    }
+
+    if (nodes.test) {
+      nodes.test.hidden = state.stage !== "test";
+      nodes.test.innerHTML = `
+        <div class="prediction-head"><b>Pressure test</b><span>${htmlEscape(test.pattern || "")}</span></div>
+        <div class="cycle-row" aria-hidden="true">
+          ${(test.pattern || "").split("/").map((part) => `<span class="cycle-token"><b>${htmlEscape(part.trim())}</b></span>`).join("")}
+        </div>
+        <p>${htmlEscape(test.prompt)}</p>
+        <div class="prediction-options"></div>
+      `;
+      const options = nodes.test.querySelector(".prediction-options");
+      options?.replaceChildren(...(test.choices || []).map((item) => {
+        const button = renderChoiceButton(item, "data-test");
+        button.addEventListener("click", () => handleChoice(item, "test"));
+        return button;
+      }));
+    }
+
+    if (nodes.counter) {
+      nodes.counter.hidden = state.stage !== "counter";
+      nodes.counter.replaceChildren(...(counter.choices || []).map((item) => {
+        const button = renderChoiceButton(item, "data-counter-choice");
+        button.addEventListener("click", () => handleChoice(item, "counter"));
+        return button;
+      }));
+    }
   };
 
-  const enterPrediction = () => {
-    state.phase = 2;
-    writeStep("predict");
-    if (choices) choices.hidden = true;
-    if (prediction) prediction.hidden = false;
-    if (counter) counter.hidden = true;
-    announce(manifest.steps.predict.announce);
-    pulseStage();
-    updateGuide();
+  const renderMeters = () => {
+    if (!nodes.meters) return;
+    const items = [...(manifest.metrics || []), { id: "seals", label: "method seals", min: 0, max: 3, higherIsBetter: true }];
+    nodes.meters.replaceChildren(...items.map((metric) => {
+      const value = Number(state.scores[metric.id] || 0);
+      const range = Math.max(1, metric.max - metric.min);
+      const width = Math.max(0, Math.min(100, ((value - metric.min) / range) * 100));
+      const div = document.createElement("div");
+      div.className = "meter";
+      div.innerHTML = `<b>${htmlEscape(metric.label)}: ${value}/${metric.max}</b><span class="bar"><span class="fill ${metric.higherIsBetter ? "green" : "red"}" style="width:${width}%"></span></span>`;
+      return div;
+    }));
   };
 
-  const enterCounter = () => {
-    state.phase = 3;
-    state.signal += 1;
-    setMeter();
-    markTrace("test");
-    writeStep("break");
-    if (choices) choices.hidden = true;
-    if (prediction) prediction.hidden = true;
-    if (counter) counter.hidden = false;
-    announce(manifest.steps.break.announce);
-    pulseStage();
-    updateGuide();
+  const renderTrace = (room) => {
+    if (!nodes.trace) return;
+    nodes.trace.replaceChildren(...room.trace.initial.map((text, index) => {
+      const item = document.createElement("li");
+      item.classList.toggle("done", index < state.traceIndex);
+      item.textContent = index < state.traceIndex ? room.trace.done[index] : text;
+      return item;
+    }));
   };
 
-  const openTrace = () => {
-    state.phase = 4;
-    state.signal += 1;
-    state.overfit = Math.max(0, state.overfit - 1);
-    setMeter();
-    markTrace("counter");
-    writeStep("open");
-    if (counter) counter.hidden = true;
-    result?.classList.add("open");
-    announce(manifest.steps.open.announce);
-    clearGuide();
-    pulseStage();
+  const renderBooklet = (room) => {
+    if (!nodes.booklet) return;
+    const body = nodes.booklet.querySelector(".booklet-body");
+    if (!body) return;
+    body.innerHTML = `
+      <p><b>${htmlEscape(manifest.title)}</b> is now the homepage UX: three human script rooms unlock the Whale Cadence final boss.</p>
+      <p>${htmlEscape(manifest.doctrine.player)} ${htmlEscape(manifest.doctrine.game)} ${htmlEscape(manifest.doctrine.essays)} ${htmlEscape(manifest.doctrine.zenodo)}</p>
+      <p>${htmlEscape(room.method)}</p>
+      <p>${Object.entries(room.routes || {}).map(([label, href]) => `<a href="${htmlEscape(href)}">${htmlEscape(label)}</a>`).join(" ")}</p>
+    `;
   };
 
-  const renderResultLinks = () => {
-    if (!result) return;
-    const title = result.querySelector("b");
-    const body = result.querySelector("p");
-    const links = result.querySelector(".outlinks");
-    if (title && manifest.result.title) title.textContent = manifest.result.title;
-    if (body && manifest.result.body) body.textContent = manifest.result.body;
-    if (links && Array.isArray(manifest.result.links)) {
-      links.replaceChildren(...manifest.result.links.map((link) => {
+  const renderResult = (room) => {
+    if (!nodes.result) return;
+    const isOpen = state.stage === "open";
+    nodes.result.classList.toggle("open", isOpen);
+    const title = nodes.result.querySelector("b");
+    const body = nodes.result.querySelector("p");
+    const links = nodes.result.querySelector(".outlinks");
+    if (title) title.textContent = room.result.title;
+    if (body) body.textContent = room.result.body;
+    if (links) {
+      links.replaceChildren(...room.result.links.map((link) => {
         const anchor = document.createElement("a");
-        anchor.href = manifest.routes[link.route] || link.href || "#";
+        anchor.href = routeHref(room, link);
         anchor.textContent = link.label;
         return anchor;
       }));
     }
   };
 
-  const renderChoices = () => {
-    for (const item of manifest.choices.method || []) {
-      const button = q(`[data-choice="${item.id}"]`);
-      if (!button) continue;
-      const title = button.querySelector("b");
-      const cost = button.querySelector(".cost");
-      const copy = button.querySelector("span");
-      if (title && item.title) title.textContent = item.title;
-      if (cost && item.cost) cost.textContent = item.cost;
-      if (copy && item.copy) copy.textContent = item.copy;
+  const renderStageCopy = (room) => {
+    const stage = room.stages[state.stage] || room.stages.inspect;
+    if (nodes.stepLabel) nodes.stepLabel.textContent = stage.label;
+    if (nodes.question) nodes.question.textContent = stage.question;
+    if (nodes.prompt) nodes.prompt.textContent = stage.prompt;
+    if (nodes.depthTitle) nodes.depthTitle.textContent = stage.depthTitle;
+    if (nodes.depth) nodes.depth.textContent = stage.depth;
+  };
+
+  const renderStage = () => {
+    const room = activeRoom();
+    renderStageCopy(room);
+    renderEvidence(room);
+    renderStageChoices(room);
+    renderTrace(room);
+    renderMeters();
+    renderResult(room);
+  };
+
+  const render = () => {
+    const room = activeRoom();
+    renderRooms();
+    renderShell(room);
+    renderArtifact(room);
+    renderStage();
+    renderBooklet(room);
+  };
+
+  const markProgress = () => {
+    state.traceIndex = Math.min(activeRoom().trace.initial.length, state.traceIndex + 1);
+  };
+
+  const handleEvidence = (room, item, button) => {
+    if (state.stage !== "inspect" || state.selectedEvidence.has(item.id)) return;
+    state.selectedEvidence.add(item.id);
+    applyEffect(item.effect);
+    button.classList.add(item.correct ? "good" : "bad");
+    if (!item.correct) {
+      if (nodes.prompt) nodes.prompt.textContent = "That card may matter later, but it does not open this room. Pick stronger structural evidence.";
+      announce("Evidence priced as overfit risk. Pick stronger structural evidence.");
+      window.requestAnimationFrame(updateGuide);
+      return;
     }
-    for (const item of manifest.choices.prediction || []) {
-      const button = q(`[data-predict="${item.id}"]`);
-      if (!button) continue;
-      const label = button.querySelector(".predict-value");
-      const subLabel = button.querySelector(".num-label");
-      const cost = button.querySelector(".cost");
-      if (label && item.label) label.textContent = item.label;
-      if (subLabel && item.subLabel) subLabel.textContent = item.subLabel;
-      if (cost && item.cost) cost.textContent = item.cost;
-    }
-    for (const item of manifest.choices.counter || []) {
-      const button = q(`[data-counter-choice="${item.id}"]`);
-      if (!button) continue;
-      const title = button.querySelector("b");
-      const cost = button.querySelector(".cost");
-      const copy = button.querySelector("span");
-      if (title && item.title) title.textContent = item.title;
-      if (cost && item.cost) cost.textContent = item.cost;
-      if (copy && item.copy) copy.textContent = item.copy;
+    const correctPicked = room.evidence.filter((card) => card.correct && state.selectedEvidence.has(card.id)).length;
+    if (correctPicked >= Number(room.evidenceGoal || 2)) {
+      setStage("method");
+      announce("Evidence held. Spend a method seal.");
+    } else {
+      announce("Good evidence. Pick one more structural card.");
+      window.requestAnimationFrame(updateGuide);
     }
   };
 
-  const resetTrace = () => {
-    for (const [key, text] of Object.entries(manifest.trace.initial)) {
-      const item = q(`[data-trace="${key}"]`);
-      if (!item) continue;
-      item.classList.remove("done");
-      item.textContent = text;
+  const handleChoice = (item, stage) => {
+    if (state.stage !== stage) return;
+    applyEffect(item.effect);
+    const selector = stage === "method" ? `[data-method="${item.id}"]` : stage === "test" ? `[data-test="${item.id}"]` : `[data-counter-choice="${item.id}"]`;
+    const button = $(selector);
+    button?.classList.add(item.correct ? "good" : "bad");
+    if (!item.correct) {
+      if (nodes.prompt) nodes.prompt.textContent = item.recoveryPrompt || "That move costs proof strength. Try the constrained move.";
+      announce("Temptation priced. Try the constrained move.");
+      window.requestAnimationFrame(updateGuide);
+      return;
     }
+    markProgress();
+    if (item.nextStage === "open") {
+      state.stage = "open";
+      state.solvedRooms.add(state.roomId);
+      persist();
+      render();
+      const room = activeRoom();
+      announce(`${room.name} solved. ${room.id === progress.finalBoss ? "Final boss cleared." : "The next door is available."}`);
+      return;
+    }
+    setStage(item.nextStage || stageOrder[stageOrder.indexOf(stage) + 1] || "open");
   };
 
-  const resetGame = () => {
-    state.phase = 0;
-    state.signal = Number(manifest.runtime.startingScores?.signal || 0);
-    state.overfit = Number(manifest.runtime.startingScores?.overfit || 1);
-    state.noise = 0;
-    state.tapped.clear();
-    writeStep("notice");
-    if (choices) choices.hidden = true;
-    if (prediction) prediction.hidden = true;
-    if (counter) counter.hidden = true;
-    result?.classList.remove("open");
-    qa(".hit, .noise, .good, .bad, .done, .locked, .guide").forEach((item) => {
-      item.classList.remove("hit", "noise", "good", "bad", "done", "locked", "guide");
-    });
-    resetTrace();
-    setMeter();
-    announce(manifest.steps.notice.announce);
-    updateGuide();
+  const clearGuide = () => {
+    $$(".guide").forEach((item) => item.classList.remove("guide"));
+    nodes.coach?.classList.remove("show");
+    nodes.hand?.classList.remove("show");
   };
 
-  renderChoices();
-  renderResultLinks();
+  const guideTarget = () => {
+    const room = activeRoom();
+    if (state.stage === "inspect") {
+      const card = room.evidence.find((item) => item.correct && !state.selectedEvidence.has(item.id));
+      return card ? $(`[data-evidence="${card.id}"]`) : null;
+    }
+    if (state.stage === "method") return $("[data-method][class]");
+    if (state.stage === "test") return $("[data-test][class]");
+    if (state.stage === "counter") return $("[data-counter-choice][class]");
+    return null;
+  };
 
-  qa(".mark").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (state.phase !== 0) return;
-      if (!button.dataset.mark) {
-        button.classList.remove("noise");
-        button.offsetWidth;
-        button.classList.add("noise");
-        state.noise += 1;
-        if (prompt) prompt.textContent = `That may matter later. The first proof move is recurrence: find the repeated ${acceptedMarks.label || "730"}.`;
-        announce(`Noise mark tapped. Find the repeated ${acceptedMarks.label || "730"}.`);
-        updateGuide();
-        return;
-      }
-      button.classList.add("hit");
-      state.tapped.add(button.dataset.mark);
-      if (state.tapped.size === 1) {
-        writeStep("twin");
-        announce(manifest.steps.twin.announce);
-        updateGuide();
-      }
-      if (state.tapped.size >= Number(acceptedMarks.minUnique || 2)) enterTest();
-    });
+  const guideText = () => {
+    const room = activeRoom();
+    if (state.stage === "inspect") return room.stages.inspect.guide;
+    const stage = room.stages[state.stage];
+    const correct = (stage?.choices || []).find((item) => item.correct);
+    return correct ? `Try: ${correct.title || correct.label}` : "";
+  };
+
+  const updateGuide = () => {
+    clearGuide();
+    const target = guideTarget();
+    if (!target || !nodes.coach || !nodes.coachText || !nodes.hand) return;
+    target.classList.add("guide");
+    const rect = target.getBoundingClientRect();
+    const coachWidth = Math.min(300, window.innerWidth - 28);
+    const x = Math.min(window.innerWidth - coachWidth / 2 - 14, Math.max(coachWidth / 2 + 14, rect.left + rect.width / 2));
+    const y = Math.min(window.innerHeight - 24, Math.max(70, rect.top));
+    nodes.coachText.textContent = guideText();
+    nodes.coach.style.left = `${x}px`;
+    nodes.coach.style.top = `${y}px`;
+    nodes.hand.style.left = `${Math.min(window.innerWidth - 28, Math.max(18, rect.right - 8))}px`;
+    nodes.hand.style.top = `${Math.min(window.innerHeight - 28, Math.max(18, rect.top + rect.height / 2))}px`;
+    nodes.coach.classList.add("show");
+    nodes.hand.classList.add("show");
+  };
+
+  $$("[data-reset]").forEach((button) => {
+    button.addEventListener("click", () => resetRoom());
   });
 
-  qa("[data-choice]").forEach((button) => {
+  $$("[data-open-booklet]").forEach((button) => {
     button.addEventListener("click", () => {
-      if (state.phase !== 1) return;
-      const item = methodChoice.get(button.dataset.choice);
-      if (item?.correct) {
-        button.classList.add("good");
-        enterPrediction();
-      } else {
-        button.classList.add("bad");
-        priceTemptation(item?.recoveryPrompt);
-      }
-    });
-  });
-
-  qa("[data-predict]").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (state.phase !== 2) return;
-      const item = predictionChoice.get(button.dataset.predict);
-      if (item?.correct) {
-        button.classList.add("good");
-        enterCounter();
-      } else {
-        button.classList.add("bad");
-        priceTemptation(item?.recoveryPrompt);
-      }
-    });
-  });
-
-  qa("[data-counter-choice]").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (state.phase !== 3) return;
-      const item = counterChoice.get(button.dataset.counterChoice);
-      if (item?.correct) {
-        button.classList.add("good");
-        openTrace();
-      } else {
-        button.classList.add("bad");
-        priceTemptation(item?.recoveryPrompt);
-      }
-    });
-  });
-
-  qa("[data-reset]").forEach((button) => {
-    button.addEventListener("click", resetGame);
-  });
-
-  qa("[data-open-booklet]").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (!booklet) return;
-      booklet.open = true;
-      booklet.scrollIntoView({
+      if (!nodes.booklet) return;
+      nodes.booklet.open = true;
+      nodes.booklet.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         block: "center"
       });
@@ -482,8 +454,15 @@ const mountHomepageGame = (manifest) => {
     });
   });
 
-  resetGame();
+  const hashRoom = new URLSearchParams(location.hash.replace(/^#/, "")).get("room");
+  const requested = roomById.get(hashRoom);
+  const initial = requested && isUnlocked(requested) ? requested.id : state.roomId;
+  resetRoom(initial);
   window.addEventListener("resize", updateGuide);
 };
 
-mountHomepageGame(await loadManifest());
+try {
+  mountHomepageGame(await loadManifest());
+} catch (error) {
+  console.error(error);
+}

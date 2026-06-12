@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "contentVersion": "2026-06-12.homepage-game-spine",
-  "gameId": "shadow-mirror-calendar-room-v2",
-  "title": "Calendar or coincidence?",
-  "subtitle": "A one-minute pattern game that opens the proof trace.",
+  "contentVersion": "2026-06-12.four-room-ladder",
+  "gameId": "shadow-mirror-four-locked-rooms-v2",
+  "title": "The Four Locked Rooms",
+  "subtitle": "Win three human script rooms to unlock the Whale Cadence final boss.",
   "doctrine": {
     "player": "The player plays with patterns.",
     "game": "The game reveals the methods.",
@@ -11,290 +11,906 @@
     "zenodo": "Zenodo stamps record."
   },
   "claimStatus": {
-    "id": "proposed-structural-reading",
+    "id": "playable-structural-readings",
     "tone": "honest-not-apologetic",
-    "note": "Claim status: proposed structural reading. The game teaches the method; the essay carries the argument; Zenodo stamps the deposited record."
+    "note": "Claim status: playable structural readings. The game teaches the method; essays carry the argument; Zenodo stamps the deposited record."
   },
   "routes": {
-    "essay": "/essays/deciphering-rongorongo",
-    "vault": "/vault/deciphering-rongorongo-corpus-analysis",
-    "zenodo": "https://zenodo.org/records/19362491",
     "catalogue": "/essays",
-    "corpus": "/essays",
+    "vault": "/vault",
     "matrix": "/matrix",
     "genesis": "/genesis",
-    "thesis": "/thesis.pdf"
+    "thesis": "/thesis.pdf",
+    "corpus": "/essays"
   },
+  "progression": {
+    "defaultRoom": "rongorongo",
+    "humanRooms": ["rongorongo", "proto-elamite", "indus"],
+    "finalBoss": "whale-cadence",
+    "storageKey": "shadowMirrorFourRooms.v1",
+    "lockedCopy": "Solve the earlier room to open this door.",
+    "bossLockedCopy": "Whale knowledge is sealed until the three human script rooms are solved.",
+    "bossUnlockedCopy": "Final boss unlocked: words have run out, so cadence has to carry the signal."
+  },
+  "metrics": [
+    { "id": "confidence", "label": "confidence", "min": 0, "max": 6, "higherIsBetter": true },
+    { "id": "parsimony", "label": "parsimony", "min": 0, "max": 6, "higherIsBetter": true },
+    { "id": "overfit", "label": "overfit", "min": 0, "max": 9, "higherIsBetter": false }
+  ],
   "rooms": [
     {
       "id": "rongorongo",
       "name": "Calendar Room",
       "script": "Rongorongo",
+      "kind": "human",
       "state": "playable",
-      "role": "vertical-slice",
-      "recordId": "rongorongo",
+      "unlockAfter": [],
+      "roomNumber": "I",
+      "role": "template-room",
+      "headline": "Calendar or coincidence?",
+      "lede": "A damaged tablet repeats. Is there a real calendar hiding here, or are we fooling ourselves?",
+      "artifactLabel": "Mamari case file",
+      "firstAction": "Inspect two evidence cards, then spend a method seal.",
       "method": "Count recurrence, risk a calendar prediction, and keep the counterexample visible.",
+      "claimNote": "Proposed structural reading. The room teaches the pressure test, not consensus.",
       "routes": {
         "essay": "/essays/deciphering-rongorongo",
         "vault": "/vault/deciphering-rongorongo-corpus-analysis",
-        "zenodo": "https://zenodo.org/records/19362491"
+        "zenodo": "https://zenodo.org/records/19362491",
+        "catalogue": "/essays"
+      },
+      "startingScores": { "confidence": 0, "parsimony": 2, "overfit": 1, "seals": 3 },
+      "evidenceGoal": 2,
+      "evidence": [
+        {
+          "id": "repeat",
+          "tag": "Signal",
+          "title": "Repeated cluster",
+          "code": "730 | 730 | 730",
+          "text": "The same mark returns often enough to become the first suspect.",
+          "correct": true,
+          "effect": { "confidence": 1 }
+        },
+        {
+          "id": "spacing",
+          "tag": "Fit",
+          "title": "Lunar spacing",
+          "code": "29 / 30 / 173",
+          "text": "The pattern has to risk a calendar-shaped prediction.",
+          "correct": true,
+          "effect": { "confidence": 1, "overfit": 1 }
+        },
+        {
+          "id": "counterline",
+          "tag": "Counter",
+          "title": "Missing twin",
+          "code": "parallel line: absent",
+          "text": "A similar line refuses the easy reading, so the case must answer back.",
+          "correct": true,
+          "effect": { "parsimony": 1 }
+        },
+        {
+          "id": "myth",
+          "tag": "Temptation",
+          "title": "Sky story",
+          "code": "star / king / season",
+          "text": "Beautiful stories are cheap until the corpus pays for them.",
+          "correct": false,
+          "effect": { "overfit": 1 }
+        },
+        {
+          "id": "scar",
+          "tag": "Noise",
+          "title": "Broken edge",
+          "code": "gap / scar / uncertain hand",
+          "text": "Damage can look like grammar if the method gets greedy.",
+          "correct": false,
+          "effect": { "overfit": 1, "parsimony": -1 }
+        }
+      ],
+      "stages": {
+        "inspect": {
+          "label": "Room I - Inspect",
+          "question": "Which marks deserve pressure?",
+          "prompt": "Start with the object. Pick evidence that can be counted, tested, or used against the theory.",
+          "depthTitle": "Template move",
+          "depth": "Rongorongo teaches the verb: do not translate first. Build a case that can be attacked.",
+          "guide": "Pick two signal-bearing evidence cards."
+        },
+        "method": {
+          "label": "Room I - Method",
+          "question": "Spend one method seal.",
+          "prompt": "The deeper move costs a scarce method seal. Choose the method that turns recurrence into a test.",
+          "depthTitle": "Costed method",
+          "depth": "Spencer should feel the constraint: a method card is not flavor text, it spends budget.",
+          "choices": [
+            {
+              "id": "frequency",
+              "title": "Frequency count",
+              "cost": "Cost: 1 method seal",
+              "copy": "Count recurrence before assigning meaning.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "seals": -1 },
+              "nextStage": "test"
+            },
+            {
+              "id": "gloss",
+              "title": "Name the prettiest glyph",
+              "cost": "Cost: +1 overfit",
+              "copy": "It feels like progress, but it explains before it measures.",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "That is a story too early. Spend the seal on recurrence first."
+            },
+            {
+              "id": "smooth",
+              "title": "Smooth the damaged line",
+              "cost": "Cost: -1 parsimony",
+              "copy": "The case gets cleaner by hiding the hard part.",
+              "correct": false,
+              "effect": { "parsimony": -1, "overfit": 1 },
+              "recoveryPrompt": "Clean is not honest yet. Choose the method that keeps countable pressure."
+            }
+          ]
+        },
+        "test": {
+          "label": "Room I - Test",
+          "question": "Risk the calendar hypothesis.",
+          "prompt": "A calendar reading becomes serious only when it risks a next move.",
+          "depthTitle": "Prediction test",
+          "depth": "The player does the small version of the proof: if the count is lunar, the next move should carry the rhythm.",
+          "pattern": "29 / 30 / 29 / ?",
+          "choices": [
+            {
+              "id": "long-moon",
+              "label": "30",
+              "subLabel": "long moon",
+              "cost": "Cost: risk confidence",
+              "correct": true,
+              "effect": { "confidence": 1 },
+              "nextStage": "counter"
+            },
+            {
+              "id": "short-moon",
+              "label": "29",
+              "subLabel": "short moon",
+              "cost": "Cost: +1 overfit",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "That breaks the alternation. Try the answer that makes the hypothesis answer back."
+            },
+            {
+              "id": "free-story",
+              "label": "story",
+              "subLabel": "no test",
+              "cost": "Cost: +1 overfit",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "A story is not a test. Choose the count."
+            }
+          ]
+        },
+        "counter": {
+          "label": "Room I - Counterexample",
+          "question": "What happens to the broken line?",
+          "prompt": "The good move is not the cleanest story. Keep the counterexample visible.",
+          "depthTitle": "Honesty gate",
+          "depth": "This is the first proof trace: the break stays inside the argument instead of getting swept away.",
+          "choices": [
+            {
+              "id": "keep",
+              "title": "Keep the counterexample",
+              "cost": "Cost: lose elegance",
+              "copy": "The missing twin stays in the proof, even when it hurts the story.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "overfit": -1 },
+              "nextStage": "open"
+            },
+            {
+              "id": "hide",
+              "title": "Hide the counterexample",
+              "cost": "Cost: +2 overfit",
+              "copy": "The pattern becomes cleaner by becoming less honest.",
+              "correct": false,
+              "effect": { "overfit": 2 },
+              "recoveryPrompt": "That is the move the game is built to punish. Keep the break visible."
+            }
+          ]
+        }
+      },
+      "trace": {
+        "initial": [
+          "Count recurrence before translation.",
+          "Make the calendar reading predict something.",
+          "Keep the counterexample inside the proof."
+        ],
+        "done": [
+          "This is what Logan did at full scale: counted recurrence before translating.",
+          "This is what Logan did at full scale: treated short and long moon counts as a testable rhythm.",
+          "This is what Logan did at full scale: kept counterexamples inside the proof trace."
+        ]
+      },
+      "result": {
+        "title": "Calendar Room open.",
+        "body": "You did not decode Rongorongo. You learned the opening method: pattern first, prediction second, honesty always.",
+        "links": [
+          { "label": "Essay", "route": "essay" },
+          { "label": "Vault", "route": "vault" },
+          { "label": "Zenodo", "route": "zenodo" },
+          { "label": "Catalogue", "route": "catalogue" }
+        ]
       }
     },
     {
       "id": "proto-elamite",
       "name": "Ledger Room",
       "script": "Proto-Elamite",
-      "state": "locked",
-      "role": "next-room",
+      "kind": "human",
+      "state": "playable",
+      "unlockAfter": ["rongorongo"],
+      "roomNumber": "II",
+      "role": "human-language-room",
+      "headline": "Ledger or decoration?",
+      "lede": "A tablet full of marks can look like ornament until accounting structure starts doing work.",
+      "artifactLabel": "Administrative tablet case file",
+      "firstAction": "Find coverage, hierarchy, and formula pressure.",
       "method": "Make accounting structure visible before translation.",
+      "claimNote": "Claim-bearing decipherment companion. Coverage and structure are separated from semantic interpretation.",
       "routes": {
-        "essay": "/essays/reading-proto-elamite"
+        "essay": "/essays/reading-proto-elamite",
+        "zenodo": "https://zenodo.org/records/19362528",
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "startingScores": { "confidence": 0, "parsimony": 2, "overfit": 1, "seals": 3 },
+      "evidenceGoal": 2,
+      "evidence": [
+        {
+          "id": "coverage",
+          "tag": "Coverage",
+          "title": "Full sign dictionary",
+          "code": "349 signs",
+          "text": "The room begins with full coverage: every unique sign receives a role or reading.",
+          "correct": true,
+          "effect": { "confidence": 1 }
+        },
+        {
+          "id": "hierarchy",
+          "tag": "Hierarchy",
+          "title": "Susa vs periphery",
+          "code": "tw 116 vs tw 2-7",
+          "text": "Capital bookkeeping carries combinatorial structure; peripheral marks collapse toward labels.",
+          "correct": true,
+          "effect": { "confidence": 1, "parsimony": 1 }
+        },
+        {
+          "id": "formula",
+          "tag": "Formula",
+          "title": "Ledger grammar",
+          "code": "HEADER / COMMODITY / ADMIN / TOTAL",
+          "text": "A repeated administrative shape gives signs jobs before glosses get assigned.",
+          "correct": true,
+          "effect": { "parsimony": 1 }
+        },
+        {
+          "id": "lord",
+          "tag": "Reading",
+          "title": "M269 as LORD",
+          "code": "semantic bridge",
+          "text": "A proposed reading matters only after the structural ledger frame is already paying rent.",
+          "correct": false,
+          "effect": { "overfit": 1 }
+        },
+        {
+          "id": "pretty",
+          "tag": "Temptation",
+          "title": "Symbol gloss",
+          "code": "light / power / office",
+          "text": "A beautiful semantic bridge can outrun the accounting evidence.",
+          "correct": false,
+          "effect": { "overfit": 1 }
+        }
+      ],
+      "stages": {
+        "inspect": {
+          "label": "Room II - Inspect",
+          "question": "Which facts make this a ledger?",
+          "prompt": "Look for the facts that constrain administration before any single sign gets translated.",
+          "depthTitle": "Generalized method",
+          "depth": "The template survives if the game can move from calendar recurrence to administrative structure.",
+          "guide": "Pick two cards that force the marks into accounting structure."
+        },
+        "method": {
+          "label": "Room II - Method",
+          "question": "Spend one method seal.",
+          "prompt": "Choose the method that prices a tablet as administration rather than decoration.",
+          "depthTitle": "Ledger method",
+          "depth": "A ledger reading earns confidence when formula, site, and role constrain each other.",
+          "choices": [
+            {
+              "id": "formula-fit",
+              "title": "Fit the four-part ledger formula",
+              "cost": "Cost: 1 method seal",
+              "copy": "Test whether signs keep stable administrative jobs.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "seals": -1 },
+              "nextStage": "test"
+            },
+            {
+              "id": "translate-first",
+              "title": "Translate the sign first",
+              "cost": "Cost: +1 overfit",
+              "copy": "A gloss without the ledger is a loose story.",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "Not yet. Make the accounting structure carry the reading first."
+            },
+            {
+              "id": "flatten-sites",
+              "title": "Flatten every site together",
+              "cost": "Cost: -1 parsimony",
+              "copy": "The hierarchy disappears, and so does the strongest constraint.",
+              "correct": false,
+              "effect": { "parsimony": -1, "overfit": 1 },
+              "recoveryPrompt": "The room wants hierarchy preserved, not averaged away."
+            }
+          ]
+        },
+        "test": {
+          "label": "Room II - Test",
+          "question": "Where should the complexity peak?",
+          "prompt": "If the structure is administrative, the capital should carry richer dependency than peripheral labels.",
+          "depthTitle": "Hierarchy test",
+          "depth": "The move is not mystical: complex bookkeeping should demand more structure than commodity tags.",
+          "pattern": "capital ledger / peripheral label / ?",
+          "choices": [
+            {
+              "id": "susa",
+              "label": "Susa",
+              "subLabel": "high treewidth",
+              "cost": "Cost: risk hierarchy",
+              "correct": true,
+              "effect": { "confidence": 1 },
+              "nextStage": "counter"
+            },
+            {
+              "id": "periphery",
+              "label": "periphery",
+              "subLabel": "low treewidth",
+              "cost": "Cost: +1 overfit",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "Peripheral collapse is the contrast, not the peak."
+            },
+            {
+              "id": "same",
+              "label": "same",
+              "subLabel": "no hierarchy",
+              "cost": "Cost: -1 parsimony",
+              "correct": false,
+              "effect": { "parsimony": -1, "overfit": 1 },
+              "recoveryPrompt": "If every site behaves the same, the ledger argument loses its spine."
+            }
+          ]
+        },
+        "counter": {
+          "label": "Room II - Counterexample",
+          "question": "What about unsupported readings?",
+          "prompt": "The stronger move is to separate structural roles from semantic confidence.",
+          "depthTitle": "Ledger honesty gate",
+          "depth": "The game lets the reader feel the difference between full coverage and fully settled meaning.",
+          "choices": [
+            {
+              "id": "separate",
+              "title": "Separate role from reading",
+              "cost": "Cost: semantic humility",
+              "copy": "A sign can have a stable ledger job before its gloss is final.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "overfit": -1 },
+              "nextStage": "open"
+            },
+            {
+              "id": "overclaim",
+              "title": "Treat all glosses as equally settled",
+              "cost": "Cost: +2 overfit",
+              "copy": "The dictionary gets stronger-looking by becoming less calibrated.",
+              "correct": false,
+              "effect": { "overfit": 2 },
+              "recoveryPrompt": "Keep the distinction: coverage is not the same thing as settled semantics."
+            }
+          ]
+        }
+      },
+      "trace": {
+        "initial": [
+          "Check sign coverage before glossing.",
+          "Test whether hierarchy predicts administrative complexity.",
+          "Separate structural role from semantic confidence."
+        ],
+        "done": [
+          "This is what Logan did at full scale: made full-sign coverage auditable before translation.",
+          "This is what Logan did at full scale: used treewidth hierarchy to price administrative structure.",
+          "This is what Logan did at full scale: kept semantic confidence calibrated to structural support."
+        ]
+      },
+      "result": {
+        "title": "Ledger Room open.",
+        "body": "You moved the template from sky-counting to accounting: coverage, hierarchy, formula, then calibrated reading.",
+        "links": [
+          { "label": "Essay", "route": "essay" },
+          { "label": "Zenodo", "route": "zenodo" },
+          { "label": "Matrix", "route": "matrix" },
+          { "label": "Catalogue", "route": "catalogue" }
+        ]
       }
     },
     {
       "id": "indus",
       "name": "Seal Room",
       "script": "Indus",
-      "state": "locked",
-      "role": "next-room",
-      "method": "Separate seal repetition from sign meaning.",
+      "kind": "human",
+      "state": "playable",
+      "unlockAfter": ["proto-elamite"],
+      "roomNumber": "III",
+      "role": "human-language-room",
+      "headline": "Language or label?",
+      "lede": "A short seal can look too brief to carry language until position and graph structure start doing work.",
+      "artifactLabel": "Seal formula case file",
+      "firstAction": "Choose evidence that survives the shortness of the inscriptions.",
+      "method": "Separate seal repetition from sign meaning under harsh brevity.",
+      "claimNote": "Structural decipherment claim. The room prices linguistic status without hiding the debate.",
       "routes": {
-        "essay": "/essays/reading-indus-valley-script"
+        "essay": "/essays/reading-indus-valley-script",
+        "zenodo": "https://zenodo.org/records/19362548",
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "startingScores": { "confidence": 0, "parsimony": 2, "overfit": 1, "seals": 3 },
+      "evidenceGoal": 2,
+      "evidence": [
+        {
+          "id": "coverage",
+          "tag": "Coverage",
+          "title": "Full analyzed inventory",
+          "code": "182 entries / 1003 tokens",
+          "text": "The proposed dictionary covers the analyzed signs before arguing status.",
+          "correct": true,
+          "effect": { "confidence": 1 }
+        },
+        {
+          "id": "treewidth",
+          "tag": "Meter",
+          "title": "Treewidth above label threshold",
+          "code": "tw 26",
+          "text": "The claim is that a label system should collapse lower than this.",
+          "correct": true,
+          "effect": { "confidence": 1, "parsimony": 1 }
+        },
+        {
+          "id": "p122",
+          "tag": "Position",
+          "title": "Most connected sign",
+          "code": "P122 / degree 58 / 7.6%",
+          "text": "A frequent sign in a fixed position behaves like function, not ornament.",
+          "correct": true,
+          "effect": { "parsimony": 1 }
+        },
+        {
+          "id": "animal",
+          "tag": "Temptation",
+          "title": "Seal animal first",
+          "code": "icon before grammar",
+          "text": "The beautiful object can distract from the sign sequence.",
+          "correct": false,
+          "effect": { "overfit": 1 }
+        },
+        {
+          "id": "brevity",
+          "tag": "Counter",
+          "title": "Very short texts",
+          "code": "brief inscriptions",
+          "text": "Shortness is the hard objection; it has to be priced, not waved away.",
+          "correct": true,
+          "effect": { "parsimony": 1, "overfit": 1 }
+        }
+      ],
+      "stages": {
+        "inspect": {
+          "label": "Room III - Inspect",
+          "question": "What survives brevity?",
+          "prompt": "Pick evidence that still constrains a language-like system even when each seal is short.",
+          "depthTitle": "Seal pressure",
+          "depth": "The third human room asks whether the method still works under the harshest length limit.",
+          "guide": "Pick two cards that make the seals structural, not merely decorative."
+        },
+        "method": {
+          "label": "Room III - Method",
+          "question": "Spend one method seal.",
+          "prompt": "Choose the method that tests language-like structure without pretending the debate is easy.",
+          "depthTitle": "Brevity method",
+          "depth": "The point is not to make short texts long. It is to ask what structure must be carried at once.",
+          "choices": [
+            {
+              "id": "position-grammar",
+              "title": "Fit the positional formula",
+              "cost": "Cost: 1 method seal",
+              "copy": "Test whether signs keep stable jobs inside a four-part seal shape.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "seals": -1 },
+              "nextStage": "test"
+            },
+            {
+              "id": "animal-story",
+              "title": "Explain the animal icon",
+              "cost": "Cost: +1 overfit",
+              "copy": "It is vivid, but it is not the sign grammar yet.",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "The seal room is about sign sequence first. Spend the seal on position."
+            },
+            {
+              "id": "entropy-only",
+              "title": "Use entropy alone",
+              "cost": "Cost: -1 parsimony",
+              "copy": "Surprise is useful, but the room asks what structure must be carried together.",
+              "correct": false,
+              "effect": { "parsimony": -1, "overfit": 1 },
+              "recoveryPrompt": "Entropy is not enough here. Use positional structure."
+            }
+          ]
+        },
+        "test": {
+          "label": "Room III - Test",
+          "question": "What should a label-only system do?",
+          "prompt": "If these were just labels, the dependency graph should collapse toward lower structure.",
+          "depthTitle": "Language-status test",
+          "depth": "This is the room's wager: treewidth prices the difference between label-like and language-like structure.",
+          "pattern": "label system -> low structure / Indus -> ?",
+          "choices": [
+            {
+              "id": "holds-structure",
+              "label": "holds",
+              "subLabel": "tw 26",
+              "cost": "Cost: risk status",
+              "correct": true,
+              "effect": { "confidence": 1 },
+              "nextStage": "counter"
+            },
+            {
+              "id": "collapses",
+              "label": "collapses",
+              "subLabel": "label-like",
+              "cost": "Cost: +1 overfit",
+              "correct": false,
+              "effect": { "overfit": 1 },
+              "recoveryPrompt": "The reported measurement is the opposite: structure holds above a label threshold."
+            },
+            {
+              "id": "ignore-short",
+              "label": "ignore",
+              "subLabel": "skip brevity",
+              "cost": "Cost: +2 overfit",
+              "correct": false,
+              "effect": { "overfit": 2 },
+              "recoveryPrompt": "Brevity is the objection. The room only opens when you keep it visible."
+            }
+          ]
+        },
+        "counter": {
+          "label": "Room III - Counterexample",
+          "question": "What about the non-linguistic objection?",
+          "prompt": "The honest move keeps the dispute in view while testing whether structure survives it.",
+          "depthTitle": "Debate gate",
+          "depth": "A strong public claim is not made stronger by pretending the live objection does not exist.",
+          "choices": [
+            {
+              "id": "price-debate",
+              "title": "Keep the debate in the trace",
+              "cost": "Cost: public caution",
+              "copy": "The result enters the language-vs-label debate with a measurable pressure test.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "overfit": -1 },
+              "nextStage": "open"
+            },
+            {
+              "id": "declare-settled",
+              "title": "Declare the debate settled",
+              "cost": "Cost: +2 overfit",
+              "copy": "The claim sounds stronger by becoming less honest.",
+              "correct": false,
+              "effect": { "overfit": 2 },
+              "recoveryPrompt": "Keep the debate visible. The method should survive pressure, not dodge it."
+            }
+          ]
+        }
+      },
+      "trace": {
+        "initial": [
+          "Use coverage before interpretation.",
+          "Test position and treewidth against label-only structure.",
+          "Keep the language-status objection visible."
+        ],
+        "done": [
+          "This is what Logan did at full scale: made the analyzed sign inventory explicit before interpretation.",
+          "This is what Logan did at full scale: used position and treewidth to test language-like structure.",
+          "This is what Logan did at full scale: kept the non-linguistic objection inside the public claim."
+        ]
+      },
+      "result": {
+        "title": "Seal Room open.",
+        "body": "You carried the method through brevity: coverage, position, treewidth, and an honest objection.",
+        "links": [
+          { "label": "Essay", "route": "essay" },
+          { "label": "Zenodo", "route": "zenodo" },
+          { "label": "Matrix", "route": "matrix" },
+          { "label": "Catalogue", "route": "catalogue" }
+        ]
       }
     },
     {
-      "id": "cadence",
-      "name": "Rhythm Room",
+      "id": "whale-cadence",
+      "name": "Whale Room",
       "script": "Cadence",
-      "state": "locked",
-      "role": "next-room",
-      "method": "Hear signal where endangered-language sound first looks like noise.",
+      "kind": "final-boss",
+      "state": "playable",
+      "unlockAfter": ["rongorongo", "proto-elamite", "indus"],
+      "roomNumber": "IV",
+      "role": "locked-final-boss",
+      "headline": "When words fail, what remains?",
+      "lede": "The final boss is not translation. It asks whether cadence can carry signal after vocabulary collapses into noise.",
+      "artifactLabel": "Cadence spectrogram case file",
+      "firstAction": "Earned room: match signal shape before claiming meaning.",
+      "method": "Hear signal where terminal language first looks like noise.",
+      "claimNote": "Cadence room. This teaches signal discipline, not a claim that whale speech has been decoded.",
       "routes": {
-        "vault": "/vault/dying-language-sounds-like-noise"
+        "vault": "/vault/dying-language-sounds-like-noise",
+        "zenodo": "https://zenodo.org/records/19617709",
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "startingScores": { "confidence": 0, "parsimony": 2, "overfit": 2, "seals": 3 },
+      "evidenceGoal": 2,
+      "evidence": [
+        {
+          "id": "contour",
+          "tag": "Signal",
+          "title": "Call contour",
+          "code": "rise / hold / fall",
+          "text": "A shape can repeat even when a word is unavailable.",
+          "correct": true,
+          "effect": { "confidence": 1 }
+        },
+        {
+          "id": "response",
+          "tag": "Cadence",
+          "title": "Response timing",
+          "code": "gap / answer / drift",
+          "text": "Timing can carry relation before translation is possible.",
+          "correct": true,
+          "effect": { "confidence": 1, "parsimony": 1 }
+        },
+        {
+          "id": "noise-floor",
+          "tag": "Noise",
+          "title": "Noise floor",
+          "code": "water / engine / distance",
+          "text": "The room only works if noise is bounded instead of romanticized.",
+          "correct": true,
+          "effect": { "parsimony": 1 }
+        },
+        {
+          "id": "human-word",
+          "tag": "Temptation",
+          "title": "Human word",
+          "code": "hello / grief / name",
+          "text": "This may be emotionally tempting, but the room has not earned translation.",
+          "correct": false,
+          "effect": { "overfit": 2 }
+        },
+        {
+          "id": "single-call",
+          "tag": "Trap",
+          "title": "One beautiful call",
+          "code": "single sample",
+          "text": "One moving signal is not a structure yet.",
+          "correct": false,
+          "effect": { "overfit": 1 }
+        }
+      ],
+      "stages": {
+        "inspect": {
+          "label": "Final Boss - Inspect",
+          "question": "What survives without words?",
+          "prompt": "Whale knowledge is earned by refusing translation until cadence earns structure.",
+          "depthTitle": "Boss rule",
+          "depth": "The prior rooms taught restraint. Now the game removes glyphs and asks whether the player still keeps the method.",
+          "guide": "Pick two cadence facts that can be measured without pretending to know the words."
+        },
+        "method": {
+          "label": "Final Boss - Method",
+          "question": "Spend one method seal.",
+          "prompt": "Choose the method that matches shape while keeping meaning sealed.",
+          "depthTitle": "Cadence method",
+          "depth": "The earned move is to compare contour and timing before semantic naming.",
+          "choices": [
+            {
+              "id": "contour-match",
+              "title": "Match contour and timing",
+              "cost": "Cost: 1 method seal",
+              "copy": "Treat cadence shape as evidence, not as a translated sentence.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "seals": -1 },
+              "nextStage": "test"
+            },
+            {
+              "id": "translate-whale",
+              "title": "Translate the whale",
+              "cost": "Cost: +3 overfit",
+              "copy": "This is the boss trap. A claim can sound magical while losing the method.",
+              "correct": false,
+              "effect": { "overfit": 3 },
+              "recoveryPrompt": "Not earned. Match cadence shape before meaning."
+            },
+            {
+              "id": "ignore-noise",
+              "title": "Ignore the noise floor",
+              "cost": "Cost: -1 parsimony",
+              "copy": "Signal gets easier only because the hard boundary vanished.",
+              "correct": false,
+              "effect": { "parsimony": -1, "overfit": 1 },
+              "recoveryPrompt": "The water is part of the problem. Bound the noise first."
+            }
+          ]
+        },
+        "test": {
+          "label": "Final Boss - Test",
+          "question": "Which match is earned?",
+          "prompt": "A real cadence hypothesis should match repeated contour and response timing, not a human gloss.",
+          "depthTitle": "Whale gate",
+          "depth": "Spencer earns the whale knowledge by choosing the measurable shape over the mythic translation.",
+          "pattern": "contour + timing / noise bounded / meaning sealed",
+          "choices": [
+            {
+              "id": "shape",
+              "label": "shape",
+              "subLabel": "cadence match",
+              "cost": "Cost: keep meaning sealed",
+              "correct": true,
+              "effect": { "confidence": 1 },
+              "nextStage": "counter"
+            },
+            {
+              "id": "word",
+              "label": "word",
+              "subLabel": "translation",
+              "cost": "Cost: +3 overfit",
+              "correct": false,
+              "effect": { "overfit": 3 },
+              "recoveryPrompt": "The room is won by shape, not by pretending the word is known."
+            },
+            {
+              "id": "vibe",
+              "label": "vibe",
+              "subLabel": "emotion only",
+              "cost": "Cost: +2 overfit",
+              "correct": false,
+              "effect": { "overfit": 2 },
+              "recoveryPrompt": "Emotion can motivate attention, but it cannot carry the proof."
+            }
+          ]
+        },
+        "counter": {
+          "label": "Final Boss - Counterexample",
+          "question": "What knowledge is actually earned?",
+          "prompt": "The boss opens only if you leave translation sealed and take the cadence result.",
+          "depthTitle": "Earned whale knowledge",
+          "depth": "The reward is stronger because it is smaller: signal shape survived; translation did not get smuggled in.",
+          "choices": [
+            {
+              "id": "earned",
+              "title": "Earn cadence knowledge",
+              "cost": "Cost: no fake translation",
+              "copy": "The proof trace says what was learned: contour, timing, and bounded noise.",
+              "correct": true,
+              "effect": { "confidence": 1, "parsimony": 1, "overfit": -2 },
+              "nextStage": "open"
+            },
+            {
+              "id": "claim-too-much",
+              "title": "Claim whale language decoded",
+              "cost": "Cost: +3 overfit",
+              "copy": "That would make the ending louder and weaker.",
+              "correct": false,
+              "effect": { "overfit": 3 },
+              "recoveryPrompt": "Boss rule: take the smaller true knowledge."
+            }
+          ]
+        }
+      },
+      "trace": {
+        "initial": [
+          "Match cadence shape before meaning.",
+          "Keep noise and distance in the model.",
+          "Earn signal knowledge without fake translation."
+        ],
+        "done": [
+          "This is what Logan did at full scale: treated dying-language noise as a measurable channel problem.",
+          "This is what Logan did at full scale: kept entropy, degeneracy, and signal decay in the same frame.",
+          "This is what Logan did at full scale: separated earned cadence knowledge from unearned translation."
+        ]
+      },
+      "result": {
+        "title": "Whale Cadence earned.",
+        "body": "You reached the final boss and took the smaller true reward: cadence can preserve signal before words are recovered.",
+        "links": [
+          { "label": "Vault", "route": "vault" },
+          { "label": "Zenodo", "route": "zenodo" },
+          { "label": "Matrix", "route": "matrix" },
+          { "label": "Catalogue", "route": "catalogue" }
+        ]
       }
     }
   ],
-  "runtime": {
-    "mount": "[data-game]",
-    "acceptedMarks": {
-      "label": "730",
-      "minUnique": 2,
-      "values": ["a", "b", "c"],
-      "noiseRule": "Non-730 taps teach recurrence without ending the run."
-    },
-    "startingScores": {
-      "signal": 0,
-      "overfit": 1
-    },
-    "meterStep": 33,
-    "guide": {
-      "notice": "Tap a repeated 730 mark.",
-      "twin": "Now tap any matching 730.",
-      "test": "Choose the testable calendar move.",
-      "predict": "Choose 30 to test the cycle.",
-      "break": "Keep the counterexample visible."
-    }
-  },
-  "steps": {
-    "notice": {
-      "label": "Step 1 - Notice",
-      "question": "Tap the repeated marks.",
-      "prompt": "Start with the object. Find the same mark twice before naming what it means.",
-      "depthTitle": "Automagic tutorial",
-      "depth": "Follow the gold pulse. The page will keep pointing at the next honest move until you take it.",
-      "announce": "Game ready. Tap a repeated 730 mark."
-    },
-    "twin": {
-      "label": "Step 1 - Notice",
-      "question": "Tap the repeated marks.",
-      "prompt": "Good. One repeat is a clue. Find its twin before telling a story.",
-      "depthTitle": "Pattern found",
-      "depth": "One repeat is suggestive; two repeats become a count. That is the first bridge from mystery to method.",
-      "announce": "One repeated mark found. Find its twin."
-    },
-    "test": {
-      "label": "Step 2 - Test",
-      "question": "Calendar or coincidence?",
-      "prompt": "A repeated mark is only the start. Cost: spend one method seal to make the calendar idea risk prediction.",
-      "depthTitle": "Deeper move",
-      "depth": "A calendar claim becomes serious only when it spends a method seal to make the pattern answer back.",
-      "announce": "Two repeated marks found. Choose the testable calendar move."
-    },
-    "predict": {
-      "label": "Step 3 - Predict",
-      "question": "What should come next?",
-      "prompt": "If the tablet is calendrical, the short/long moon-count pattern has to risk a next mark. Cost: confidence.",
-      "depthTitle": "Prediction test",
-      "depth": "Now the player risks confidence on a tiny forecast: if short and long moon counts alternate, the next honest move is 30.",
-      "announce": "Prediction test open. Choose the next count in the rhythm."
-    },
-    "break": {
-      "label": "Step 4 - Break",
-      "question": "A mark is missing. What now?",
-      "prompt": "The good move is not the cleanest story. Cost: lose elegance by keeping the break visible.",
-      "depthTitle": "Honesty gate",
-      "depth": "The cost is elegance. The hard part is keeping the break visible when it makes the story less clean.",
-      "announce": "The prediction held. Now keep the counterexample visible."
-    },
-    "open": {
-      "label": "Step 5 - Open",
-      "question": "The trace opens.",
-      "prompt": "This is the bridge: the player felt the method, then the essay carries the proof.",
-      "depthTitle": "Trace unlocked",
-      "depth": "The small game is over. The essay now carries the full proof, with the DOI record as the academic stamp.",
-      "announce": "Proof trace open. Routes to essay, vault, Zenodo, and catalogue are available."
-    },
-    "temptation": {
-      "label": "Temptation priced",
-      "question": "That move costs truth.",
-      "prompt": "That makes the story easier and the proof weaker. Try the move that risks prediction.",
-      "depthTitle": "Temptation priced",
-      "depth": "That move feels satisfying because it explains too easily. The notebook raises overfit so the player can feel the cost.",
-      "announce": "Overfit rose. Try the honest move."
-    }
-  },
-  "choices": {
-    "method": [
-      {
-        "id": "calendar",
-        "correct": true,
-        "title": "Test the lunar rhythm.",
-        "cost": "Cost: spend 1 method seal",
-        "copy": "If it is a calendar, the short/long moon counts, 29 and 30, should behave like structure, not decoration.",
-        "nextStep": "predict"
-      },
-      {
-        "id": "story",
-        "correct": false,
-        "title": "Tell the prettiest story.",
-        "cost": "Cost: +1 overfit",
-        "copy": "Stars, kings, seasons. It feels good, but it may explain too much.",
-        "recoveryPrompt": "That makes the story easier and the proof weaker. Try the move that risks prediction."
-      },
-      {
-        "id": "gap",
-        "correct": false,
-        "title": "Ignore the damaged gap.",
-        "cost": "Cost: +1 overfit",
-        "copy": "Cleaner pattern, weaker truth.",
-        "recoveryPrompt": "That makes the story cleaner by becoming less honest. Try the move that risks prediction."
-      }
-    ],
-    "prediction": [
-      {
-        "id": "30",
-        "correct": true,
-        "label": "30",
-        "subLabel": "long moon",
-        "cost": "Cost: risk confidence",
-        "nextStep": "break"
-      },
-      {
-        "id": "29",
-        "correct": false,
-        "label": "29",
-        "subLabel": "short moon",
-        "cost": "Cost: +1 overfit",
-        "recoveryPrompt": "That answer explains less of the rhythm. Try the count that preserves the alternation."
-      },
-      {
-        "id": "story",
-        "correct": false,
-        "label": "story",
-        "cost": "Cost: +1 overfit",
-        "recoveryPrompt": "That is a satisfying story, not a test. Try the count that preserves the alternation."
-      }
-    ],
-    "counter": [
-      {
-        "id": "keep",
-        "correct": true,
-        "title": "Keep the counterexample.",
-        "cost": "Cost: lose elegance",
-        "copy": "The missing twin stays in the proof, even if it hurts the story.",
-        "nextStep": "open"
-      },
-      {
-        "id": "hide",
-        "correct": false,
-        "title": "Hide the counterexample.",
-        "cost": "Cost: +1 overfit",
-        "copy": "The pattern becomes cleaner by becoming less honest.",
-        "recoveryPrompt": "Clean, but dishonest. The counterexample has to remain visible."
-      }
-    ]
-  },
-  "trace": {
-    "initial": {
-      "count": "Count recurrence before translation.",
-      "test": "Make the calendar reading predict something.",
-      "counter": "Keep the counterexample inside the proof."
-    },
-    "done": {
-      "count": "This is what Logan did at full scale: counted recurrence before translating.",
-      "test": "This is what Logan did at full scale: treated short and long moon counts as a testable lunar rhythm.",
-      "counter": "This is what Logan did at full scale: kept counterexamples inside the proof trace."
-    }
-  },
-  "result": {
-    "title": "Proof trace open.",
-    "body": "You did not decode Rongorongo. You learned the shape of Logan's argument: pattern first, prediction second, honesty always.",
-    "links": [
-      { "label": "Essay", "route": "essay" },
-      { "label": "Vault", "route": "vault" },
-      { "label": "Zenodo", "route": "zenodo" },
-      { "label": "Catalogue", "route": "catalogue" }
-    ]
-  },
   "fixtures": [
     {
-      "id": "bottom-730-first-still-solves",
+      "id": "rongorongo-solves",
+      "roomId": "rongorongo",
       "moves": [
-        { "type": "tap", "mark": "c" },
-        { "type": "tap", "mark": "a" },
-        { "type": "choice", "id": "calendar" },
-        { "type": "prediction", "id": "30" },
+        { "type": "evidence", "id": "repeat" },
+        { "type": "evidence", "id": "spacing" },
+        { "type": "method", "id": "frequency" },
+        { "type": "test", "id": "long-moon" },
         { "type": "counter", "id": "keep" }
       ],
-      "expect": {
-        "step": "open",
-        "signal": 3,
-        "overfit": 0,
-        "noise": 0,
-        "trace": ["count", "test", "counter"]
-      }
+      "expect": { "stage": "open", "confidence": 5, "parsimony": 4, "overfit": 1, "seals": 2, "trace": 3 }
     },
     {
-      "id": "noise-tap-recovers-without-clobber",
+      "id": "proto-solves",
+      "roomId": "proto-elamite",
       "moves": [
-        { "type": "noise", "label": "star" },
-        { "type": "tap", "mark": "b" },
-        { "type": "tap", "mark": "c" }
+        { "type": "evidence", "id": "coverage" },
+        { "type": "evidence", "id": "hierarchy" },
+        { "type": "method", "id": "formula-fit" },
+        { "type": "test", "id": "susa" },
+        { "type": "counter", "id": "separate" }
       ],
-      "expect": {
-        "step": "test",
-        "signal": 1,
-        "overfit": 1,
-        "noise": 1,
-        "trace": ["count"]
-      }
+      "expect": { "stage": "open", "confidence": 5, "parsimony": 5, "overfit": 0, "seals": 2, "trace": 3 }
     },
     {
-      "id": "temptation-prices-overfit",
+      "id": "indus-solves",
+      "roomId": "indus",
       "moves": [
-        { "type": "tap", "mark": "a" },
-        { "type": "tap", "mark": "b" },
-        { "type": "choice", "id": "story" },
-        { "type": "choice", "id": "calendar" },
-        { "type": "prediction", "id": "29" }
+        { "type": "evidence", "id": "coverage" },
+        { "type": "evidence", "id": "treewidth" },
+        { "type": "method", "id": "position-grammar" },
+        { "type": "test", "id": "holds-structure" },
+        { "type": "counter", "id": "price-debate" }
       ],
-      "expect": {
-        "step": "predict",
-        "signal": 1,
-        "overfit": 3,
-        "noise": 0,
-        "trace": ["count"]
-      }
+      "expect": { "stage": "open", "confidence": 5, "parsimony": 5, "overfit": 0, "seals": 2, "trace": 3 }
+    },
+    {
+      "id": "whale-solves",
+      "roomId": "whale-cadence",
+      "moves": [
+        { "type": "evidence", "id": "contour" },
+        { "type": "evidence", "id": "response" },
+        { "type": "method", "id": "contour-match" },
+        { "type": "test", "id": "shape" },
+        { "type": "counter", "id": "earned" }
+      ],
+      "expect": { "stage": "open", "confidence": 5, "parsimony": 5, "overfit": 0, "seals": 2, "trace": 3 }
+    },
+    {
+      "id": "whale-translation-trap-prices-overfit",
+      "roomId": "whale-cadence",
+      "moves": [
+        { "type": "evidence", "id": "human-word" },
+        { "type": "evidence", "id": "contour" },
+        { "type": "evidence", "id": "response" },
+        { "type": "method", "id": "translate-whale" },
+        { "type": "method", "id": "contour-match" }
+      ],
+      "expect": { "stage": "test", "confidence": 3, "parsimony": 4, "overfit": 7, "seals": 2, "trace": 1 }
     }
   ]
 }
