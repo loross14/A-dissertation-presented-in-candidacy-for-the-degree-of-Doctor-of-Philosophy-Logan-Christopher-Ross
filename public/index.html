@@ -20,7 +20,7 @@
   <meta property="og:image:alt" content="Shadow &amp; Mirror — a homepage game by Logan Christopher Ross, with Planisphere verification below." />
   <meta name="twitter:image" content="https://logan.engineering/og.png" />
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://logan.engineering/#person","name":"Logan Christopher Ross","jobTitle":"Computational Architect & Independent Researcher","url":"https://logan.engineering/","knowsAbout":["Graph theory","Treewidth","Computational complexity","Quantum circuit simulation","Corpus linguistics"]},{"@type":"WebSite","@id":"https://logan.engineering/#website","url":"https://logan.engineering/","name":"logan.engineering","author":{"@id":"https://logan.engineering/#person"}},{"@type":"Book","@id":"https://logan.engineering/#volume","name":"Shadow & Mirror: Treewidth as the Universal Meter of Computation, Physics, and Consciousness","author":{"@id":"https://logan.engineering/#person"},"url":"https://logan.engineering/thesis.pdf","numberOfPages":895}]}</script>
-  <link rel="icon" href="data:," />
+  <link rel="icon" href="/logie-copper-scroll.svg" type="image/svg+xml" />
   <style>
     :root {
       --bg:#080705;
@@ -219,6 +219,14 @@
       letter-spacing:.18em;
       text-transform:uppercase;
       margin:0 0 12px;
+    }
+    .hero-mark {
+      width:clamp(72px, 9vw, 116px);
+      height:auto;
+      display:block;
+      margin:0 0 18px;
+      border-radius:24px;
+      box-shadow:0 20px 70px #0008, 0 0 0 1px #d9a85c44;
     }
     h1 {
       max-width:12ch;
@@ -1054,6 +1062,7 @@
     <section class="game">
       <section class="table-side" aria-label="Damaged tablet">
         <div>
+          <img class="hero-mark" src="/logie-copper-scroll.svg" width="116" height="116" alt="Logie copper scroll mark" />
           <p class="eyebrow">Four Locked Rooms · Game board</p>
           <h1>The Four Locked Rooms</h1>
           <p class="lede">Solve the human script rooms first: Rongorongo, Proto-Elamite, and Indus. Only then does the Whale Cadence final boss open.</p>

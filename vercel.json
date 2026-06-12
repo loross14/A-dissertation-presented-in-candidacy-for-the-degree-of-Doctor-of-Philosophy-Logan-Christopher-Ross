@@ -27,6 +27,7 @@
       "destination": "https://www.logan.engineering/thesis.pdf",
       "permanent": true
     },
+    { "source": "/favicon.ico", "destination": "/logie-copper-scroll.svg", "permanent": true },
     { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true },
     { "source": "/matrix/tensor-network-contraction/:slug", "destination": "/matrix/tensor-network-contraction", "permanent": true },
     { "source": "/matrix/vector-databases-rag/:slug", "destination": "/matrix/vector-databases-rag", "permanent": true },
