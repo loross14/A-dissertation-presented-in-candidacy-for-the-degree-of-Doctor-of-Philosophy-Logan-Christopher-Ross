@@ -13,6 +13,7 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Shadow &amp; Mirror — a volume by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
+  <link rel="icon" href="data:," />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Shadow &amp; Mirror" />
   <meta name="twitter:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
@@ -62,7 +63,7 @@
     .room-card:nth-child(2n) { border-right:0; }
     .room-card:nth-last-child(-n+2) { border-bottom:0; }
     .room-card.active { background:color-mix(in srgb, var(--brass) 12%, transparent); }
-    .room-card.solved::after { content:'key won'; position:absolute; top:14px; right:14px; color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .room-card.solved::after { content:'trace open'; position:absolute; top:14px; right:14px; color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
     .room-card.locked { opacity:.42; }
     .room-card.locked .room-pick { cursor:not-allowed; }
     .room-pick { border:0; padding:0; background:transparent; color:var(--ink); text-align:left; cursor:pointer; font:inherit; display:flex; flex-direction:column; gap:10px; }
@@ -75,28 +76,39 @@
     .play-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
     .play-title { margin:0; font-size:20px; line-height:1.2; }
     .status-pill { flex:none; border:1px solid var(--panelrule); color:var(--brass); padding:6px 8px; border-radius:999px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
-    .artifact { margin:16px 0; padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:12px; }
-    .glyph-line { display:flex; flex-wrap:wrap; gap:8px; min-height:42px; align-items:center; }
-    .glyph { min-width:38px; padding:8px 10px; border:1px solid var(--ink); background:var(--panel); color:var(--ink); text-align:center; font:600 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace; cursor:pointer; }
-    .glyph:hover, .glyph:focus-visible, .glyph.hit { background:var(--ink); color:var(--paper); outline:0; }
-    .glyph.miss { border-color:#c62828; color:#c62828; }
-    .slots, .tiles { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; }
-    .slot { min-height:42px; border:1px dashed var(--brass); display:flex; align-items:center; justify-content:center; color:var(--dim); font:600 11px/1.2 ui-sans-serif,system-ui,sans-serif; text-align:center; }
-    .slot.filled { border-style:solid; color:var(--ink); background:var(--panel); }
-    .tile, .shape-choice { border:1px solid var(--ink); background:var(--panel); color:var(--ink); padding:10px 8px; cursor:pointer; font:600 12px/1.2 ui-sans-serif,system-ui,sans-serif; }
-    .tile:hover, .tile:focus-visible, .shape-choice:hover, .shape-choice:focus-visible { background:var(--ink); color:var(--paper); outline:0; }
-    .tile:disabled { opacity:.38; cursor:default; background:transparent; color:var(--dim); }
-    .meter-wrap { display:grid; gap:10px; }
-    .meter-labels { display:flex; justify-content:space-between; color:var(--dim); font:600 11px/1 ui-sans-serif,system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; }
-    .signal-meter { width:100%; accent-color:var(--brass); }
-    .shapes { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; }
-    .bars { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; align-items:end; height:78px; }
-    .bar { background:var(--ink); min-height:10px; position:relative; }
-    .bar::after { content:attr(data-label); position:absolute; left:0; right:0; bottom:-19px; color:var(--dim); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; text-align:center; }
+    .artifact { margin:16px 0; display:grid; gap:14px; }
+    .case-board { padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:12px; }
+    .case-board h4 { margin:0; font-size:18px; line-height:1.2; }
+    .case-board p { margin:.3em 0 0; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .claim-note { border-left:3px solid var(--brass); padding-left:12px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .score-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; }
+    .score { border:1px solid var(--panelrule); background:var(--panel); padding:10px; display:grid; gap:6px; min-height:76px; }
+    .score b { font:600 10px/1.2 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+    .score strong { font:600 18px/1 Georgia, "Times New Roman", serif; }
+    .score .track { height:5px; background:var(--panelrule); overflow:hidden; }
+    .score .fill { display:block; height:100%; width:0%; background:var(--ink); transition:width .2s ease; }
+    .score.overfit .fill { background:#c62828; }
+    .turn-hint { font:600 12px/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--ink); }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:9px; }
+    .evidence-card, .method-card { border:1px solid var(--panelrule); background:var(--panel); color:var(--ink); text-align:left; cursor:pointer; padding:12px; display:grid; gap:7px; }
+    .evidence-card:hover, .evidence-card:focus-visible, .evidence-card.active, .method-card:hover, .method-card:focus-visible { border-color:var(--ink); outline:0; }
+    .evidence-card.active { background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
+    .evidence-card .tag, .method-card .tag, .door-state { color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .evidence-card b, .method-card b { font:600 14px/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .evidence-card span:not(.tag), .method-card span:not(.tag) { color:var(--dim); font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; }
+    .method-hand { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:9px; }
+    .method-card:disabled { opacity:.42; cursor:default; }
+    .method-card:disabled:hover { border-color:var(--panelrule); }
+    .case-log { border:1px solid var(--panelrule); background:var(--paper); padding:13px 14px; min-height:86px; }
+    .case-log h4 { margin:0 0 .55em; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--brass); }
+    .case-log ol { margin:0; padding-left:1.3em; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .case-log li + li { margin-top:.35em; }
     .move-row { display:flex; flex-wrap:wrap; gap:9px; margin-top:10px; }
     .move { border:1px solid var(--ink); background:transparent; color:var(--ink); padding:10px 12px; border-radius:7px; cursor:pointer; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
     .move:hover, .move:focus-visible, .move.active { background:var(--ink); color:var(--paper); outline:0; }
     .move.primary { background:var(--ink); color:var(--paper); }
+    .move:disabled { opacity:.42; cursor:default; }
+    .move:disabled:hover { background:transparent; color:var(--ink); }
     .reveal { margin-top:16px; border-left:3px solid var(--brass); padding-left:13px; }
     .reveal p { margin:.45em 0; }
     .reveal .method { color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; }
@@ -108,6 +120,8 @@
     .archive-gate.open { border-color:var(--ink); background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
     .archive-gate p { margin:.35em 0; }
     .rosetta-fallback { padding:0 20px 18px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .proof-trace { margin:.65em 0 0; padding-left:1.2em; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .proof-trace li + li { margin-top:.35em; }
 
     /* the Planisphere collaboration mark */
     .stamp { width:1.4em; height:1.4em; vertical-align:-0.34em; margin:0 .12em 0 .3em; opacity:.92; }
@@ -165,7 +179,7 @@
       .room-card:last-child { border-bottom:0; }
       .play-top { display:block; }
       .status-pill { display:inline-block; margin-top:10px; }
-      .slots, .tiles, .shapes { grid-template-columns:1fr 1fr; }
+      .score-grid, .evidence-grid, .method-hand { grid-template-columns:1fr; }
       .gamebar { display:block; }
       .game-status { text-align:left; margin-top:10px; }
     }
@@ -200,9 +214,9 @@
 
     <section class="rosetta" id="rosetta-meter" aria-labelledby="rosetta-title">
       <div class="rosetta-head">
-        <div class="kicker">Homepage game &middot; The first door</div>
+        <div class="kicker">Homepage game &middot; The evidence room</div>
         <h2 id="rosetta-title">The Four Locked Rooms</h2>
-        <p class="lede">Four doors are locked. Win the keys by spotting the pattern. Open the archive before the page turns back into a paper.</p>
+        <p class="lede">Four doors are locked. The first one opens by doing the work: choose evidence, spend a method, test the calendar reading, and leave with a proof trace.</p>
       </div>
 
       <div class="gamebar">
@@ -212,8 +226,8 @@
           <span class="key" data-key="indus">S</span>
           <span class="key" data-key="cadence">R</span>
         </div>
-        <div class="game-status" data-game-status>First key: Calendar.</div>
-        <button class="move primary" type="button" data-new-game>Restart game</button>
+        <div class="game-status" data-game-status>Calendar case: pick evidence, then play a method card.</div>
+        <button class="move primary" type="button" data-new-game>New case draw</button>
       </div>
 
       <div class="room-grid" aria-label="Choose a locked room">
@@ -221,7 +235,7 @@
           <button class="room-pick" type="button" data-room="rongorongo" aria-pressed="true">
             <span class="door">Calendar room</span>
             <b>Rongorongo</b>
-            <span>Repeated marks, lunar order, one tablet that behaves like a sky clock.</span>
+            <span>Start here. Build a defensible reading from noisy marks, a lunar hypothesis, and counterexamples.</span>
           </button>
           <a href="/essays/deciphering-rongorongo">Read the essay</a>
         </article>
@@ -229,7 +243,7 @@
           <button class="room-pick" type="button" data-room="proto" aria-pressed="false">
             <span class="door">Ledger room</span>
             <b>Proto-Elamite</b>
-            <span>Clay tablets, totals, commodities, and a capital whose records carry more structure.</span>
+            <span>Locked for this slice: administrative formulas, sign roles, and tablet-level structure.</span>
           </button>
           <a href="/essays/reading-proto-elamite">Read the essay</a>
         </article>
@@ -237,7 +251,7 @@
           <button class="room-pick" type="button" data-room="indus" aria-pressed="false">
             <span class="door">Seal room</span>
             <b>Indus</b>
-            <span>Short seals, fixed positions, and a sign system too structured to treat casually.</span>
+            <span>Locked for this slice: short seals, fixed positions, and structural signal under brevity.</span>
           </button>
           <a href="/essays/reading-indus-valley-script">Read the essay</a>
         </article>
@@ -245,7 +259,7 @@
           <button class="room-pick" type="button" data-room="cadence" aria-pressed="false">
             <span class="door">Rhythm room</span>
             <b>Cadence</b>
-            <span>When the words are lost, the energy of the utterance still leaves a shape.</span>
+            <span>Locked for this slice: a dying language measured by energy shape after vocabulary fails.</span>
           </button>
           <a href="/vault/dying-language-sounds-like-noise">Open the record</a>
         </article>
@@ -253,21 +267,27 @@
 
       <div class="playfield" aria-live="polite">
         <div class="play-top">
-          <h3 class="play-title" data-play-title>Calendar room: tap the repeat</h3>
+          <h3 class="play-title" data-play-title>Calendar room: build the case</h3>
           <span class="status-pill" data-status>Partial &middot; calendar</span>
         </div>
         <div class="artifact" data-artifact></div>
-        <div class="move-row" data-reset-row></div>
+        <div class="move-row" data-action-row></div>
         <div class="reveal locked" data-reveal>
-          <p><b>Try the room move.</b></p>
-          <p class="method">Each little pattern is a doorway into the full method.</p>
+          <p><b>Pick one evidence card.</b></p>
+          <p class="method">Then spend a method card. The goal is not certainty; it is a reading that survives measured pressure.</p>
         </div>
       </div>
 
-      <p class="rosetta-fallback">No trick here: the game is a map. Every room opens into a companion essay, a DOI record, or the full catalogue.</p>
+      <p class="rosetta-fallback">No JavaScript required to read the work: every room also links directly into the essay, DOI vault, or catalogue. The game is a proof-of-method, not a paywall.</p>
       <div class="archive-gate" data-archive-gate>
-        <p><b>Archive sealed.</b></p>
-        <p class="method">Win all four keys to open the full reader path.</p>
+        <p><b>Proof trace sealed.</b></p>
+        <p class="method">Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.</p>
+        <div class="route-row">
+          <a href="/essays/deciphering-rongorongo">Essay</a>
+          <a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a>
+          <a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo</a>
+          <a href="/essays">Full catalogue</a>
+        </div>
       </div>
     </section>
 
@@ -373,63 +393,48 @@
   <script type="module">
     const rosettaRooms = {
       rongorongo: {
-        title: 'Calendar room: tap the repeat',
-        status: 'Partial · calendar',
-        kind: 'repeat',
-        prompt: 'Tap every mark that repeats like a drumbeat.',
-        tokens: ['730', 'moon', '173', '730', 'Venus', 'Pleiades', '730'],
-        target: '730',
-        locked: ['Find the repeated mark.', 'The door opens when a pattern stops feeling random.'],
-        success: ['The door opens when repetition becomes a calendar.', 'This is what Logan did at full scale: measured order first, then read the Mamari pattern against the sky.'],
+        title: 'Calendar room: build the case',
+        status: 'Playable · evidence',
+        door: 'Calendar room',
+        name: 'Rongorongo',
+        summary: 'A proposed Mamari calendar reading only matters if repeated marks, position, and counterexamples can be held in one small rule.',
         links: [
           ['Companion essay', '/essays/deciphering-rongorongo'],
-          ['Zenodo record', 'https://zenodo.org/records/19362491'],
           ['Vault record', '/vault/deciphering-rongorongo-corpus-analysis'],
+          ['Zenodo record', 'https://zenodo.org/records/19362491'],
+          ['Full catalogue', '/essays'],
         ],
       },
       proto: {
-        title: 'Ledger room: arrange the tablet',
-        status: 'Partial · accounting',
-        kind: 'formula',
-        prompt: 'Put the tablet back into bookkeeping order.',
-        slots: ['Header', 'Commodity', 'Admin', 'Total'],
-        tiles: ['TOTAL', 'HEADER', 'ADMIN', 'COMMODITY'],
-        answer: ['HEADER', 'COMMODITY', 'ADMIN', 'TOTAL'],
-        locked: ['Build the little ledger.', 'A record becomes readable when its parts start doing jobs.'],
-        success: ['The door opens when marks behave like bookkeeping.', 'This is what Logan did at full scale: compare sign roles across tablets until administration appears as structure.'],
+        title: 'Ledger room: still sealed',
+        status: 'Locked · ledger',
+        door: 'Ledger room',
+        name: 'Proto-Elamite',
+        summary: 'The next room will ask whether tablet formulas behave like administration instead of decoration.',
         links: [
           ['Companion essay', '/essays/reading-proto-elamite'],
           ['Zenodo record', 'https://zenodo.org/records/19362528'],
-          ['Essays catalogue', '/essays'],
+          ['Full catalogue', '/essays'],
         ],
       },
       indus: {
-        title: 'Seal room: slide signal from noise',
-        status: 'Structural signal',
-        kind: 'meter',
-        prompt: 'Move the meter until the seal feels structured, not random.',
-        locked: ['Find the signal threshold.', 'A short inscription can still carry a rule.'],
-        success: ['The door opens when short marks hold fixed positions.', 'This is what Logan did at full scale: treat brevity as measurable structure instead of dismissing it.'],
+        title: 'Seal room: still sealed',
+        status: 'Locked · seals',
+        door: 'Seal room',
+        name: 'Indus',
+        summary: 'The seal room turns brevity into pressure: can short inscriptions still carry fixed positions and structural signal?',
         links: [
           ['Companion essay', '/essays/reading-indus-valley-script'],
           ['Zenodo record', 'https://zenodo.org/records/19362548'],
-          ['Learn the meter', '/graph-theory'],
+          ['Complexity matrix', '/matrix'],
         ],
       },
       cadence: {
-        title: 'Rhythm room: match the shape',
-        status: 'Comparative measurement',
-        kind: 'rhythm',
-        prompt: 'Which rhythm shape matches a collapse into noise?',
-        bars: [60, 5, 5, 30],
-        choices: [
-          ['regular', 'Heartbeat', [25, 25, 25, 25]],
-          ['grace', 'Bow', [35, 30, 20, 15]],
-          ['drama', 'Spike / flatline', [60, 5, 5, 30]],
-        ],
-        target: 'drama',
-        locked: ['Match the rhythm shape.', 'When words are gone, cadence can still leave a fingerprint.'],
-        success: ['The door opens when function leaves a rhythm.', 'This is what Logan did at full scale: compare communication by energy shape, not vocabulary.'],
+        title: 'Rhythm room: still sealed',
+        status: 'Locked · cadence',
+        door: 'Rhythm room',
+        name: 'Cadence',
+        summary: 'The rhythm room asks what survives when vocabulary fails and communication has to be measured by energy shape.',
         links: [
           ['Vault record', '/vault/dying-language-sounds-like-noise'],
           ['Zenodo record', 'https://zenodo.org/records/19617709'],
@@ -438,11 +443,110 @@
       },
     };
 
+    const caseDraws = [
+      {
+        id: 'mamari-ca',
+        title: 'Case file: Mamari calendar line',
+        hypothesis: 'Hypothesis: a repeated cluster marks a lunar count rather than random ornament.',
+        evidence: [
+          ['repeat', 'Signal', 'Repeated cluster', '730 | 730 | 730', 'The same cluster returns often enough to become the first suspect.', 'signal'],
+          ['position', 'Signal', 'Position constraint', 'edge -> refrain -> count', 'The cluster does not float anywhere; it likes a stable neighborhood.', 'signal'],
+          ['calendar', 'Fit', 'Lunar spacing', '29 / 30 / 173', 'The spacing can be tested against a calendar-shaped reading.', 'signal'],
+          ['counter', 'Counter', 'Missing twin', 'parallel line: no 730', 'A similar line refuses the easy reading. The method has to answer that.', 'counter'],
+          ['temptation', 'Temptation', 'Sky story', 'Venus? Pleiades? king?', 'A rich story can raise confidence while quietly raising overfit risk.', 'temptation'],
+          ['noise', 'Noise', 'Broken edge', 'gap / scar / uncertain hand', 'Some marks are damaged. A good reading must know what not to explain.', 'noise'],
+        ],
+      },
+      {
+        id: 'mamari-cb',
+        title: 'Case file: Mamari night count',
+        hypothesis: 'Hypothesis: repeated marks are doing calendar work across a damaged sequence.',
+        evidence: [
+          ['repeat', 'Signal', 'Recurring refrain', 'crescent | 730 | crescent', 'A repeated local pattern gives the case its first handle.', 'signal'],
+          ['position', 'Signal', 'Neighbor lock', 'before count / after count', 'Neighboring signs constrain what the repeated mark can be doing.', 'signal'],
+          ['calendar', 'Fit', 'Cycle pressure', 'new moon -> dark -> return', 'The reading gains force if it predicts a cycle, not just a label.', 'signal'],
+          ['counter', 'Counter', 'Wrong-neighbor line', 'same sign, wrong place', 'A counterexample tests whether the rule is structural or just decorative.', 'counter'],
+          ['temptation', 'Temptation', 'Mythic gloss', 'bird / priest / star', 'This makes a beautiful story, but beauty is cheap until the corpus pays for it.', 'temptation'],
+          ['noise', 'Noise', 'Carving break', 'missing teeth', 'Damage can mimic separators. Treat it carefully or the reading invents evidence.', 'noise'],
+        ],
+      },
+      {
+        id: 'mamari-cc',
+        title: 'Case file: Mamari eclipse window',
+        hypothesis: 'Hypothesis: the tablet preserves a compact astronomical reckoning.',
+        evidence: [
+          ['repeat', 'Signal', 'Return mark', 'A B A B A', 'A repeating mark makes the first bridge between inscription and meter.', 'signal'],
+          ['position', 'Signal', 'Line boundary', 'start / middle / close', 'The same sign behaves differently by position, which is where grammar starts to appear.', 'signal'],
+          ['calendar', 'Fit', 'Eclipse-sized span', '173-day pressure', 'A testable sky interval is stronger than a free-floating translation.', 'signal'],
+          ['counter', 'Counter', 'Silent tablet', 'parallel object: absent', 'If the same rule is absent elsewhere, the case must explain why.', 'counter'],
+          ['temptation', 'Temptation', 'Perfect alignment', 'too many sky names', 'A perfect-looking alignment can be the most dangerous move on the board.', 'temptation'],
+          ['noise', 'Noise', 'Copy uncertainty', 'variant hand', 'Variant carving may be real structure, scribal habit, or noise.', 'noise'],
+        ],
+      },
+    ];
+
+    const methods = [
+      ['frequency', 'Coverage', 'Frequency count', 'Ask what repeats more than chance.'],
+      ['position', 'Parsimony', 'Position constraint', 'Test whether a sign keeps a job in context.'],
+      ['calendar', 'Confidence', 'Calendar fit', 'Risk a sky-shaped reading that makes predictions.'],
+      ['cross', 'Counterplay', 'Cross-tablet check', 'Make the hypothesis survive another line.'],
+      ['skeptic', 'Discipline', 'Skeptic challenge', 'Attack the prettiest explanation first.'],
+      ['separator', 'Noise', 'Separator test', 'Decide what not to explain.'],
+    ].map(([id, tag, name, text]) => ({ id, tag, name, text }));
+
+    const comboEffects = {
+      'repeat:frequency': {
+        coverage: 2, parsimony: 1, confidence: 1, overfit: 0,
+        note: 'Frequency count turns the repeated cluster into evidence instead of atmosphere.',
+        proof: 'Repeated marks were measured before they were interpreted.',
+      },
+      'position:position': {
+        coverage: 2, parsimony: 1, confidence: 1, overfit: 0,
+        note: 'Position constraint gives the mark a job: it appears where the proposed rule needs it.',
+        proof: 'The reading used neighborhood and order, not isolated glyph vibes.',
+      },
+      'calendar:calendar': {
+        coverage: 1, parsimony: 0, confidence: 2, overfit: 1,
+        note: 'Calendar fit raises the stakes: the reading now has to meet the sky, not just the page.',
+        proof: 'The hypothesis made a calendar-shaped prediction.',
+      },
+      'counter:cross': {
+        coverage: 0, parsimony: 1, confidence: 1, overfit: -2, countered: true,
+        note: 'Cross-tablet check answers the missing twin without pretending it vanished.',
+        proof: 'A counterexample was tested instead of ignored.',
+      },
+      'counter:skeptic': {
+        coverage: 0, parsimony: 1, confidence: 1, overfit: -2, countered: true,
+        note: 'The skeptic challenge catches the weak joint and makes the rule smaller.',
+        proof: 'The case survived adversarial pressure.',
+      },
+      'temptation:skeptic': {
+        coverage: 0, parsimony: 1, confidence: 1, overfit: -1,
+        note: 'The gorgeous sky story gets cut down to what the evidence can carry.',
+        proof: 'Tempting glosses were separated from structural support.',
+      },
+      'temptation:calendar': {
+        coverage: 1, parsimony: -1, confidence: 1, overfit: 3,
+        note: 'The story feels exciting, but it spends too much risk for too little constraint.',
+        proof: 'A high-fit story was marked as overfit pressure.',
+      },
+      'noise:separator': {
+        coverage: 0, parsimony: 1, confidence: 0, overfit: -1,
+        note: 'Separator test keeps damage from becoming fake grammar.',
+        proof: 'Noise was bounded before the reading claimed structure.',
+      },
+      'noise:frequency': {
+        coverage: 0, parsimony: -1, confidence: 0, overfit: 2,
+        note: 'Counting damaged marks makes the rule bigger without making it better.',
+        proof: 'Damaged evidence was not allowed to carry the case alone.',
+      },
+    };
+
     const roomButtons = [...document.querySelectorAll('[data-room]')];
     const playTitle = document.querySelector('[data-play-title]');
     const statusPill = document.querySelector('[data-status]');
     const artifact = document.querySelector('[data-artifact]');
-    const resetRow = document.querySelector('[data-reset-row]');
+    const actionRow = document.querySelector('[data-action-row]');
     const reveal = document.querySelector('[data-reveal]');
     const keyEls = [...document.querySelectorAll('[data-key]')];
     const gameStatus = document.querySelector('[data-game-status]');
@@ -451,148 +555,220 @@
     const roomOrder = ['rongorongo', 'proto', 'indus', 'cadence'];
     const roomNames = { rongorongo: 'Calendar', proto: 'Ledger', indus: 'Seal', cadence: 'Rhythm' };
     let activeRoom = 'rongorongo';
-    let formulaPick = [];
     let solvedRooms = new Set();
-    let unlockedRooms = new Set(['rongorongo']);
+    let state = null;
 
     const routeLinks = (room) => '<div class="route-row">' + room.links.map(([label, href]) =>
-      '<a href="' + href + '">' + label + '</a>'
+      '<a href="' + href + '"' + (href.startsWith('http') ? ' rel="noopener"' : '') + '>' + label + '</a>'
     ).join('') + '</div>';
 
-    const setReveal = (room, mode) => {
-      const text = mode === 'success' ? room.success : room.locked;
-      reveal.classList.toggle('locked', mode !== 'success');
-      reveal.innerHTML =
-        '<p><b>' + text[0] + '</b></p>' +
-        '<p class="method">' + text[1] + '</p>' +
-        (mode === 'success' ? routeLinks(room) : '');
-      if (mode === 'success') completeRoom(activeRoom);
+    const clamp = (value, min = 0, max = 6) => Math.max(min, Math.min(max, value));
+    const shuffle = (items) => items
+      .map((item) => [Math.random(), item])
+      .sort((a, b) => a[0] - b[0])
+      .map((entry) => entry[1]);
+
+    const makeState = () => {
+      const draw = caseDraws[Math.floor(Math.random() * caseDraws.length)];
+      return {
+        draw,
+        evidence: shuffle(draw.evidence.map(([id, tag, title, code, text, kind]) => ({ id, tag, title, code, text, kind }))),
+        selectedEvidence: draw.evidence[0][0],
+        actionsLeft: 5,
+        scores: { coverage: 0, parsimony: 3, confidence: 0, overfit: 1 },
+        usedMethods: new Set(),
+        trace: [],
+        countered: false,
+        solved: false,
+        lastNote: 'Pick evidence, then choose the method that tests it.',
+      };
+    };
+
+    const scoreBlock = (label, value, className = '') => {
+      const width = Math.round((clamp(value) / 6) * 100);
+      return '<div class="score ' + className + '"><b>' + label + '</b><strong>' + value + '/6</strong><span class="track"><span class="fill" style="width:' + width + '%"></span></span></div>';
     };
 
     const syncGameState = () => {
       roomButtons.forEach((button) => {
         const key = button.dataset.room;
         const card = button.closest('.room-card');
-        const locked = !unlockedRooms.has(key);
-        card.classList.toggle('locked', locked);
+        const locked = key !== 'rongorongo';
+        card.classList.toggle('locked', locked && activeRoom !== key);
         card.classList.toggle('solved', solvedRooms.has(key));
-        button.disabled = locked;
-        button.setAttribute('aria-disabled', locked ? 'true' : 'false');
+        button.disabled = false;
+        button.setAttribute('aria-disabled', 'false');
       });
       keyEls.forEach((keyEl) => keyEl.classList.toggle('on', solvedRooms.has(keyEl.dataset.key)));
-      const next = roomOrder.find((key) => !solvedRooms.has(key));
-      if (next) gameStatus.textContent = solvedRooms.size + '/4 keys won. Next key: ' + roomNames[next] + '.';
-      else gameStatus.textContent = '4/4 keys won. The archive is open.';
-      archiveGate.classList.toggle('open', solvedRooms.size === roomOrder.length);
-      archiveGate.innerHTML = solvedRooms.size === roomOrder.length
-        ? '<p><b>Archive open.</b></p><p class="method">You found all four patterns. Now choose the serious door.</p><div class="route-row"><a href="/essays">Enter the essays</a><a href="/vault">Inspect the DOI vault</a><a href="/matrix">Open the matrix</a><a href="/thesis.pdf">Read the volume</a></div>'
-        : '<p><b>Archive sealed.</b></p><p class="method">Win all four keys to open the full reader path.</p>';
+      if (state.solved) gameStatus.textContent = 'Calendar trace open. The other rooms now point into the catalogue.';
+      else if (state.actionsLeft === 0) gameStatus.textContent = 'No method cards left. Commit the case or draw again.';
+      else gameStatus.textContent = state.actionsLeft + ' method cards left. Selected: ' + selectedEvidence().title + '.';
+      renderArchive();
     };
 
     const completeRoom = (key) => {
       if (solvedRooms.has(key)) return;
       solvedRooms.add(key);
-      const nextIndex = roomOrder.indexOf(key) + 1;
-      if (roomOrder[nextIndex]) unlockedRooms.add(roomOrder[nextIndex]);
       syncGameState();
     };
 
-    const newGame = () => {
+    const newCase = () => {
       solvedRooms = new Set();
-      unlockedRooms = new Set(['rongorongo']);
+      state = makeState();
       renderRoom('rongorongo');
       syncGameState();
     };
 
-    const drawBars = (bars) => '<div class="bars">' + bars.map((h, i) =>
-      '<span class="bar" data-label="Q' + (i + 1) + '" style="height:' + h + '%"></span>'
-    ).join('') + '</div>';
+    const selectedEvidence = () => state.evidence.find((item) => item.id === state.selectedEvidence) || state.evidence[0];
 
-    const renderRepeat = (room) => {
-      artifact.innerHTML =
-        '<p class="vhint">' + room.prompt + '</p>' +
-        '<div class="glyph-line">' + room.tokens.map((token, i) =>
-          '<button class="glyph" type="button" data-token="' + token + '" data-index="' + i + '">' + token + '</button>'
-        ).join('') + '</div>';
-      const hits = new Set();
-      artifact.querySelectorAll('[data-token]').forEach((button) => {
-        button.addEventListener('click', () => {
-          if (button.dataset.token === room.target) {
-            button.classList.add('hit');
-            hits.add(button.dataset.index);
-            if (hits.size === room.tokens.filter((token) => token === room.target).length) setReveal(room, 'success');
-          } else {
-            button.classList.add('miss');
-            setTimeout(() => button.classList.remove('miss'), 450);
-          }
-        });
-      });
+    const scoreSummary = () =>
+      scoreBlock('coverage', state.scores.coverage) +
+      scoreBlock('parsimony', state.scores.parsimony) +
+      scoreBlock('confidence', state.scores.confidence) +
+      scoreBlock('overfit risk', state.scores.overfit, 'overfit');
+
+    const renderTrace = () => {
+      if (!state.trace.length) return '<p class="vhint">No moves yet. The first useful move is usually Frequency Count on a repeated mark.</p>';
+      return '<ol>' + state.trace.map((item) => '<li>' + item + '</li>').join('') + '</ol>';
     };
 
-    const paintFormulaSlots = (room) => {
-      const slots = artifact.querySelector('[data-slots]');
-      slots.innerHTML = room.slots.map((slot, i) =>
-        '<div class="slot' + (formulaPick[i] ? ' filled' : '') + '">' + (formulaPick[i] || slot) + '</div>'
-      ).join('');
-      if (formulaPick.length === room.answer.length) {
-        const ok = formulaPick.every((pick, i) => pick === room.answer[i]);
-        if (ok) setReveal(room, 'success');
-        else {
-          setReveal({ ...room, locked: ['Almost. Totals close the tablet.', 'Try the order a bookkeeper would need: header, thing counted, admin mark, total.'] }, 'locked');
-          formulaPick = [];
-          setTimeout(() => paintFormulaSlots(room), 650);
-          artifact.querySelectorAll('[data-tile]').forEach((tile) => { tile.disabled = false; });
-        }
+    const renderReveal = (headline, body, open = false) => {
+      reveal.classList.toggle('locked', !open);
+      reveal.innerHTML = '<p><b>' + headline + '</b></p><p class="method">' + body + '</p>';
+    };
+
+    const renderCalendar = () => {
+      const evidence = selectedEvidence();
+      artifact.innerHTML =
+        '<div class="case-board">' +
+          '<h4>' + state.draw.title + '</h4>' +
+          '<p>' + state.draw.hypothesis + '</p>' +
+          '<div class="claim-note">Claim status: proposed structural reading. Passing this miniature check means the hypothesis survived this pressure test; it does not turn a proposal into consensus.</div>' +
+          '<div class="score-grid">' + scoreSummary() + '</div>' +
+          '<div class="turn-hint">Selected evidence: ' + evidence.title + '. Now choose a method card.</div>' +
+        '</div>' +
+        '<div class="evidence-grid" aria-label="Evidence cards">' + state.evidence.map((item) =>
+          '<button class="evidence-card' + (item.id === state.selectedEvidence ? ' active' : '') + '" type="button" data-evidence="' + item.id + '">' +
+            '<span class="tag">' + item.tag + '</span>' +
+            '<b>' + item.title + '</b>' +
+            '<span>' + item.code + '</span>' +
+            '<span>' + item.text + '</span>' +
+          '</button>'
+        ).join('') + '</div>' +
+        '<div class="method-hand" aria-label="Method cards">' + methods.map((method) =>
+          '<button class="method-card" type="button" data-method="' + method.id + '"' + (state.usedMethods.has(method.id) || state.actionsLeft === 0 || state.solved ? ' disabled' : '') + '>' +
+            '<span class="tag">' + method.tag + '</span>' +
+            '<b>' + method.name + '</b>' +
+            '<span>' + method.text + '</span>' +
+          '</button>'
+        ).join('') + '</div>' +
+        '<div class="case-log"><h4>Case log</h4>' + renderTrace() + '</div>';
+
+      actionRow.innerHTML =
+        '<button class="move primary" type="button" data-commit' + (state.trace.length < 3 || state.solved ? ' disabled' : '') + '>Commit calendar reading</button>' +
+        '<button class="move" type="button" data-new-game>Draw another case</button>';
+
+      renderReveal(state.solved ? 'Calendar trace open.' : 'Current reading: ' + state.lastNote,
+        state.solved
+          ? 'This is what Logan did at full scale: measure order, test the calendar hypothesis, and keep the counterexamples in the proof trace.'
+          : 'Use the method cards to raise coverage and confidence without letting overfit risk outrun the case.',
+        state.solved);
+    };
+
+    const fallbackEffect = (evidence, method) => {
+      if (evidence.kind === 'signal' && ['frequency', 'position', 'calendar'].includes(method.id)) {
+        return {
+          coverage: 1, parsimony: 0, confidence: 1, overfit: 1,
+          note: 'Useful, but slightly loose: the move adds support and a little overfit risk.',
+          proof: 'A signal was tested, but the match was not the strongest available.',
+        };
+      }
+      if (evidence.kind === 'counter' && ['cross', 'skeptic'].includes(method.id)) {
+        return {
+          coverage: 0, parsimony: 1, confidence: 1, overfit: -1, countered: true,
+          note: 'The counterexample is now part of the case instead of sitting outside it.',
+          proof: 'Counterevidence was admitted into the reading.',
+        };
+      }
+      return {
+        coverage: 0, parsimony: -1, confidence: 0, overfit: 1,
+        note: 'That move makes the story bigger without making the proof tighter.',
+        proof: 'A weak move was recorded and priced as overfit pressure.',
+      };
+    };
+
+    const applyMethod = (methodId) => {
+      if (state.actionsLeft === 0 || state.usedMethods.has(methodId) || state.solved) return;
+      const evidence = selectedEvidence();
+      const method = methods.find((item) => item.id === methodId);
+      const effect = comboEffects[evidence.id + ':' + method.id] || fallbackEffect(evidence, method);
+      state.actionsLeft -= 1;
+      state.usedMethods.add(methodId);
+      state.scores.coverage = clamp(state.scores.coverage + (effect.coverage || 0));
+      state.scores.parsimony = clamp(state.scores.parsimony + (effect.parsimony || 0));
+      state.scores.confidence = clamp(state.scores.confidence + (effect.confidence || 0));
+      state.scores.overfit = clamp(state.scores.overfit + (effect.overfit || 0));
+      state.countered = state.countered || Boolean(effect.countered);
+      state.lastNote = effect.note;
+      state.trace.push(method.name + ' on ' + evidence.title + ': ' + effect.proof);
+      renderCalendar();
+      syncGameState();
+      if (state.actionsLeft === 0 && !state.solved) {
+        renderReveal('Out of method cards.', 'Commit if the case is strong enough, or draw another case and try a tighter proof line.');
       }
     };
 
-    const renderFormula = (room) => {
-      formulaPick = [];
-      artifact.innerHTML =
-        '<p class="vhint">' + room.prompt + '</p>' +
-        '<div class="slots" data-slots></div>' +
-        '<div class="tiles">' + room.tiles.map((tile) =>
-          '<button class="tile" type="button" data-tile="' + tile + '">' + tile + '</button>'
-        ).join('') + '</div>';
-      paintFormulaSlots(room);
-      artifact.querySelectorAll('[data-tile]').forEach((button) => {
-        button.addEventListener('click', () => {
-          if (formulaPick.length >= room.answer.length) return;
-          formulaPick.push(button.dataset.tile);
-          button.disabled = true;
-          paintFormulaSlots(room);
-        });
-      });
+    const commitCase = () => {
+      const pass = state.scores.coverage >= 5 &&
+        state.scores.parsimony >= 3 &&
+        state.scores.confidence >= 4 &&
+        state.scores.overfit <= 2 &&
+        state.countered;
+      if (pass) {
+        state.solved = true;
+        state.lastNote = 'The case is defensible: broad enough to explain, small enough to test, and honest about counterevidence.';
+        completeRoom('rongorongo');
+        renderCalendar();
+        renderArchive();
+        return;
+      }
+      const missing = [];
+      if (state.scores.coverage < 5) missing.push('more coverage');
+      if (state.scores.parsimony < 3) missing.push('a smaller rule');
+      if (state.scores.confidence < 4) missing.push('stronger confidence');
+      if (state.scores.overfit > 2) missing.push('lower overfit risk');
+      if (!state.countered) missing.push('a faced counterexample');
+      state.lastNote = 'The reading buckles: it needs ' + missing.join(', ') + '.';
+      renderCalendar();
+      renderReveal('Not defensible yet.', state.lastNote + (state.actionsLeft > 0 ? ' Spend another method card.' : ' Draw another case and try a cleaner line.'));
     };
 
-    const renderMeter = (room) => {
-      artifact.innerHTML =
-        '<p class="vhint">' + room.prompt + '</p>' +
-        '<div class="glyph-line"><span class="glyph">P324</span><span class="glyph">P122</span><span class="glyph">P385</span><span class="glyph">P324</span><span class="glyph">P122</span></div>' +
-        '<div class="meter-wrap"><div class="meter-labels"><span>noise</span><span>signal</span></div><input class="signal-meter" type="range" min="0" max="100" value="18" aria-label="Signal meter"></div>';
-      const meter = artifact.querySelector('.signal-meter');
-      meter.addEventListener('input', () => {
-        if (Number(meter.value) > 72) setReveal(room, 'success');
-      });
+    const renderArchive = () => {
+      const proof = state.solved
+        ? '<ol class="proof-trace">' + state.trace.map((item) => '<li>' + item + '</li>').join('') + '</ol>'
+        : '';
+      archiveGate.classList.toggle('open', state.solved);
+      archiveGate.innerHTML = state.solved
+        ? '<p><b>Proof trace open.</b></p><p class="method">You built a calendar case that survived the miniature pressure test. Follow it into the full work.</p>' + proof +
+          '<div class="route-row"><a href="/essays/deciphering-rongorongo">Companion essay</a><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo DOI</a><a href="/essays">Full corpus</a><a href="/matrix">Complexity matrix</a></div>'
+        : '<p><b>Proof trace sealed.</b></p><p class="method">Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.</p><div class="route-row"><a href="/essays/deciphering-rongorongo">Essay</a><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo</a><a href="/essays">Full catalogue</a></div>';
     };
 
-    const renderRhythm = (room) => {
+    const renderPreviewRoom = (key) => {
+      const room = rosettaRooms[key];
       artifact.innerHTML =
-        '<p class="vhint">' + room.prompt + '</p>' +
-        drawBars(room.bars) +
-        '<div class="shapes">' + room.choices.map(([id, label, bars]) =>
-          '<button class="shape-choice" type="button" data-shape="' + id + '">' + label + '<br><small>' + bars.join(' · ') + '</small></button>'
-        ).join('') + '</div>';
-      artifact.querySelectorAll('[data-shape]').forEach((button) => {
-        button.addEventListener('click', () => {
-          if (button.dataset.shape === room.target) setReveal(room, 'success');
-          else setReveal({ ...room, locked: ['Not that shape. Listen for the spike.', 'The room wants the pattern that surges, drops, and returns at the end.'] }, 'locked');
-        });
-      });
+        '<div class="case-board">' +
+          '<span class="door-state">' + room.door + '</span>' +
+          '<h4>' + room.name + '</h4>' +
+          '<p>' + room.summary + '</p>' +
+          '<div class="claim-note">This room is a route into the live catalogue in the current prototype. The Spencer-grade playable slice begins in Rongorongo.</div>' +
+          routeLinks(room) +
+        '</div>';
+      actionRow.innerHTML = '<button class="move primary" type="button" data-room-jump="rongorongo">Return to Calendar room</button>';
+      renderReveal('Room still locked.', 'The public link is open, but the playable system is being proven one serious room at a time.');
     };
 
     const renderRoom = (key) => {
-      if (!unlockedRooms.has(key)) return;
       activeRoom = key;
       const room = rosettaRooms[key];
       roomButtons.forEach((button) => {
@@ -602,23 +778,33 @@
       });
       playTitle.textContent = room.title;
       statusPill.textContent = room.status;
-      resetRow.innerHTML = '<button class="move" type="button" data-reset>Reset this room</button>';
-      setReveal(room, 'locked');
-      if (room.kind === 'repeat') renderRepeat(room);
-      if (room.kind === 'formula') renderFormula(room);
-      if (room.kind === 'meter') renderMeter(room);
-      if (room.kind === 'rhythm') renderRhythm(room);
+      if (key === 'rongorongo') renderCalendar();
+      else renderPreviewRoom(key);
       syncGameState();
     };
 
     roomButtons.forEach((button) => {
       button.addEventListener('click', () => renderRoom(button.dataset.room));
     });
-    resetRow.addEventListener('click', (event) => {
-      if (event.target.closest('[data-reset]')) renderRoom(activeRoom);
+    artifact.addEventListener('click', (event) => {
+      const evidence = event.target.closest('[data-evidence]');
+      if (evidence) {
+        state.selectedEvidence = evidence.dataset.evidence;
+        renderCalendar();
+        syncGameState();
+      }
+      const method = event.target.closest('[data-method]');
+      if (method) applyMethod(method.dataset.method);
     });
-    newGameBtn.addEventListener('click', newGame);
-    newGame();
+    actionRow.addEventListener('click', (event) => {
+      if (event.target.closest('[data-commit]')) commitCase();
+      if (event.target.closest('[data-new-game]')) newCase();
+      const jump = event.target.closest('[data-room-jump]');
+      if (jump) renderRoom(jump.dataset.roomJump);
+    });
+    newGameBtn.addEventListener('click', newCase);
+    state = makeState();
+    renderRoom('rongorongo');
 
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;
