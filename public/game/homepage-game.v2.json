@@ -769,7 +769,7 @@
           "question": "Which match is earned?",
           "prompt": "A real cadence hypothesis should match repeated contour and response timing, not a human gloss.",
           "depthTitle": "Whale gate",
-          "depth": "Spencer earns the whale knowledge by choosing the measurable shape over the mythic translation.",
+          "depth": "Choose the measurable shape over the mythic translation.",
           "pattern": "contour + timing / noise bounded / meaning sealed",
           "choices": [
             {
