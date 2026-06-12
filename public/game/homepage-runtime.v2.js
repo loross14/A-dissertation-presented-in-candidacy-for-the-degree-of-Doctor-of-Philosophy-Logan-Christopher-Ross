@@ -84,6 +84,19 @@ const mountHomepageGame = (manifest) => {
 
   const isUnlocked = (room) => (room.unlockAfter || []).every((id) => state.solvedRooms.has(id));
   const isTutorialRoom = (room) => tutorialRooms.has(room.id);
+  const downstreamRooms = (roomId) => {
+    const pending = [roomId];
+    const seen = new Set();
+    while (pending.length) {
+      const current = pending.pop();
+      if (seen.has(current)) continue;
+      seen.add(current);
+      for (const room of rooms) {
+        if ((room.unlockAfter || []).includes(current)) pending.push(room.id);
+      }
+    }
+    return seen;
+  };
 
   const nextLockedReason = (room) => {
     if (room.id === progress.finalBoss) return progress.bossLockedCopy || "Solve the human rooms first.";
@@ -119,8 +132,12 @@ const mountHomepageGame = (manifest) => {
     window.requestAnimationFrame(updateGuide);
   };
 
-  const resetRoom = (roomId = state.roomId) => {
+  const resetRoom = (roomId = state.roomId, options = {}) => {
     const room = roomById.get(roomId) || rooms[0];
+    if (options.clearSolved) {
+      downstreamRooms(room.id).forEach((id) => state.solvedRooms.delete(id));
+      persist();
+    }
     state.roomId = room.id;
     state.stage = "inspect";
     state.selectedEvidence = new Set();
@@ -181,7 +198,7 @@ const mountHomepageGame = (manifest) => {
       reset.textContent = "↺";
       reset.addEventListener("click", (event) => {
         event.stopPropagation();
-        resetRoom(room.id);
+        resetRoom(room.id, { clearSolved: true });
         history.replaceState(null, "", `#room=${room.id}`);
       });
       slot.replaceChildren(button, reset);
@@ -488,7 +505,7 @@ const mountHomepageGame = (manifest) => {
   };
 
   $$("[data-reset]").forEach((button) => {
-    button.addEventListener("click", () => resetRoom());
+    button.addEventListener("click", () => resetRoom(state.roomId, { clearSolved: true }));
   });
 
   $$("[data-open-booklet]").forEach((button) => {
