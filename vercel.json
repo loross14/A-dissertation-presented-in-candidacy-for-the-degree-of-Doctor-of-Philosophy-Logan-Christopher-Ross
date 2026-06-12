@@ -15,6 +15,18 @@
       "destination": "https://www.logan.engineering/thesis.pdf",
       "permanent": true
     },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "lcr.phd" }],
+      "destination": "https://www.logan.engineering/thesis.pdf",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.lcr.phd" }],
+      "destination": "https://www.logan.engineering/thesis.pdf",
+      "permanent": true
+    },
     { "source": "/rongorongo", "destination": "/essays/deciphering-rongorongo", "permanent": true },
     { "source": "/matrix/tensor-network-contraction/:slug", "destination": "/matrix/tensor-network-contraction", "permanent": true },
     { "source": "/matrix/vector-databases-rag/:slug", "destination": "/matrix/vector-databases-rag", "permanent": true },
