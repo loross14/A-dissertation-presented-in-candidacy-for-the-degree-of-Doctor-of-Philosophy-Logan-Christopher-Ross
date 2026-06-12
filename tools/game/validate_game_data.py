@@ -11,7 +11,8 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 PUBLIC = ROOT / "public"
-MANIFEST = PUBLIC / "game" / "shadow-mirror-game.v1.json"
+V1_MANIFEST = PUBLIC / "game" / "shadow-mirror-game.v1.json"
+V2_MANIFEST = PUBLIC / "game" / "homepage-game.v2.json"
 
 
 class ValidationError(Exception):
@@ -22,11 +23,11 @@ def fail(message: str) -> None:
     raise ValidationError(message)
 
 
-def load_manifest() -> dict:
+def load_manifest(path: Path) -> dict:
     try:
-        return json.loads(MANIFEST.read_text())
+        return json.loads(path.read_text())
     except json.JSONDecodeError as exc:
-        fail(f"{MANIFEST}: invalid JSON at line {exc.lineno}: {exc.msg}")
+        fail(f"{path}: invalid JSON at line {exc.lineno}: {exc.msg}")
 
 
 def require(condition: bool, message: str) -> None:
@@ -279,16 +280,210 @@ def validate_manifest(manifest: dict) -> None:
         simulate_fixture(manifest, specs, rooms, methods, fixture)
 
 
+def require_text(value: object, context: str) -> str:
+    require(isinstance(value, str) and value.strip(), f"{context}: missing text")
+    return value
+
+
+def validate_choices_v2(items: object, context: str) -> dict[str, dict]:
+    require(isinstance(items, list) and items, f"{context}: choices are required")
+    ids_unique(items, context)
+    choices = {item["id"]: item for item in items}
+    require(any(item.get("correct") is True for item in items), f"{context}: at least one correct choice is required")
+    for item in items:
+        require(isinstance(item.get("correct"), bool), f"{context}.{item['id']}: correct must be boolean")
+        require_text(item.get("cost"), f"{context}.{item['id']}.cost")
+        if item.get("correct"):
+            require_text(item.get("nextStep"), f"{context}.{item['id']}.nextStep")
+        else:
+            require_text(item.get("recoveryPrompt"), f"{context}.{item['id']}.recoveryPrompt")
+    return choices
+
+
+def validate_homepage_manifest(manifest: dict) -> None:
+    require(manifest.get("schemaVersion") == 2, "v2 schemaVersion must be 2")
+    serialized = json.dumps(manifest)
+    for forbidden in ("lcr.phd", "PhD", "dissertation"):
+        require(forbidden not in serialized, f"v2 manifest contains forbidden public framing: {forbidden}")
+
+    require_text(manifest.get("gameId"), "v2 gameId")
+    require_text(manifest.get("contentVersion"), "v2 contentVersion")
+    doctrine = manifest.get("doctrine", {})
+    for key in ("player", "game", "essays", "zenodo"):
+        require_text(doctrine.get(key), f"v2 doctrine.{key}")
+
+    claim = manifest.get("claimStatus", {})
+    require(claim.get("tone") == "honest-not-apologetic", "v2 claimStatus.tone must be honest-not-apologetic")
+    require_text(claim.get("note"), "v2 claimStatus.note")
+
+    routes = manifest.get("routes", {})
+    for route_id in ("essay", "vault", "zenodo", "catalogue", "matrix", "genesis", "thesis"):
+        require(route_id in routes, f"v2 routes.{route_id} is required")
+    for route_id, href in routes.items():
+        validate_route(href, f"v2 routes.{route_id}")
+
+    rooms = manifest.get("rooms", [])
+    require(isinstance(rooms, list) and len(rooms) >= 4, "v2 rooms must include the four locked rooms")
+    ids_unique(rooms, "v2 rooms")
+    playable = [room for room in rooms if room.get("state") == "playable"]
+    require(len(playable) == 1 and playable[0].get("id") == "rongorongo", "v2 Rongorongo must be the only playable room")
+    for room in rooms:
+        require_text(room.get("name"), f"v2 room {room['id']}.name")
+        require(room.get("state") in {"playable", "locked"}, f"v2 room {room['id']}: invalid state")
+        require_text(room.get("method"), f"v2 room {room['id']}.method")
+        for label, href in room.get("routes", {}).items():
+            validate_route(href, f"v2 room {room['id']}.routes.{label}")
+
+    runtime = manifest.get("runtime", {})
+    require_text(runtime.get("mount"), "v2 runtime.mount")
+    marks = runtime.get("acceptedMarks", {})
+    require(marks.get("minUnique") == 2, "v2 acceptedMarks.minUnique must be 2")
+    values = marks.get("values", [])
+    require(isinstance(values, list) and len(values) >= 3, "v2 acceptedMarks.values must include all visible 730 marks")
+    require(len(values) == len(set(values)), "v2 acceptedMarks.values must be unique")
+    starting = runtime.get("startingScores", {})
+    for metric in ("signal", "overfit"):
+        require(isinstance(starting.get(metric), int), f"v2 runtime.startingScores.{metric} must be int")
+
+    steps = manifest.get("steps", {})
+    for step_id in ("notice", "twin", "test", "predict", "break", "open", "temptation"):
+        step = steps.get(step_id, {})
+        require(isinstance(step, dict), f"v2 steps.{step_id} is required")
+        if step_id != "temptation":
+            require_text(step.get("label"), f"v2 steps.{step_id}.label")
+            require_text(step.get("question"), f"v2 steps.{step_id}.question")
+            require_text(step.get("prompt"), f"v2 steps.{step_id}.prompt")
+        require_text(step.get("depthTitle"), f"v2 steps.{step_id}.depthTitle")
+        require_text(step.get("depth"), f"v2 steps.{step_id}.depth")
+        require_text(step.get("announce"), f"v2 steps.{step_id}.announce")
+
+    choices = manifest.get("choices", {})
+    method_choices = validate_choices_v2(choices.get("method"), "v2 choices.method")
+    prediction_choices = validate_choices_v2(choices.get("prediction"), "v2 choices.prediction")
+    counter_choices = validate_choices_v2(choices.get("counter"), "v2 choices.counter")
+    require(method_choices.get("calendar", {}).get("correct") is True, "v2 calendar method must be correct")
+    require(prediction_choices.get("30", {}).get("correct") is True, "v2 30 prediction must be correct")
+    require(counter_choices.get("keep", {}).get("correct") is True, "v2 keep counterexample must be correct")
+
+    trace = manifest.get("trace", {})
+    for key in ("count", "test", "counter"):
+        require_text(trace.get("initial", {}).get(key), f"v2 trace.initial.{key}")
+        done = require_text(trace.get("done", {}).get(key), f"v2 trace.done.{key}")
+        require(done.startswith("This is what Logan did at full scale:"), f"v2 trace.done.{key} must reveal Logan's full-scale method")
+
+    result = manifest.get("result", {})
+    require_text(result.get("title"), "v2 result.title")
+    require_text(result.get("body"), "v2 result.body")
+    links = result.get("links", [])
+    require(isinstance(links, list) and len(links) >= 4, "v2 result.links must route out of the game")
+    for link in links:
+        require_text(link.get("label"), "v2 result link label")
+        route = require_text(link.get("route"), f"v2 result link {link.get('label')}.route")
+        require(route in routes, f"v2 result link {link.get('label')}: unknown route {route}")
+
+    fixtures = manifest.get("fixtures", [])
+    ids_unique(fixtures, "v2 fixtures")
+    for fixture in fixtures:
+        simulate_homepage_fixture(manifest, fixture, method_choices, prediction_choices, counter_choices)
+
+
+def phase_name(phase: int) -> str:
+    return {0: "notice", 1: "test", 2: "predict", 3: "break", 4: "open"}[phase]
+
+
+def simulate_homepage_fixture(
+    manifest: dict,
+    fixture: dict,
+    method_choices: dict[str, dict],
+    prediction_choices: dict[str, dict],
+    counter_choices: dict[str, dict],
+) -> None:
+    runtime = manifest["runtime"]
+    marks = set(runtime["acceptedMarks"]["values"])
+    min_unique = runtime["acceptedMarks"]["minUnique"]
+    state = {
+        "phase": 0,
+        "signal": runtime["startingScores"]["signal"],
+        "overfit": runtime["startingScores"]["overfit"],
+        "noise": 0,
+        "tapped": set(),
+        "trace": [],
+    }
+
+    def complete_count_if_ready() -> None:
+        if state["phase"] == 0 and len(state["tapped"]) >= min_unique:
+            state["phase"] = 1
+            state["signal"] += 1
+            state["trace"].append("count")
+
+    for move in fixture.get("moves", []):
+        move_type = move.get("type")
+        if move_type == "noise":
+            require(state["phase"] == 0, f"fixture {fixture['id']}: noise tap after notice phase")
+            state["noise"] += 1
+        elif move_type == "tap":
+            mark = move.get("mark")
+            require(mark in marks, f"fixture {fixture['id']}: unknown accepted mark {mark}")
+            require(state["phase"] == 0, f"fixture {fixture['id']}: mark tap after notice phase")
+            state["tapped"].add(mark)
+            complete_count_if_ready()
+        elif move_type == "choice":
+            require(state["phase"] == 1, f"fixture {fixture['id']}: method choice outside test phase")
+            choice = method_choices.get(move.get("id"))
+            require(choice is not None, f"fixture {fixture['id']}: unknown method choice {move.get('id')}")
+            if choice.get("correct"):
+                state["phase"] = 2
+            else:
+                state["overfit"] += 1
+        elif move_type == "prediction":
+            require(state["phase"] == 2, f"fixture {fixture['id']}: prediction outside predict phase")
+            choice = prediction_choices.get(move.get("id"))
+            require(choice is not None, f"fixture {fixture['id']}: unknown prediction {move.get('id')}")
+            if choice.get("correct"):
+                state["phase"] = 3
+                state["signal"] += 1
+                state["trace"].append("test")
+            else:
+                state["overfit"] += 1
+        elif move_type == "counter":
+            require(state["phase"] == 3, f"fixture {fixture['id']}: counter choice outside break phase")
+            choice = counter_choices.get(move.get("id"))
+            require(choice is not None, f"fixture {fixture['id']}: unknown counter choice {move.get('id')}")
+            if choice.get("correct"):
+                state["phase"] = 4
+                state["signal"] += 1
+                state["overfit"] = max(0, state["overfit"] - 1)
+                state["trace"].append("counter")
+            else:
+                state["overfit"] += 1
+        else:
+            fail(f"fixture {fixture['id']}: unknown move type {move_type}")
+
+    expected = fixture.get("expect", {})
+    if "step" in expected:
+        require(phase_name(state["phase"]) == expected["step"], f"fixture {fixture['id']}: step={phase_name(state['phase'])}, expected {expected['step']}")
+    for key in ("signal", "overfit", "noise"):
+        if key in expected:
+            require(state[key] == expected[key], f"fixture {fixture['id']}: {key}={state[key]}, expected {expected[key]}")
+    if "trace" in expected:
+        require(state["trace"] == expected["trace"], f"fixture {fixture['id']}: trace={state['trace']}, expected {expected['trace']}")
+
+
 def main() -> int:
     try:
-        manifest = load_manifest()
-        validate_manifest(manifest)
+        v1_manifest = load_manifest(V1_MANIFEST)
+        validate_manifest(v1_manifest)
+        v2_manifest = load_manifest(V2_MANIFEST)
+        validate_homepage_manifest(v2_manifest)
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
-    rooms = len(manifest.get("rooms", []))
-    fixtures = len(manifest.get("fixtures", []))
-    print(f"Validated {MANIFEST.relative_to(ROOT)}: {rooms} rooms, {fixtures} fixtures, routes and replay predicates ok.")
+    v1_rooms = len(v1_manifest.get("rooms", []))
+    v1_fixtures = len(v1_manifest.get("fixtures", []))
+    v2_rooms = len(v2_manifest.get("rooms", []))
+    v2_fixtures = len(v2_manifest.get("fixtures", []))
+    print(f"Validated {V1_MANIFEST.relative_to(ROOT)}: {v1_rooms} rooms, {v1_fixtures} fixtures, routes and replay predicates ok.")
+    print(f"Validated {V2_MANIFEST.relative_to(ROOT)}: {v2_rooms} rooms, {v2_fixtures} homepage fixtures and player contract ok.")
     return 0
 
 

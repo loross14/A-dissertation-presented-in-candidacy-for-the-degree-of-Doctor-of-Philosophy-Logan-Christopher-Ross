@@ -46,9 +46,12 @@ vault, and complexity matrix:
 - The essays tie it all together.
 - Zenodo stamps record.
 
-The homepage game data lives in `public/game/shadow-mirror-game.v1.json`; the
-deterministic runtime lives in `public/game/rosetta-runtime.js`. Validate routes,
-DOI normalization, game IDs, seeded proof traces, and pass/fail fixtures with:
+The current homepage game contract lives in `public/game/homepage-game.v2.json`;
+the deterministic runtime lives in `public/game/homepage-runtime.v2.js`. The old
+`public/game/shadow-mirror-game.v1.json` and `public/game/rosetta-runtime.js`
+remain as validated support artifacts, not the homepage authority. Validate
+routes, DOI normalization, game IDs, seeded proof traces, and pass/fail fixtures
+with:
 
 ```bash
 python3 tools/game/validate_game_data.py

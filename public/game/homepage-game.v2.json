@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 2,
+  "contentVersion": "2026-06-12.homepage-game-spine",
+  "gameId": "shadow-mirror-calendar-room-v2",
+  "title": "Calendar or coincidence?",
+  "subtitle": "A one-minute pattern game that opens the proof trace.",
+  "doctrine": {
+    "player": "The player plays with patterns.",
+    "game": "The game reveals the methods.",
+    "essays": "The essays tie it all together.",
+    "zenodo": "Zenodo stamps record."
+  },
+  "claimStatus": {
+    "id": "proposed-structural-reading",
+    "tone": "honest-not-apologetic",
+    "note": "Claim status: proposed structural reading. The game teaches the method; the essay carries the argument; Zenodo stamps the deposited record."
+  },
+  "routes": {
+    "essay": "/essays/deciphering-rongorongo",
+    "vault": "/vault/deciphering-rongorongo-corpus-analysis",
+    "zenodo": "https://zenodo.org/records/19362491",
+    "catalogue": "/essays",
+    "corpus": "/essays",
+    "matrix": "/matrix",
+    "genesis": "/genesis",
+    "thesis": "/thesis.pdf"
+  },
+  "rooms": [
+    {
+      "id": "rongorongo",
+      "name": "Calendar Room",
+      "script": "Rongorongo",
+      "state": "playable",
+      "role": "vertical-slice",
+      "recordId": "rongorongo",
+      "method": "Count recurrence, risk a calendar prediction, and keep the counterexample visible.",
+      "routes": {
+        "essay": "/essays/deciphering-rongorongo",
+        "vault": "/vault/deciphering-rongorongo-corpus-analysis",
+        "zenodo": "https://zenodo.org/records/19362491"
+      }
+    },
+    {
+      "id": "proto-elamite",
+      "name": "Ledger Room",
+      "script": "Proto-Elamite",
+      "state": "locked",
+      "role": "next-room",
+      "method": "Make accounting structure visible before translation.",
+      "routes": {
+        "essay": "/essays/reading-proto-elamite"
+      }
+    },
+    {
+      "id": "indus",
+      "name": "Seal Room",
+      "script": "Indus",
+      "state": "locked",
+      "role": "next-room",
+      "method": "Separate seal repetition from sign meaning.",
+      "routes": {
+        "essay": "/essays/reading-indus-valley-script"
+      }
+    },
+    {
+      "id": "cadence",
+      "name": "Rhythm Room",
+      "script": "Cadence",
+      "state": "locked",
+      "role": "next-room",
+      "method": "Hear signal where endangered-language sound first looks like noise.",
+      "routes": {
+        "vault": "/vault/dying-language-sounds-like-noise"
+      }
+    }
+  ],
+  "runtime": {
+    "mount": "[data-game]",
+    "acceptedMarks": {
+      "label": "730",
+      "minUnique": 2,
+      "values": ["a", "b", "c"],
+      "noiseRule": "Non-730 taps teach recurrence without ending the run."
+    },
+    "startingScores": {
+      "signal": 0,
+      "overfit": 1
+    },
+    "meterStep": 33,
+    "guide": {
+      "notice": "Tap a repeated 730 mark.",
+      "twin": "Now tap any matching 730.",
+      "test": "Choose the testable calendar move.",
+      "predict": "Choose 30 to test the cycle.",
+      "break": "Keep the counterexample visible."
+    }
+  },
+  "steps": {
+    "notice": {
+      "label": "Step 1 - Notice",
+      "question": "Tap the repeated marks.",
+      "prompt": "Start with the object. Find the same mark twice before naming what it means.",
+      "depthTitle": "Automagic tutorial",
+      "depth": "Follow the gold pulse. The page will keep pointing at the next honest move until you take it.",
+      "announce": "Game ready. Tap a repeated 730 mark."
+    },
+    "twin": {
+      "label": "Step 1 - Notice",
+      "question": "Tap the repeated marks.",
+      "prompt": "Good. One repeat is a clue. Find its twin before telling a story.",
+      "depthTitle": "Pattern found",
+      "depth": "One repeat is suggestive; two repeats become a count. That is the first bridge from mystery to method.",
+      "announce": "One repeated mark found. Find its twin."
+    },
+    "test": {
+      "label": "Step 2 - Test",
+      "question": "Calendar or coincidence?",
+      "prompt": "A repeated mark is only the start. Cost: spend one method seal to make the calendar idea risk prediction.",
+      "depthTitle": "Deeper move",
+      "depth": "A calendar claim becomes serious only when it spends a method seal to make the pattern answer back.",
+      "announce": "Two repeated marks found. Choose the testable calendar move."
+    },
+    "predict": {
+      "label": "Step 3 - Predict",
+      "question": "What should come next?",
+      "prompt": "If the tablet is calendrical, the short/long moon-count pattern has to risk a next mark. Cost: confidence.",
+      "depthTitle": "Prediction test",
+      "depth": "Now the player risks confidence on a tiny forecast: if short and long moon counts alternate, the next honest move is 30.",
+      "announce": "Prediction test open. Choose the next count in the rhythm."
+    },
+    "break": {
+      "label": "Step 4 - Break",
+      "question": "A mark is missing. What now?",
+      "prompt": "The good move is not the cleanest story. Cost: lose elegance by keeping the break visible.",
+      "depthTitle": "Honesty gate",
+      "depth": "The cost is elegance. The hard part is keeping the break visible when it makes the story less clean.",
+      "announce": "The prediction held. Now keep the counterexample visible."
+    },
+    "open": {
+      "label": "Step 5 - Open",
+      "question": "The trace opens.",
+      "prompt": "This is the bridge: the player felt the method, then the essay carries the proof.",
+      "depthTitle": "Trace unlocked",
+      "depth": "The small game is over. The essay now carries the full proof, with the DOI record as the academic stamp.",
+      "announce": "Proof trace open. Routes to essay, vault, Zenodo, and catalogue are available."
+    },
+    "temptation": {
+      "label": "Temptation priced",
+      "question": "That move costs truth.",
+      "prompt": "That makes the story easier and the proof weaker. Try the move that risks prediction.",
+      "depthTitle": "Temptation priced",
+      "depth": "That move feels satisfying because it explains too easily. The notebook raises overfit so the player can feel the cost.",
+      "announce": "Overfit rose. Try the honest move."
+    }
+  },
+  "choices": {
+    "method": [
+      {
+        "id": "calendar",
+        "correct": true,
+        "title": "Test the lunar rhythm.",
+        "cost": "Cost: spend 1 method seal",
+        "copy": "If it is a calendar, the short/long moon counts, 29 and 30, should behave like structure, not decoration.",
+        "nextStep": "predict"
+      },
+      {
+        "id": "story",
+        "correct": false,
+        "title": "Tell the prettiest story.",
+        "cost": "Cost: +1 overfit",
+        "copy": "Stars, kings, seasons. It feels good, but it may explain too much.",
+        "recoveryPrompt": "That makes the story easier and the proof weaker. Try the move that risks prediction."
+      },
+      {
+        "id": "gap",
+        "correct": false,
+        "title": "Ignore the damaged gap.",
+        "cost": "Cost: +1 overfit",
+        "copy": "Cleaner pattern, weaker truth.",
+        "recoveryPrompt": "That makes the story cleaner by becoming less honest. Try the move that risks prediction."
+      }
+    ],
+    "prediction": [
+      {
+        "id": "30",
+        "correct": true,
+        "label": "30",
+        "subLabel": "long moon",
+        "cost": "Cost: risk confidence",
+        "nextStep": "break"
+      },
+      {
+        "id": "29",
+        "correct": false,
+        "label": "29",
+        "subLabel": "short moon",
+        "cost": "Cost: +1 overfit",
+        "recoveryPrompt": "That answer explains less of the rhythm. Try the count that preserves the alternation."
+      },
+      {
+        "id": "story",
+        "correct": false,
+        "label": "story",
+        "cost": "Cost: +1 overfit",
+        "recoveryPrompt": "That is a satisfying story, not a test. Try the count that preserves the alternation."
+      }
+    ],
+    "counter": [
+      {
+        "id": "keep",
+        "correct": true,
+        "title": "Keep the counterexample.",
+        "cost": "Cost: lose elegance",
+        "copy": "The missing twin stays in the proof, even if it hurts the story.",
+        "nextStep": "open"
+      },
+      {
+        "id": "hide",
+        "correct": false,
+        "title": "Hide the counterexample.",
+        "cost": "Cost: +1 overfit",
+        "copy": "The pattern becomes cleaner by becoming less honest.",
+        "recoveryPrompt": "Clean, but dishonest. The counterexample has to remain visible."
+      }
+    ]
+  },
+  "trace": {
+    "initial": {
+      "count": "Count recurrence before translation.",
+      "test": "Make the calendar reading predict something.",
+      "counter": "Keep the counterexample inside the proof."
+    },
+    "done": {
+      "count": "This is what Logan did at full scale: counted recurrence before translating.",
+      "test": "This is what Logan did at full scale: treated short and long moon counts as a testable lunar rhythm.",
+      "counter": "This is what Logan did at full scale: kept counterexamples inside the proof trace."
+    }
+  },
+  "result": {
+    "title": "Proof trace open.",
+    "body": "You did not decode Rongorongo. You learned the shape of Logan's argument: pattern first, prediction second, honesty always.",
+    "links": [
+      { "label": "Essay", "route": "essay" },
+      { "label": "Vault", "route": "vault" },
+      { "label": "Zenodo", "route": "zenodo" },
+      { "label": "Catalogue", "route": "catalogue" }
+    ]
+  },
+  "fixtures": [
+    {
+      "id": "bottom-730-first-still-solves",
+      "moves": [
+        { "type": "tap", "mark": "c" },
+        { "type": "tap", "mark": "a" },
+        { "type": "choice", "id": "calendar" },
+        { "type": "prediction", "id": "30" },
+        { "type": "counter", "id": "keep" }
+      ],
+      "expect": {
+        "step": "open",
+        "signal": 3,
+        "overfit": 0,
+        "noise": 0,
+        "trace": ["count", "test", "counter"]
+      }
+    },
+    {
+      "id": "noise-tap-recovers-without-clobber",
+      "moves": [
+        { "type": "noise", "label": "star" },
+        { "type": "tap", "mark": "b" },
+        { "type": "tap", "mark": "c" }
+      ],
+      "expect": {
+        "step": "test",
+        "signal": 1,
+        "overfit": 1,
+        "noise": 1,
+        "trace": ["count"]
+      }
+    },
+    {
+      "id": "temptation-prices-overfit",
+      "moves": [
+        { "type": "tap", "mark": "a" },
+        { "type": "tap", "mark": "b" },
+        { "type": "choice", "id": "story" },
+        { "type": "choice", "id": "calendar" },
+        { "type": "prediction", "id": "29" }
+      ],
+      "expect": {
+        "step": "predict",
+        "signal": 1,
+        "overfit": 3,
+        "noise": 0,
+        "trace": ["count"]
+      }
+    }
+  ]
+}

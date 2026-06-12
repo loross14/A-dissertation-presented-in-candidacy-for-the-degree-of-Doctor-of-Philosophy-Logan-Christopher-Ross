@@ -3,438 +3,1023 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shadow &amp; Mirror — The Rosetta Meter</title>
-  <meta name="description" content="Enter Logan Ross's research through four locked rooms: Rongorongo, Proto-Elamite, Indus, and cadence. Play the pattern, then read the evidence." />
-  <meta property="og:title" content="Shadow &amp; Mirror" />
-  <meta property="og:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
+  <title>Shadow &amp; Mirror | Calendar or Coincidence?</title>
+  <meta name="description" content="Play a one-minute Rongorongo pattern game, then follow Logan Ross's proof trace to the companion essay, vault record, Zenodo DOI, and catalogue." />
+  <link rel="canonical" href="https://logan.engineering/" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Logan Engineering" />
+  <meta property="og:title" content="Shadow &amp; Mirror: Calendar or Coincidence?" />
+  <meta property="og:description" content="Play a one-minute Rongorongo pattern game, then follow Logan Ross's proof trace to the essay, vault, Zenodo DOI, and full catalogue." />
   <meta property="og:url" content="https://logan.engineering/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shadow &amp; Mirror: Calendar or Coincidence?" />
+  <meta name="twitter:description" content="A homepage-native pattern game that reveals Logan Ross's method before routing readers to the proof trace." />
   <meta property="og:image" content="https://logan.engineering/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Shadow &amp; Mirror — a volume by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
-  <link rel="icon" href="data:," />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Shadow &amp; Mirror" />
-  <meta name="twitter:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
+  <meta property="og:image:alt" content="Shadow &amp; Mirror — a homepage game by Logan Christopher Ross, with Planisphere verification below." />
   <meta name="twitter:image" content="https://logan.engineering/og.png" />
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://logan.engineering/#person","name":"Logan Christopher Ross","jobTitle":"Computational Architect & Independent Researcher","url":"https://logan.engineering/","knowsAbout":["Graph theory","Treewidth","Computational complexity","Quantum circuit simulation","Corpus linguistics"]},{"@type":"WebSite","@id":"https://logan.engineering/#website","url":"https://logan.engineering/","name":"logan.engineering","author":{"@id":"https://logan.engineering/#person"}},{"@type":"Book","@id":"https://logan.engineering/#volume","name":"Shadow & Mirror: Treewidth as the Universal Meter of Computation, Physics, and Consciousness","author":{"@id":"https://logan.engineering/#person"},"url":"https://logan.engineering/thesis.pdf","numberOfPages":895}]}</script>
+  <link rel="icon" href="data:," />
   <style>
-    :root { --ink:#111; --paper:#fafaf8; --rule:#0001; --dim:#555; --panel:#fff; --panelrule:#0002; --brass:#8c6a3f; }
-    @media (prefers-color-scheme: dark){
-      :root { --ink:#eee; --paper:#0d0d0f; --rule:#fff2; --dim:#999; --panel:#141417; --panelrule:#fff2; --brass:#b8915c; }
+    :root {
+      --bg:#080705;
+      --ink:#fbf2df;
+      --dim:#b9ac92;
+      --faint:#786c58;
+      --line:#fbf2df24;
+      --line2:#fbf2df46;
+      --gold:#d9a85c;
+      --green:#74d985;
+      --red:#e55d4e;
+      --blue:#82b6ff;
+      --panel:#11100c;
+      --wood:#2b1b12;
+      --stone:#c9b58b;
+      --paper:var(--bg);
+      --rule:var(--line);
+      --panelrule:var(--line);
+      --brass:var(--gold);
     }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    html { -webkit-text-size-adjust:100%; }
     body {
-      margin:0; background:var(--paper); color:var(--ink);
-      font:400 17px/1.55 Georgia, "Times New Roman", serif;
-      display:flex; flex-direction:column; min-height:100vh;
+      margin:0;
+      min-height:100svh;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 18% 16%, #6a3d1c58 0 20rem, transparent 36rem),
+        radial-gradient(circle at 74% 10%, #19365b66 0 16rem, transparent 32rem),
+        linear-gradient(180deg, #080705 0%, #0f0b07 58%, #050504 100%);
+      font:500 16px/1.45 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .wrap { max-width:720px; margin:0 auto; padding:13vh 24px 6vh; width:100%; flex:1; }
-    .kicker { font:600 12px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); }
-    h1 { font-size:clamp(30px,6vw,46px); line-height:1.08; margin:.5em 0 .1em; font-weight:600; }
-    .sub { font-size:clamp(17px,2.6vw,21px); color:var(--dim); margin:0 0 1.4em; font-style:italic; }
-    .rule { border:0; border-top:1px solid var(--rule); margin:1.8em 0; }
-    .abstract { font-size:16px; color:var(--ink); }
-    .abstract b { font-weight:600; }
-    .claim { margin:1.4em 0; padding:1em 1.2em; border-left:3px solid var(--ink); font-style:italic; }
-    .meta { font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--dim); margin-top:.4em; }
+    a { color:inherit; }
+    button { font:inherit; }
+    @keyframes pageIn {
+      from { opacity:0; transform:translateY(10px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    @keyframes tabletDrift {
+      0%, 100% { transform:rotate(-1.2deg) translateY(0); }
+      50% { transform:rotate(-.7deg) translateY(-7px); }
+    }
+    @keyframes lightSweep {
+      0% { transform:translateX(-120%) rotate(14deg); opacity:0; }
+      16%, 48% { opacity:.55; }
+      100% { transform:translateX(145%) rotate(14deg); opacity:0; }
+    }
+    @keyframes guidePulse {
+      0%, 100% { box-shadow:0 0 0 2px var(--gold), 0 0 0 0 #d9a85c66, inset 0 -9px 20px #2a140b2e; }
+      50% { box-shadow:0 0 0 3px var(--gold), 0 0 0 13px #d9a85c00, inset 0 -9px 20px #2a140b2e; }
+    }
+    @keyframes handTap {
+      0%, 100% { transform:translate(-30%, -22%) rotate(-18deg) scale(1); }
+      45% { transform:translate(-30%, -22%) rotate(-18deg) scale(.84); }
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(12px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    @keyframes yesFlash {
+      0%, 100% { filter:none; }
+      35% { filter:drop-shadow(0 0 18px #74d98588); }
+    }
+    @keyframes noShake {
+      0%, 100% { transform:translateX(0); }
+      25% { transform:translateX(-5px); }
+      70% { transform:translateX(5px); }
+    }
+    .page {
+      min-height:100svh;
+      display:grid;
+      grid-template-rows:auto 1fr;
+      background:
+        linear-gradient(90deg, #fbf2df08 1px, transparent 1px) 0 0/44px 44px,
+        linear-gradient(180deg, #fbf2df07 1px, transparent 1px) 0 0/44px 44px;
+      animation:pageIn .45s ease both;
+    }
+    .topbar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding:16px clamp(18px,4vw,58px);
+      border-bottom:1px solid var(--line);
+      background:#060504aa;
+      backdrop-filter:blur(14px);
+    }
+    .brand {
+      font:950 12px/1.05 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .toplinks {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      gap:8px;
+    }
+    .toplinks a, .toplinks button {
+      appearance:none;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#0004;
+      color:var(--ink);
+      cursor:pointer;
+      text-decoration:none;
+      padding:9px 12px;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .toplinks a:hover, .toplinks a:focus-visible, .toplinks button:hover, .toplinks button:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+    }
+    .game {
+      display:grid;
+      grid-template-columns:minmax(520px,1.1fr) minmax(420px,.9fr);
+      min-height:0;
+    }
+    .table-side, .story-side {
+      min-width:0;
+      padding:clamp(22px,3.8vw,58px);
+    }
+    .table-side {
+      border-right:1px solid var(--line);
+      display:grid;
+      align-content:center;
+      gap:22px;
+    }
+    .story-side {
+      display:grid;
+      grid-auto-rows:max-content;
+      align-content:center;
+      gap:18px;
+      background:linear-gradient(90deg, #0003, #0c1118aa);
+    }
+    .eyebrow {
+      color:var(--gold);
+      font:950 12px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin:0 0 12px;
+    }
+    h1 {
+      max-width:12ch;
+      margin:0;
+      font:950 clamp(54px,7.8vw,118px)/.82 Georgia, "Times New Roman", serif;
+      letter-spacing:-.04em;
+    }
+    .lede {
+      max-width:48ch;
+      margin:14px 0 0;
+      color:var(--dim);
+      font-size:clamp(17px,1.5vw,21px);
+    }
+    .tablet-wrap {
+      position:relative;
+      min-height:min(65svh, 680px);
+      display:grid;
+      place-items:center;
+    }
+    .tablet {
+      width:min(780px, 100%);
+      min-height:520px;
+      position:relative;
+      padding:34px 32px 30px;
+      color:#21150c;
+      border:1px solid #f9d99377;
+      border-radius:28px 18px 34px 20px;
+      background:
+        radial-gradient(circle at 20% 18%, #fff2c880 0 2px, transparent 3px),
+        radial-gradient(circle at 72% 62%, #3b2816 0 7px, transparent 9px),
+        linear-gradient(135deg, #b88546 0%, #d2b174 22%, #8c5b32 52%, #d8bf82 76%, #6b4126 100%);
+      box-shadow:
+        inset 0 0 30px #2d160d99,
+        inset 18px -18px 70px #0006,
+        0 30px 90px #000b;
+      overflow:hidden;
+      transform:rotate(-1.2deg);
+    }
+    .tablet::before {
+      content:'';
+      position:absolute;
+      inset:-10%;
+      background:
+        linear-gradient(90deg, transparent 0 17%, #2a140b55 18% 19%, transparent 20% 100%),
+        linear-gradient(14deg, transparent 0 48%, #25110866 49% 50%, transparent 52% 100%),
+        radial-gradient(circle at 88% 14%, #080403 0 7rem, transparent 7.2rem);
+      pointer-events:none;
+      mix-blend-mode:multiply;
+    }
+    .tablet .shine {
+      position:absolute;
+      z-index:2;
+      inset:-25% auto -25% -24%;
+      width:34%;
+      background:linear-gradient(90deg, transparent, #fff1ba55, transparent);
+      transform:rotate(14deg);
+      pointer-events:none;
+      animation:lightSweep 6s ease-in-out infinite;
+    }
+    .tablet::after {
+      content:'';
+      position:absolute;
+      right:-68px;
+      top:-72px;
+      width:180px;
+      height:180px;
+      background:#090604;
+      border-radius:45%;
+      box-shadow:0 0 0 1px #f9d99344;
+      pointer-events:none;
+    }
+    .glyph-grid {
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:repeat(8, minmax(38px,1fr));
+      gap:12px 10px;
+      transform:skewY(-1.5deg);
+    }
+    .mark {
+      appearance:none;
+      border:1px solid #2b1b1070;
+      border-radius:8px;
+      min-height:58px;
+      background:#f6d99036;
+      color:#2b160b;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      font:950 28px/.9 Georgia, "Times New Roman", serif;
+      box-shadow:inset 0 1px 0 #fff4, inset 0 -9px 20px #2a140b2e;
+      transition:transform .14s ease, background .14s ease, box-shadow .14s ease;
+    }
+    .mark:hover, .mark:focus-visible {
+      outline:0;
+      transform:translateY(-3px);
+      background:#ffe7a36b;
+      box-shadow:0 0 0 2px var(--gold), inset 0 -9px 20px #2a140b2e;
+    }
+    .mark.hit {
+      background:#ffe8a0;
+      box-shadow:0 0 0 3px #2b160b, 0 0 0 6px var(--gold);
+    }
+    .mark.noise {
+      border-color:#351509;
+      background:#2b160b38;
+      animation:noShake .28s ease;
+    }
+    .mark.guide {
+      animation:guidePulse 1.25s ease-in-out infinite;
+      background:#ffe7a36b;
+    }
+    .mark.locked {
+      opacity:.45;
+      cursor:default;
+    }
+    .crack {
+      position:absolute;
+      z-index:2;
+      left:8%;
+      right:20%;
+      top:48%;
+      border-top:2px solid #1a0d0777;
+      transform:rotate(9deg);
+      pointer-events:none;
+    }
+    .caption {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
+      color:var(--dim);
+      font-size:14px;
+    }
+    .pill {
+      border:1px solid var(--line);
+      background:#0004;
+      color:var(--ink);
+      border-radius:999px;
+      padding:8px 10px;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+    }
+    .question-card {
+      border:1px solid var(--line2);
+      background:linear-gradient(135deg, #d9a85c18, #0005 45%);
+      padding:18px;
+    }
+    .question-card b {
+      display:block;
+      color:var(--gold);
+      margin-bottom:8px;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .question-card p {
+      margin:0;
+      font:950 clamp(26px,3vw,42px)/1.02 Georgia, "Times New Roman", serif;
+    }
+    .prompt {
+      min-height:56px;
+      border-left:4px solid var(--gold);
+      color:var(--dim);
+      padding:2px 0 2px 14px;
+      font-size:17px;
+    }
+    .choices {
+      display:grid;
+      gap:10px;
+    }
+    .choice {
+      appearance:none;
+      width:100%;
+      border:1px solid var(--line);
+      background:#ffffff08;
+      color:var(--ink);
+      text-align:left;
+      cursor:pointer;
+      padding:14px;
+      display:grid;
+      gap:6px;
+      transition:border-color .14s ease, transform .14s ease, background .14s ease;
+    }
+    .choice:hover, .choice:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+      background:#d9a85c14;
+      transform:translateY(-2px);
+    }
+    .choice b {
+      font:950 15px/1.1 ui-sans-serif, system-ui, sans-serif;
+    }
+    .choice span {
+      color:var(--dim);
+      font-size:13px;
+    }
+    .cost {
+      width:max-content;
+      max-width:100%;
+      border:1px solid #d9a85c66;
+      border-radius:999px;
+      background:#d9a85c12;
+      color:var(--gold);
+      padding:6px 8px;
+      font:950 10px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    .choice.good {
+      border-color:var(--green);
+      background:#74d98514;
+      animation:yesFlash .7s ease;
+    }
+    .choice.bad {
+      border-color:var(--red);
+      background:#e55d4e14;
+      animation:noShake .28s ease;
+    }
+    .choice.guide {
+      border-color:var(--gold);
+      background:#d9a85c14;
+      box-shadow:0 0 0 1px var(--gold) inset, 0 0 24px #d9a85c22;
+    }
+    .prediction {
+      border:1px solid var(--line2);
+      background:linear-gradient(135deg, #82b6ff14, #0005 56%);
+      padding:14px;
+      display:grid;
+      gap:12px;
+      animation:cardIn .28s ease both;
+    }
+    .prediction-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--gold);
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+    .prediction-head span {
+      color:var(--blue);
+      letter-spacing:.08em;
+    }
+    .cycle-row {
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:8px;
+    }
+    .cycle-token {
+      min-height:54px;
+      border:1px solid var(--line);
+      background:#0005;
+      color:var(--ink);
+      display:grid;
+      place-items:center;
+      gap:4px;
+      font:950 24px/1 Georgia, "Times New Roman", serif;
+    }
+    .cycle-token b {
+      font:inherit;
+    }
+    .num-label {
+      display:block;
+      color:var(--dim);
+      font:850 10px/1.1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .cycle-token.blank {
+      color:var(--gold);
+      border-color:var(--gold);
+      background:#d9a85c12;
+    }
+    .prediction p {
+      margin:0;
+      color:var(--dim);
+      font-size:14px;
+    }
+    .prediction-options {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+    }
+    .predict {
+      appearance:none;
+      border:1px solid var(--line);
+      background:#ffffff08;
+      color:var(--ink);
+      cursor:pointer;
+      min-height:62px;
+      padding:10px;
+      display:grid;
+      place-items:center;
+      gap:7px;
+      font:950 20px/1 Georgia, "Times New Roman", serif;
+      transition:border-color .14s ease, transform .14s ease, background .14s ease;
+    }
+    .predict-value {
+      display:block;
+    }
+    .predict .num-label {
+      color:var(--blue);
+      text-align:center;
+    }
+    .predict .cost {
+      font-size:9px;
+      padding:5px 7px;
+    }
+    .predict:hover, .predict:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+      background:#d9a85c14;
+      transform:translateY(-2px);
+    }
+    .predict.good {
+      border-color:var(--green);
+      background:#74d98514;
+      animation:yesFlash .7s ease;
+    }
+    .predict.bad {
+      border-color:var(--red);
+      background:#e55d4e14;
+      animation:noShake .28s ease;
+    }
+    .predict.guide {
+      border-color:var(--gold);
+      box-shadow:0 0 0 1px var(--gold) inset, 0 0 24px #d9a85c22;
+    }
+    .notebook {
+      border:1px solid var(--line);
+      background:#050604b0;
+      min-height:0;
+      padding:16px;
+      display:grid;
+      align-content:start;
+      gap:12px;
+    }
+    .notebook h2 {
+      margin:0;
+      font:950 24px/1.05 Georgia, "Times New Roman", serif;
+    }
+    .trace {
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:8px;
+    }
+    .trace li {
+      border:1px solid var(--line);
+      padding:10px;
+      color:var(--faint);
+      font-size:13px;
+    }
+    .trace li.done {
+      color:var(--ink);
+      border-color:var(--green);
+      background:#74d98510;
+      animation:cardIn .24s ease both;
+    }
+    .meters {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .meter {
+      border:1px solid var(--line);
+      padding:10px;
+      background:#0005;
+    }
+    .meter b {
+      display:block;
+      color:var(--faint);
+      margin-bottom:7px;
+      font:950 10px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .bar {
+      height:8px;
+      background:#ffffff18;
+      overflow:hidden;
+    }
+    .fill {
+      display:block;
+      height:100%;
+      width:0;
+      background:var(--gold);
+      transition:width .2s ease;
+    }
+    .fill.green { background:var(--green); }
+    .fill.red { background:var(--red); }
+    .booklet {
+      border:1px solid var(--line);
+      background:#0004;
+    }
+    .booklet summary {
+      cursor:pointer;
+      padding:13px 14px;
+      font:950 12px/1.1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+    .booklet-body {
+      border-top:1px solid var(--line);
+      padding:14px;
+      color:var(--dim);
+      display:grid;
+      gap:10px;
+    }
+    .booklet-body a {
+      color:var(--ink);
+      text-decoration:none;
+      border-bottom:1px solid var(--line2);
+    }
+    .result {
+      display:none;
+      border:1px solid var(--green);
+      background:#74d98512;
+      padding:14px;
+      color:var(--ink);
+    }
+    .result.open {
+      display:block;
+      animation:cardIn .24s ease both;
+    }
+    .result b {
+      display:block;
+      margin-bottom:7px;
+      font:950 22px/1.05 Georgia, "Times New Roman", serif;
+    }
+    .outlinks {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+    .outlinks a {
+      border:1px solid var(--line);
+      border-radius:999px;
+      text-decoration:none;
+      padding:9px 11px;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    noscript {
+      display:block;
+      margin:16px;
+      border:1px solid var(--gold);
+      padding:14px;
+      background:#d9a85c16;
+    }
+    .sr-only {
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+    .coach {
+      position:fixed;
+      z-index:20;
+      max-width:min(280px, calc(100vw - 28px));
+      border:1px solid var(--gold);
+      background:#090805ee;
+      color:var(--ink);
+      padding:11px 12px;
+      box-shadow:0 22px 60px #000a;
+      font:850 13px/1.35 ui-sans-serif, system-ui, sans-serif;
+      pointer-events:none;
+      opacity:0;
+      visibility:hidden;
+      transform:translate(-50%, -120%) scale(.98);
+      transition:opacity .16s ease, transform .16s ease, left .16s ease, top .16s ease, visibility 0s linear .16s;
+    }
+    .coach.show {
+      opacity:1;
+      visibility:visible;
+      transform:translate(-50%, -128%) scale(1);
+      transition-delay:0s;
+    }
+    .coach b {
+      display:block;
+      color:var(--gold);
+      margin-bottom:5px;
+      font:950 10px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .ghost-hand {
+      position:fixed;
+      z-index:21;
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--gold);
+      border-radius:50% 50% 50% 12%;
+      background:#fbf2df;
+      color:#161008;
+      pointer-events:none;
+      opacity:0;
+      visibility:hidden;
+      box-shadow:0 10px 34px #000b;
+      transition:opacity .16s ease, left .16s ease, top .16s ease, visibility 0s linear .16s;
+    }
+    .ghost-hand.show {
+      opacity:.95;
+      visibility:visible;
+      animation:handTap 1.15s ease-in-out infinite;
+      transition-delay:0s;
+    }
+    .depth-card {
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, #82b6ff12, #0005);
+      padding:13px 14px;
+      color:var(--dim);
+      animation:cardIn .28s ease both;
+    }
+    .depth-card b {
+      display:block;
+      color:var(--blue);
+      margin-bottom:6px;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+    .depth-card p {
+      margin:0;
+      font-size:14px;
+    }
+    .pulse-stage .question-card {
+      border-color:var(--gold);
+      box-shadow:0 0 0 1px #d9a85c55 inset, 0 0 34px #d9a85c18;
+    }
 
-    .actions { display:flex; flex-wrap:wrap; gap:12px; margin:2em 0 .5em; }
+    .provenance-band {
+      padding:clamp(28px,4vw,62px);
+      border-top:1px solid var(--line);
+      background:
+        radial-gradient(circle at 12% 0%, #d9a85c18 0 14rem, transparent 30rem),
+        linear-gradient(180deg, #080705 0%, #0d0f12 100%);
+      display:grid;
+      justify-items:center;
+    }
+    .provenance-inner {
+      width:min(900px,100%);
+      display:grid;
+      gap:18px;
+    }
+    .claim {
+      margin:0;
+      padding:1em 1.2em;
+      border-left:3px solid var(--gold);
+      color:var(--ink);
+      font:italic 23px/1.35 Georgia, "Times New Roman", serif;
+      background:#0004;
+    }
+    .abstract {
+      margin:0;
+      color:var(--dim);
+      font:500 16px/1.65 ui-sans-serif, system-ui, sans-serif;
+    }
+    .abstract b { color:var(--ink); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin:.3em 0; }
     a.btn {
-      font:600 14px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.02em;
-      text-decoration:none; color:var(--paper); background:var(--ink);
-      padding:13px 18px; border-radius:7px; display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--ink);
+      border-radius:999px;
+      color:#0b0906;
+      background:var(--ink);
+      padding:11px 13px;
+      text-decoration:none;
+      font:950 11px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
-
-    /* The Rosetta Meter: a homepage-native entry game */
-    .rosetta { margin:2.2em 0 2.4em; border:1px solid var(--ink); background:linear-gradient(180deg, var(--panel), transparent 155%); box-shadow:0 18px 55px #00000012; }
-    .rosetta-head { padding:18px 20px 14px; border-bottom:1px solid var(--panelrule); }
-    .rosetta h2 { font-size:clamp(24px,4vw,34px); line-height:1.1; margin:.25em 0 .2em; font-weight:600; }
-    .rosetta .lede { margin:.65em 0 0; color:var(--dim); font-size:15px; }
-    .manual-shortcut { margin:14px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
-    .manual-shortcut a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
-    .manual-shortcut a:hover, .manual-shortcut a:focus-visible { border-color:var(--ink); outline:0; }
-    .manual { border-bottom:1px solid var(--panelrule); background:
-      linear-gradient(90deg, color-mix(in srgb, var(--brass) 12%, transparent), transparent 62%),
-      repeating-linear-gradient(180deg, transparent 0 17px, color-mix(in srgb, var(--ink) 4%, transparent) 18px);
+    a.btn.ghost, a.btn[style] {
+      color:var(--ink) !important;
+      background:transparent !important;
+      border-color:var(--line2) !important;
     }
-    .manual summary { list-style:none; cursor:pointer; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
-    .manual summary:focus-visible { outline:2px solid var(--ink); outline-offset:-4px; }
-    .manual summary::-webkit-details-marker { display:none; }
-    .manual-cover { display:grid; gap:4px; }
-    .manual-folio { color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; }
-    .manual summary b { display:block; font:600 13px/1.2 ui-sans-serif,system-ui,sans-serif; letter-spacing:.11em; text-transform:uppercase; color:var(--ink); }
-    .manual summary small { display:block; margin-top:4px; color:var(--dim); font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:0; text-transform:none; }
-    .manual-cue { flex:none; border:1px solid var(--ink); border-radius:999px; padding:8px 11px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
-    .manual[open] .manual-cue { background:var(--ink); color:var(--paper); }
-    .manual-cue .cue-close { display:none; }
-    .manual[open] .cue-open { display:none; }
-    .manual[open] .cue-close { display:inline; }
-    .manual-body { padding:18px 20px 20px; border-top:1px solid var(--panelrule); display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; background:linear-gradient(90deg, transparent calc(50% - 1px), var(--panelrule) 50%, transparent calc(50% + 1px)); }
-    .manual-intro { padding:14px 0 0; display:grid; gap:10px; }
-    .manual-body .manual-intro { grid-column:1 / -1; padding:0; }
-    .manual-intro p { margin:0; color:var(--dim); font:400 13px/1.55 ui-sans-serif,system-ui,sans-serif; }
-    .manual-intro b { color:var(--ink); }
-    .manual-path { position:relative; display:flex; flex-wrap:wrap; gap:7px; align-items:center; }
-    .manual-path::before { content:''; position:absolute; left:0; right:0; top:50%; border-top:1px solid color-mix(in srgb, var(--brass) 55%, transparent); }
-    .manual-path span { position:relative; z-index:1; border:1px solid var(--panelrule); border-radius:999px; background:var(--paper); padding:7px 9px; text-align:center; color:var(--dim); font:600 10px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
-    .manual-section { min-width:0; }
-    .manual-section h3 { margin:4px 0 8px; font:600 14px/1.2 Georgia, "Times New Roman", serif; }
-    .manual-grid { display:grid; gap:0; border-top:1px solid var(--panelrule); }
-    .manual-card { border-bottom:1px solid var(--panelrule); background:color-mix(in srgb, var(--panel) 72%, transparent); padding:12px 0; display:grid; gap:7px; }
-    .manual-card .tag { color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
-    .manual-card b { font:600 14px/1.25 ui-sans-serif,system-ui,sans-serif; }
-    .manual-card p { margin:0; color:var(--dim); font:400 12px/1.45 ui-sans-serif,system-ui,sans-serif; }
-    .manual-card .links { display:flex; flex-wrap:wrap; gap:7px; margin-top:2px; }
-    .manual-card a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:6px 8px; font:600 12px/1.2 ui-sans-serif,system-ui,sans-serif; background:var(--paper); }
-    .manual-card a:hover, .manual-card a:focus-visible { border-color:var(--ink); outline:0; }
-    .manual-note { border-left:3px solid var(--brass); padding-left:11px; }
-    .gamebar { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 20px; border-bottom:1px solid var(--panelrule); background:color-mix(in srgb, var(--brass) 8%, transparent); }
-    .keyring { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    .key { min-width:35px; height:35px; border:1px solid var(--panelrule); border-radius:999px; display:grid; place-items:center; color:var(--dim); background:var(--panel); font:600 13px/1 ui-sans-serif,system-ui,sans-serif; }
-    .key.on { border-color:var(--ink); color:var(--paper); background:var(--ink); transform:translateY(-1px); }
-    .game-status { color:var(--dim); font:600 12px/1.4 ui-sans-serif,system-ui,sans-serif; text-align:right; }
-    .room-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); border-bottom:1px solid var(--panelrule); }
-    .room-card { position:relative; min-height:150px; padding:16px; border-right:1px solid var(--panelrule); border-bottom:1px solid var(--panelrule); display:flex; flex-direction:column; gap:10px; transition:background .18s ease, opacity .18s ease, transform .18s ease; }
-    .room-card:nth-child(2n) { border-right:0; }
-    .room-card:nth-last-child(-n+2) { border-bottom:0; }
-    .room-card.active { background:color-mix(in srgb, var(--brass) 12%, transparent); }
-    .room-card.solved::after { content:'trace open'; position:absolute; top:14px; right:14px; color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
-    .room-card.locked { opacity:.42; }
-    .room-card.locked .room-pick { cursor:not-allowed; }
-    .room-pick { border:0; padding:0; background:transparent; color:var(--ink); text-align:left; cursor:pointer; font:inherit; display:flex; flex-direction:column; gap:10px; }
-    .room-pick:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
-    .door { font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.13em; text-transform:uppercase; color:var(--brass); }
-    .room-pick b { font-size:18px; line-height:1.15; }
-    .room-pick span:not(.door) { color:var(--dim); font:400 13px/1.45 ui-sans-serif,system-ui,sans-serif; }
-    .room-card a { margin-top:auto; color:var(--ink); font:600 12px/1 ui-sans-serif,system-ui,sans-serif; text-decoration:none; border-bottom:1px solid var(--panelrule); width:max-content; }
-    .playfield { padding:18px 20px 20px; }
-    .play-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
-    .play-title { margin:0; font-size:20px; line-height:1.2; }
-    .status-pill { flex:none; border:1px solid var(--panelrule); color:var(--brass); padding:6px 8px; border-radius:999px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
-    .artifact { margin:16px 0; display:grid; gap:14px; }
-    .case-board { padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:12px; }
-    .case-board h4 { margin:0; font-size:18px; line-height:1.2; }
-    .case-board p { margin:.3em 0 0; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .claim-note { border-left:3px solid var(--brass); padding-left:12px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .score-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; }
-    .score { border:1px solid var(--panelrule); background:var(--panel); padding:10px; display:grid; gap:6px; min-height:76px; }
-    .score b { font:600 10px/1.2 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
-    .score strong { font:600 18px/1 Georgia, "Times New Roman", serif; }
-    .score .track { height:5px; background:var(--panelrule); overflow:hidden; }
-    .score .fill { display:block; height:100%; width:0%; background:var(--ink); transition:width .2s ease; }
-    .score.overfit .fill { background:#c62828; }
-    .turn-hint { font:600 12px/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--ink); }
-    .evidence-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:9px; }
-    .evidence-card, .method-card { border:1px solid var(--panelrule); background:var(--panel); color:var(--ink); text-align:left; cursor:pointer; padding:12px; display:grid; gap:7px; }
-    .evidence-card:hover, .evidence-card:focus-visible, .evidence-card.active, .method-card:hover, .method-card:focus-visible { border-color:var(--ink); outline:0; }
-    .evidence-card.active { background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
-    .evidence-card .tag, .method-card .tag, .door-state { color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
-    .evidence-card b, .method-card b { font:600 14px/1.2 ui-sans-serif,system-ui,sans-serif; }
-    .evidence-card span:not(.tag), .method-card span:not(.tag) { color:var(--dim); font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; }
-    .method-hand { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:9px; }
-    .method-card:disabled { opacity:.42; cursor:default; }
-    .method-card:disabled:hover { border-color:var(--panelrule); }
-    .case-log { border:1px solid var(--panelrule); background:var(--paper); padding:13px 14px; min-height:86px; }
-    .case-log h4 { margin:0 0 .55em; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--brass); }
-    .case-log ol { margin:0; padding-left:1.3em; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .case-log li + li { margin-top:.35em; }
-    .move-row { display:flex; flex-wrap:wrap; gap:9px; margin-top:10px; }
-    .move { border:1px solid var(--ink); background:transparent; color:var(--ink); padding:10px 12px; border-radius:7px; cursor:pointer; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
-    .move:hover, .move:focus-visible, .move.active { background:var(--ink); color:var(--paper); outline:0; }
-    .move.primary { background:var(--ink); color:var(--paper); }
-    .move:disabled { opacity:.42; cursor:default; }
-    .move:disabled:hover { background:transparent; color:var(--ink); }
-    .reveal { margin-top:16px; border-left:3px solid var(--brass); padding-left:13px; }
-    .reveal p { margin:.45em 0; }
-    .reveal .method { color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; }
-    .reveal.locked { opacity:.7; }
-    .route-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-    .route-row a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
-    .route-row a:hover { border-color:var(--ink); }
-    .archive-gate { margin:18px 20px 20px; padding:16px; border:1px solid var(--panelrule); background:var(--paper); }
-    .archive-gate.open { border-color:var(--ink); background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
-    .archive-gate p { margin:.35em 0; }
-    .rosetta-fallback { padding:0 20px 18px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .proof-trace { margin:.65em 0 0; padding-left:1.2em; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .proof-trace li + li { margin-top:.35em; }
+    .provenance-band .meta {
+      margin:0;
+      color:var(--dim);
+      font:500 13px/1.65 ui-sans-serif, system-ui, sans-serif;
+    }
+    .provenance-band .meta a, .attest .links a { color:var(--ink); }
+    .provenance-band .rule { display:none; }
 
-    /* the Planisphere collaboration mark */
     .stamp { width:1.4em; height:1.4em; vertical-align:-0.34em; margin:0 .12em 0 .3em; opacity:.92; }
     .seal  { width:3em; height:3em; flex:none; opacity:.95; }
     .seal-lg { width:4.4em; height:4.4em; flex:none; opacity:.95; }
     .stamp .ink, .seal .ink, .seal-lg .ink { stroke:currentColor; fill:none; }
     .stamp .ink-fill, .seal .ink-fill, .seal-lg .ink-fill { fill:currentColor; stroke:none; }
     .stamp .brass, .seal .brass, .seal-lg .brass { stroke:var(--brass); fill:none; }
-
-    /* the genesis-block attestation panel */
-    .attest { margin:2.4em 0 1em; border:1px solid var(--panelrule); border-radius:12px; background:var(--panel); padding:20px 22px; }
-    .attest-head { display:flex; align-items:center; gap:16px; }
-    .attest-head .t { font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
-    .attest-head .t b { display:block; font-size:16px; letter-spacing:.02em; text-transform:none; color:var(--ink); margin-top:.25em; }
-    .grid { margin:1.2em 0 .2em; display:grid; grid-template-columns:max-content 1fr; gap:.5em 1.1em; align-items:baseline; }
-    .grid dt { font:600 11px/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.04em; text-transform:uppercase; color:var(--dim); }
-    .grid dd { margin:0; font:400 13px/1.5 Georgia, serif; }
-    .hash { font:400 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; color:var(--ink); }
-    .hash.brass { color:var(--brass); }
-    .attest .how { margin:1.1em 0 0; font:400 12px/1.55 ui-sans-serif,system-ui,sans-serif; color:var(--dim); }
-    .attest .links { margin-top:.9em; display:flex; flex-wrap:wrap; gap:8px 16px; }
-    .attest .links a { font:600 12px/1 ui-sans-serif,system-ui,sans-serif; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--panelrule); padding-bottom:2px; }
-    .attest .links a:hover { border-color:var(--ink); }
-
-    /* live in-browser verification */
-    .verify { margin-top:1.3em; padding-top:1.1em; border-top:1px solid var(--panelrule); }
-    .vbtn { font:600 13px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.02em; cursor:pointer; color:var(--ink); background:transparent; border:1px solid var(--ink); padding:11px 16px; border-radius:7px; display:inline-flex; align-items:center; gap:8px; }
-    .vbtn:hover { background:var(--ink); color:var(--paper); }
-    .vbtn:disabled { opacity:.55; cursor:default; }
-    .vbtn:disabled:hover { background:transparent; color:var(--ink); }
-    .vhint { font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--dim); margin:.7em 0 0; }
-    .checks { list-style:none; margin:1.05em 0 0; padding:0; }
-    .checks li { font:400 13px/1.75 ui-sans-serif,system-ui,sans-serif; color:var(--dim); display:flex; align-items:baseline; gap:.65em; }
-    .checks .ck { width:1.1em; flex:none; text-align:center; color:var(--dim); }
-    .checks li.run .ck { animation:pulse 1s ease-in-out infinite; }
-    .checks li.run .ck::before { content:'\2026'; }
-    .checks li.ok  .ck::before { content:'\2713'; } .checks li.ok  { color:var(--ink); } .checks li.ok .ck { color:#2e7d32; }
-    .checks li.bad .ck::before { content:'\2717'; } .checks li.bad { color:var(--ink); } .checks li.bad .ck { color:#c62828; }
-    @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
-    .witness { margin-top:1.2em; padding-top:1.1em; border-top:1px solid var(--panelrule); }
-    .wlead { font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--brass); margin:0 0 .55em; }
-    .wsig { margin:1em 0 0; padding:.85em 1em; background:var(--panel); border:1px solid var(--panelrule); border-radius:7px; font:400 11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--dim); white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
-    .wsig b { color:var(--ink); font-weight:600; }
-    .wsig .brass { color:var(--brass); }
-    .verdict { margin:1.05em 0 0; font:600 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .verdict.pass { color:#2e7d32; } .verdict.fail { color:#c62828; }
-    @media (prefers-color-scheme: dark){
-      .checks li.ok .ck { color:#7bd88f; } .verdict.pass { color:#7bd88f; }
-      .checks li.bad .ck { color:#ff8a80; } .verdict.fail { color:#ff8a80; }
-    }
-    @media (max-width: 620px){
-      .wrap { padding-top:7vh; }
-      .room-grid { grid-template-columns:1fr; }
-      .room-card, .room-card:nth-child(2n), .room-card:nth-last-child(-n+2) { border-right:0; border-bottom:1px solid var(--panelrule); }
-      .room-card:last-child { border-bottom:0; }
-      .play-top { display:block; }
-      .status-pill { display:inline-block; margin-top:10px; }
-      .score-grid, .evidence-grid, .method-hand { grid-template-columns:1fr; }
-      .manual summary { display:block; }
-      .manual-cue { display:inline-block; margin-top:10px; }
-      .manual-body { grid-template-columns:1fr; background:transparent; }
-      .manual-path { overflow-x:auto; flex-wrap:nowrap; padding-bottom:2px; }
-      .manual-path span { flex:0 0 auto; }
-      .gamebar { display:block; }
-      .game-status { text-align:left; margin-top:10px; }
-    }
-
-    /* sign-off */
-    .sign { margin-top:2.2em; }
-    .sign .sig-row { display:flex; align-items:center; gap:16px; }
-    .sign .sig {
-      font-family:"Snell Roundhand","Apple Chancery","Brush Script MT","Segoe Script",cursive;
-      font-size:clamp(28px,5vw,38px); line-height:1; font-weight:500;
-      color:var(--ink); display:inline-block; padding:.05em .1em 0;
-    }
-    .seal-link { display:inline-flex; line-height:0; }
-    .sign .line { width:260px; max-width:100%; border:0; border-top:1px solid var(--ink); margin:.5em 0 .3em; opacity:.5; }
-    .sign .who { font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.04em; color:var(--dim); display:block; }
-
-    footer { font:400 12px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--dim); text-align:center; padding:3vh 24px; border-top:1px solid var(--rule); }
-    a { color:inherit; }
-
-    /* the reusable mark, defined once */
     svg.mark .ink { stroke:currentColor; fill:none; }
     svg.mark .ink-fill { fill:currentColor; stroke:none; }
     svg.mark .brass { stroke:var(--brass); fill:none; }
+
+    .attest { margin:1em 0 0; border:1px solid var(--line); border-radius:12px; background:#050604cc; padding:20px 22px; box-shadow:0 18px 70px #0008; }
+    .attest-head { display:flex; align-items:center; gap:16px; }
+    .attest-head .t { font:950 11px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+    .attest-head .t b { display:block; font:950 17px/1.25 Georgia,"Times New Roman",serif; letter-spacing:0; text-transform:none; color:var(--ink); margin-top:.25em; }
+    .grid { margin:1.2em 0 .2em; display:grid; grid-template-columns:max-content 1fr; gap:.5em 1.1em; align-items:baseline; }
+    .grid dt { font:950 10px/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+    .grid dd { margin:0; color:var(--ink); font:500 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .hash { font:500 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; color:var(--ink); }
+    .hash.brass { color:var(--brass); }
+    .attest .how { margin:1.1em 0 0; color:var(--dim); font:500 12px/1.55 ui-sans-serif,system-ui,sans-serif; }
+    .attest .links { margin-top:.9em; display:flex; flex-wrap:wrap; gap:8px 16px; }
+    .attest .links a { font:950 11px/1 ui-sans-serif,system-ui,sans-serif; text-decoration:none; border-bottom:1px solid var(--line2); padding-bottom:2px; }
+    .attest .links a:hover { border-color:var(--ink); }
+
+    .verify { margin-top:1.3em; padding-top:1.1em; border-top:1px solid var(--line); }
+    .vbtn { font:950 12px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.05em; cursor:pointer; color:var(--ink); background:transparent; border:1px solid var(--line2); padding:11px 16px; border-radius:7px; display:inline-flex; align-items:center; gap:8px; }
+    .vbtn:hover, .vbtn:focus-visible { background:var(--ink); color:#0b0906; outline:0; }
+    .vbtn:disabled { opacity:.55; cursor:default; }
+    .vbtn:disabled:hover { background:transparent; color:var(--ink); }
+    .vhint { font:500 12px/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--dim); margin:.7em 0 0; }
+    .checks { list-style:none; margin:1.05em 0 0; padding:0; }
+    .checks li { font:500 13px/1.75 ui-sans-serif,system-ui,sans-serif; color:var(--dim); display:flex; align-items:baseline; gap:.65em; }
+    .checks .ck { width:1.1em; flex:none; text-align:center; color:var(--dim); }
+    .checks li.run .ck { animation:pulse 1s ease-in-out infinite; }
+    .checks li.run .ck::before { content:'\2026'; }
+    .checks li.ok  .ck::before { content:'\2713'; } .checks li.ok  { color:var(--ink); } .checks li.ok .ck { color:var(--green); }
+    .checks li.bad .ck::before { content:'\2717'; } .checks li.bad { color:var(--ink); } .checks li.bad .ck { color:var(--red); }
+    @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
+    .witness { margin-top:1.2em; padding-top:1.1em; border-top:1px solid var(--line); }
+    .wlead { font:950 11px/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--brass); margin:0 0 .55em; }
+    .wsig { margin:1em 0 0; padding:.85em 1em; background:#0005; border:1px solid var(--line); border-radius:7px; font:500 11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--dim); white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
+    .wsig b { color:var(--ink); font-weight:950; }
+    .wsig .brass { color:var(--brass); }
+    .verdict { margin:1.05em 0 0; font:950 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .verdict.pass { color:var(--green); } .verdict.fail { color:var(--red); }
+    .sign { margin-top:2.2em; }
+    .sign .sig-row { display:flex; align-items:center; gap:16px; }
+    .sign .sig { font-family:Georgia,"Times New Roman",serif; font-size:clamp(28px,5vw,38px); line-height:1; font-weight:950; color:var(--ink); display:inline-block; padding:.05em .1em 0; }
+    .seal-link { display:inline-flex; line-height:0; }
+    .sign .line { width:260px; max-width:100%; border:0; border-top:1px solid var(--line2); margin:.5em 0 .3em; }
+    .sign .who { font:950 11px/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; color:var(--dim); text-transform:uppercase; display:block; }
+    footer { font:500 12px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--dim); text-align:center; padding:3vh 24px; border-top:1px solid var(--line); background:#050504; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration:.001ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.001ms !important;
+      }
+    }
+    @media (max-width:980px) {
+      .game { grid-template-columns:1fr; }
+      .table-side { border-right:0; border-bottom:1px solid var(--line); }
+      .story-side { align-content:start; }
+      .tablet-wrap { min-height:auto; }
+      .tablet { min-height:430px; }
+      .glyph-grid { grid-template-columns:repeat(6, minmax(36px,1fr)); }
+    }
+    @media (max-width:700px) {
+      .grid { grid-template-columns:1fr; }
+      .attest-head, .sign .sig-row { align-items:flex-start; }
+      .provenance-band { padding:28px 14px; }
+    }
+    @media (max-width:600px) {
+      .topbar { align-items:flex-start; }
+      .brand { max-width:14ch; }
+      .table-side, .story-side { padding:18px 14px; }
+      h1 { font-size:clamp(43px,14vw,62px); }
+      .lede { font-size:15px; }
+      .tablet { min-height:330px; padding:22px 18px; border-radius:18px; }
+      .glyph-grid { grid-template-columns:repeat(5, minmax(34px,1fr)); gap:8px; }
+      .mark { min-height:44px; font-size:22px; }
+      .question-card p { font-size:26px; }
+      .meters { grid-template-columns:1fr; }
+      .prediction-options { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="kicker">Volume &middot; Room 137</div>
-    <h1>Shadow &amp; Mirror</h1>
-    <p class="sub">Treewidth as the Universal Meter of Computation, Physics, and Consciousness</p>
-    <p class="meta">Logan Christopher Ross &middot; 895 pages &middot;<svg class="stamp mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere · Room 137"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>June 1, 2026</p>
+  <noscript>
+    Play needs JavaScript. Reader routes remain available:
+    <a href="https://logan.engineering/essays/deciphering-rongorongo">essay</a>,
+    <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">vault</a>,
+    <a href="https://zenodo.org/records/19362491">Zenodo</a>,
+    <a href="/matrix">matrix</a>,
+    <a href="/genesis">seal</a>,
+    <a href="/thesis.pdf">volume</a>,
+    <a href="/essays">catalogue</a>.
+  </noscript>
+  <main class="page" data-game>
+    <header class="topbar">
+      <div class="brand">Shadow &amp; Mirror</div>
+      <nav class="toplinks" aria-label="Reader routes">
+        <a href="https://logan.engineering/essays/deciphering-rongorongo">Essay</a>
+        <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">Vault</a>
+        <a href="https://zenodo.org/records/19362491">Zenodo</a>
+        <a href="/matrix">Matrix</a>
+        <a href="/genesis">Seal</a>
+        <button type="button" data-open-booklet>Instructions</button>
+        <button type="button" data-reset>Reset</button>
+      </nav>
+    </header>
 
-    <section class="rosetta" id="rosetta-meter" aria-labelledby="rosetta-title">
-      <div class="rosetta-head">
-        <div class="kicker">Homepage game &middot; The evidence room</div>
-        <h2 id="rosetta-title">The Four Locked Rooms</h2>
-        <p class="lede">Four doors are locked. The first one opens by doing the work: choose evidence, spend a method, test the calendar reading, and leave with a proof trace. If the board feels strange, open the instructions booklet first.</p>
-        <div class="manual-shortcut" aria-label="Reader routes">
-          <a href="/essays">Full Field Manual</a>
-          <a href="/vault">Vault receipts</a>
+    <section class="game">
+      <section class="table-side" aria-label="Damaged tablet">
+        <div>
+          <p class="eyebrow">Calendar Room · Rongorongo</p>
+          <h1>Calendar or coincidence?</h1>
+          <p class="lede">A damaged tablet repeats. Is there a real calendar hiding here, or are we fooling ourselves?</p>
         </div>
-      </div>
 
-      <details class="manual" id="field-manual" data-manual>
-        <summary>
-          <span class="manual-cover">
-            <span class="manual-folio">Field manual &middot; Room 137</span>
-            <b>Instructions booklet</b>
-            <small>Two-axis field manual: what the game asks, and where Logan explains it at full scale.</small>
-          </span>
-          <span class="manual-cue"><span class="cue-open">Open booklet</span><span class="cue-close">Close booklet</span></span>
-        </summary>
-        <div class="manual-body" data-manual-body>
-          <div class="manual-intro">
-            <p><b>The board is not the whole argument.</b> The player plays with patterns; the game reveals the methods; the essays tie it together; Zenodo stamps the record.</p>
-            <div class="manual-path" aria-label="Reader path" role="list">
-              <span role="listitem">Play</span>
-              <span role="listitem">Method</span>
-              <span role="listitem">Essay</span>
-              <span role="listitem">Record</span>
-              <span role="listitem">Matrix</span>
-            </div>
-            <p class="manual-note">Zenodo is the deposited record, not consensus. Claim status lives beside the companion essay and the proof trace.</p>
-          </div>
-
-          <div class="manual-section">
-            <h3>Axis I: What The Game Asks</h3>
-            <div class="manual-grid">
-              <div class="manual-card">
-                <span class="tag">Find signal</span>
-                <b>Repeated signs are evidence only after they survive counting.</b>
-                <p>That is why the first method card is frequency, not translation.</p>
-                <div class="links"><a href="/essays/deciphering-rongorongo">Rongorongo essay</a><a href="/graph-theory/what-is-treewidth">Treewidth basics</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">Constrain position</span>
-                <b>A sign needs a job in context, not a beautiful isolated meaning.</b>
-                <p>Position, neighbor, and separator pressure are the small rules the game makes visible.</p>
-                <div class="links"><a href="/graph-theory/tree-decomposition-explained">Tree decomposition</a><a href="/matrix">Complexity matrix</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">Risk a hypothesis</span>
-                <b>A calendar fit becomes serious when it predicts and can be attacked.</b>
-                <p>The proof trace is where confidence, parsimony, overfit, and counterexample pressure meet.</p>
-                <div class="links"><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="/essays/riemann-repulsion-collapse-treewidth">Measurement example</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">Open the receipt</span>
-                <b>Winning the room routes you out of the toy case and into the corpus.</b>
-                <p>The essay is the readable argument, the vault is the record drawer, and the seal proves the served bytes.</p>
-                <div class="links"><a href="/vault">Vault</a><a href="/genesis">Genesis seal</a></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="manual-section">
-            <h3>Axis II: Where The Corpus Lives</h3>
-            <div class="manual-grid">
-              <div class="manual-card">
-                <span class="tag">Field guides</span>
-                <b>Essays are the humane instructions.</b>
-                <p>Start with the proven floor, then the theorem-vs-wager distinction, then the rooms.</p>
-                <div class="links"><a href="/essays/the-equals-sign-as-a-rotation">Equals sign</a><a href="/essays/two-laws-one-name">Two Laws</a><a href="/essays">Full Field Manual</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">Locked rooms</span>
-                <b>Decipherment is the first wing of the game.</b>
-                <p>Rongorongo is playable now; Proto-Elamite, Indus, and Cadence are live routes before full room expansion.</p>
-                <div class="links"><a href="/essays/reading-proto-elamite">Proto-Elamite</a><a href="/essays/reading-indus-valley-script">Indus</a><a href="/vault/dying-language-sounds-like-noise">Cadence</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">The meter</span>
-                <b>The matrix shows why the same scoring language keeps returning.</b>
-                <p>Substrate, graph invariant, and structural regime are the deeper board underneath the rooms.</p>
-                <div class="links"><a href="/matrix">Matrix</a><a href="/matrix/tensor-network-contraction">Tensor networks</a><a href="/quantum/rosss-law">Ross's Law</a></div>
-              </div>
-              <div class="manual-card">
-                <span class="tag">Learn the rules</span>
-                <b>Topic guides are support, not the spine.</b>
-                <p>Use them when a hard word blocks play: treewidth, quantum simulation, knowledge graphs.</p>
-                <div class="links"><a href="/topics">Topic guides</a><a href="/quantum/rosss-law">Quantum guide</a><a href="/knowledge/shadow-and-mirror-knowledge-framework">Knowledge framework</a></div>
-              </div>
+        <div class="tablet-wrap">
+          <div class="tablet" aria-label="Tap repeated marks on the damaged tablet">
+            <div class="shine" aria-hidden="true"></div>
+            <div class="crack"></div>
+            <div class="glyph-grid">
+              <button class="mark" type="button" data-mark="a">730</button>
+              <button class="mark" type="button">✶</button>
+              <button class="mark" type="button">II</button>
+              <button class="mark" type="button">∿</button>
+              <button class="mark" type="button" data-mark="b">730</button>
+              <button class="mark" type="button">○</button>
+              <button class="mark" type="button">29</button>
+              <button class="mark" type="button">☾</button>
+              <button class="mark" type="button">edge</button>
+              <button class="mark" type="button">|</button>
+              <button class="mark" type="button">mark</button>
+              <button class="mark" type="button">30</button>
+              <button class="mark" type="button">☽</button>
+              <button class="mark" type="button">gap</button>
+              <button class="mark" type="button">✕</button>
+              <button class="mark" type="button" data-mark="c">730</button>
+              <button class="mark" type="button">line</button>
+              <button class="mark" type="button">◇</button>
+              <button class="mark" type="button">29</button>
+              <button class="mark" type="button">scar</button>
+              <button class="mark" type="button">☉</button>
+              <button class="mark" type="button">30</button>
+              <button class="mark" type="button">?</button>
+              <button class="mark" type="button">twin</button>
             </div>
           </div>
         </div>
-      </details>
 
-      <div class="gamebar">
-        <div class="keyring" data-keyring aria-label="Keys won">
-          <span class="key" data-key="rongorongo">C</span>
-          <span class="key" data-key="proto">L</span>
-          <span class="key" data-key="indus">S</span>
-          <span class="key" data-key="cadence">R</span>
+        <div class="caption">
+          <span class="pill">First move: tap the repeated marks</span>
+          <span>The game is small. The method it reveals is Logan's full-scale move.</span>
         </div>
-        <div class="game-status" data-game-status>Calendar case: pick evidence, then play a method card.</div>
-        <button class="move primary" type="button" data-new-game>New case draw</button>
-      </div>
+      </section>
 
-      <div class="room-grid" aria-label="Choose a locked room">
-        <article class="room-card active" data-card="rongorongo">
-          <button class="room-pick" type="button" data-room="rongorongo" aria-pressed="true">
-            <span class="door">Calendar room</span>
-            <b>Rongorongo</b>
-            <span>Start here. Build a defensible reading from noisy marks, a lunar hypothesis, and counterexamples.</span>
-          </button>
-          <a href="/essays/deciphering-rongorongo">Read the essay</a>
-        </article>
-        <article class="room-card" data-card="proto">
-          <button class="room-pick" type="button" data-room="proto" aria-pressed="false">
-            <span class="door">Ledger room</span>
-            <b>Proto-Elamite</b>
-            <span>Locked for this slice: administrative formulas, sign roles, and tablet-level structure.</span>
-          </button>
-          <a href="/essays/reading-proto-elamite">Read the essay</a>
-        </article>
-        <article class="room-card" data-card="indus">
-          <button class="room-pick" type="button" data-room="indus" aria-pressed="false">
-            <span class="door">Seal room</span>
-            <b>Indus</b>
-            <span>Locked for this slice: short seals, fixed positions, and structural signal under brevity.</span>
-          </button>
-          <a href="/essays/reading-indus-valley-script">Read the essay</a>
-        </article>
-        <article class="room-card" data-card="cadence">
-          <button class="room-pick" type="button" data-room="cadence" aria-pressed="false">
-            <span class="door">Rhythm room</span>
-            <b>Cadence</b>
-            <span>Locked for this slice: a dying language measured by energy shape after vocabulary fails.</span>
-          </button>
-          <a href="/vault/dying-language-sounds-like-noise">Open the record</a>
-        </article>
-      </div>
-
-      <div class="playfield" aria-live="polite">
-        <div class="play-top">
-          <h3 class="play-title" data-play-title>Calendar room: build the case</h3>
-          <span class="status-pill" data-status>Partial &middot; calendar</span>
+      <section class="story-side" aria-label="Game controls">
+        <div class="question-card">
+          <b data-step-label>Step 1 · Notice</b>
+          <p data-question>Tap the repeated marks.</p>
         </div>
-        <div class="artifact" data-artifact>
-          <div class="case-board" data-static-fallback>
-            <h4>Case file: Mamari calendar line</h4>
-            <p>Hypothesis: a repeated cluster marks a lunar count rather than random ornament.</p>
-            <div class="claim-note">Claim status: proposed structural reading. The live game tests the method; the essay carries the full argument and the Zenodo record stamps the deposit.</div>
-            <p><b>Seed proof line:</b> frequency count, position constraint, calendar fit, then a cross-tablet counterexample check.</p>
-            <div class="route-row">
-              <a href="/essays/deciphering-rongorongo">Companion essay</a>
-              <a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a>
-              <a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo DOI</a>
-              <a href="/essays">Full Field Manual</a>
-            </div>
+        <p class="prompt" data-prompt>Start with the object. Find the same mark twice before naming what it means.</p>
+        <div class="depth-card" data-depth-card>
+          <b data-depth-title>Automagic tutorial</b>
+          <p data-depth>Follow the gold pulse. The page will keep pointing at the next honest move until you take it.</p>
+        </div>
+
+        <div class="choices" data-choices hidden>
+          <button class="choice" type="button" data-choice="calendar">
+            <b>Test the lunar rhythm.</b>
+            <small class="cost">Cost: spend 1 method seal</small>
+            <span>If it is a calendar, the short/long moon counts, 29 and 30, should behave like structure, not decoration.</span>
+          </button>
+          <button class="choice" type="button" data-choice="story">
+            <b>Tell the prettiest story.</b>
+            <small class="cost">Cost: +1 overfit</small>
+            <span>Stars, kings, seasons. It feels good, but it may explain too much.</span>
+          </button>
+          <button class="choice" type="button" data-choice="gap">
+            <b>Ignore the damaged gap.</b>
+            <small class="cost">Cost: +1 overfit</small>
+            <span>Cleaner pattern, weaker truth.</span>
+          </button>
+        </div>
+
+        <div class="prediction" data-prediction hidden>
+          <div class="prediction-head">
+            <b>Prediction test</b>
+            <span>short / long / short / ?</span>
+          </div>
+          <div class="cycle-row" aria-hidden="true">
+            <span class="cycle-token"><b>29</b><small class="num-label">short moon</small></span>
+            <span class="cycle-token"><b>30</b><small class="num-label">long moon</small></span>
+            <span class="cycle-token"><b>29</b><small class="num-label">short moon</small></span>
+            <span class="cycle-token blank"><b>?</b><small class="num-label">next count</small></span>
+          </div>
+          <p>If this is calendar structure, choose the next short-or-long moon count before the story explains it away.</p>
+          <div class="prediction-options">
+            <button class="predict" type="button" data-predict="30"><span class="predict-value">30</span><small class="num-label">long moon</small><small class="cost">Cost: risk confidence</small></button>
+            <button class="predict" type="button" data-predict="29"><span class="predict-value">29</span><small class="num-label">short moon</small><small class="cost">Cost: +1 overfit</small></button>
+            <button class="predict" type="button" data-predict="story"><span class="predict-value">story</span><small class="cost">Cost: +1 overfit</small></button>
           </div>
         </div>
-        <div class="move-row" data-action-row></div>
-        <div class="reveal locked" data-reveal>
-          <p><b>Pick one evidence card.</b></p>
-          <p class="method">Then spend a method card. The goal is not certainty; it is a reading that survives measured pressure.</p>
-        </div>
-      </div>
 
-      <p class="rosetta-fallback">No JavaScript required to read the work: every room also links directly into the essay, vault, DOI record, or catalogue. The game is a proof-of-method, not a paywall.</p>
-      <div class="archive-gate" data-archive-gate>
-        <p><b>Proof trace sealed.</b></p>
-        <p class="method">Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.</p>
-        <div class="route-row">
-          <a href="/essays/deciphering-rongorongo">Essay</a>
-          <a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a>
-          <a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo</a>
-          <a href="/essays">Full Field Manual</a>
+        <div class="choices" data-counter hidden>
+          <button class="choice" type="button" data-counter-choice="keep">
+            <b>Keep the counterexample.</b>
+            <small class="cost">Cost: lose elegance</small>
+            <span>The missing twin stays in the proof, even if it hurts the story.</span>
+          </button>
+          <button class="choice" type="button" data-counter-choice="hide">
+            <b>Hide the counterexample.</b>
+            <small class="cost">Cost: +1 overfit</small>
+            <span>The pattern becomes cleaner by becoming less honest.</span>
+          </button>
         </div>
-      </div>
+
+        <aside class="notebook">
+          <h2>Field notebook</h2>
+          <div class="meters">
+            <div class="meter"><b>Signal</b><span class="bar"><span class="fill green" data-meter="signal"></span></span></div>
+            <div class="meter"><b>Overfit</b><span class="bar"><span class="fill red" data-meter="overfit"></span></span></div>
+          </div>
+          <ol class="trace">
+            <li data-trace="count">Count recurrence before translation.</li>
+            <li data-trace="test">Make the calendar reading predict something.</li>
+            <li data-trace="counter">Keep the counterexample inside the proof.</li>
+          </ol>
+
+          <details class="booklet" data-booklet>
+            <summary>Instructions booklet</summary>
+            <div class="booklet-body">
+              <p>You just played the small version. Logan did this at corpus scale: count recurrence, test calendar structure, and keep the breaks visible.</p>
+              <p>The essay ties it together. Zenodo stamps the academic record.</p>
+              <p><a href="https://logan.engineering/essays/deciphering-rongorongo">Open the companion essay</a></p>
+            </div>
+          </details>
+
+          <div class="result" data-result>
+            <b>Proof trace open.</b>
+            <p>You did not decode Rongorongo. You learned the shape of Logan's argument: pattern first, prediction second, honesty always.</p>
+            <div class="outlinks">
+              <a href="https://logan.engineering/essays/deciphering-rongorongo">Essay</a>
+              <a href="https://logan.engineering/vault/deciphering-rongorongo-corpus-analysis">Vault</a>
+              <a href="https://zenodo.org/records/19362491">Zenodo</a>
+              <a href="https://logan.engineering/essays">Catalogue</a>
+            </div>
+          </div>
+        </aside>
+      </section>
     </section>
-
+    <section class="provenance-band" aria-label="Volume provenance and Planisphere verification">
+      <div class="provenance-inner">
     <div class="claim">
       The gap between any separable structure and the inseparable whole it
       belongs to is measured by one invariant&nbsp;&mdash;&nbsp;treewidth.
@@ -531,14 +1116,15 @@
       <hr class="line" />
       <span class="who">Signed &amp; sealed by Planisphere &middot; Room 137 &middot; June 1, 2026</span>
     </div>
+      </div>
+    </section>
+    <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-live></p>
   </main>
-  <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
+  <div class="coach" data-coach aria-hidden="true"><b>Try this</b><span data-coach-text>Tap a repeated mark.</span></div>
+  <div class="ghost-hand" data-hand aria-hidden="true">•</div>
 
+  <script type="module" src="/game/homepage-runtime.v2.js"></script>
   <script type="module">
-    import { mountRosettaGame } from './game/rosetta-runtime.js';
-
-    void mountRosettaGame({ manifestUrl: './game/shadow-mirror-game.v1.json' });
-
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;
     const viem = async () => (_viem ||= await import('/vendor/viem-2.52.0.min.js'));
