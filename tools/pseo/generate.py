@@ -16,6 +16,13 @@ URLs are clean (Vercel cleanUrls): public/graph-theory/foo.html -> /graph-theory
 
 Run:  python3 tools/pseo/generate.py
 Idempotent — safe to re-run; overwrites generated files only.
+
+⚠ DO NOT RUN AGAINST public/ — STALE FOR THE MATRIX (see GENERATOR-STATUS.md).
+The deployed public/matrix/*.html hubs are hand-authored and have diverged from
+this generator. A run would clobber the rich hubs with terse output and
+resurrect 75 leaf pages that vercel.json intentionally redirects/collapses.
+Before any future use: build to a temp dir (override generate.PUBLIC), diff
+against public/, and inspect the blast radius first.
 """
 import html
 import os
@@ -417,4 +424,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # ⚠ STALE FOR THE MATRIX — see GENERATOR-STATUS.md before running.
+    # Running this against public/ clobbers hand-authored matrix hubs and
+    # resurrects 75 redirected leaf pages. Build to a temp dir + diff first.
     main()

@@ -14,6 +14,17 @@ BreadcrumbList JSON-LD, and obeys the Helix interlinking rule:
 
 render_all(ctx) is called by generate.py with a dict of shared helpers, so this
 module owns no I/O of its own and stays import-cycle-free.
+
+⚠ GENERATOR IS STALE vs DEPLOYED (2026-06-11).
+The live public/matrix/*.html substrate hubs are hand-maintained rich pages and
+have DIVERGED from this generator: they carry bespoke prose + per-metric trinity
+tables, and the 75 Substrate×Metric×Regime LEAF pages were deliberately removed
+(see vercel.json redirects collapsing leaf URLs back to the hubs). Running
+generate.py as-is would OVERWRITE the rich hubs with terse output and resurrect
+all 75 leaves. Do NOT run the full generator against public/ until the deployed
+hubs are folded back into this module. The META model below is the source of
+truth for instantiation metadata; the connectome correction was applied by hand
+to public/matrix/biological-connectomes.html to avoid that clobber.
 """
 
 # ----------------------------------------------------------------- the matrix
@@ -137,6 +148,118 @@ INTENTS = {
 
 REGIME_ORDER = ["shadow", "equilibrium", "mirror"]
 
+# ------------------------------------------------- instantiation metadata model
+#
+# Each instantiation (a matrix substrate, here) carries a metadata record. The
+# model is the source of truth for the page's identity, lifecycle, and — newly —
+# its correction history. Claims on this site are never deleted when they fail;
+# they are marked here and linked to a corrigendum. An absent META entry means
+# the instantiation is `active` with no correction.
+#
+# Schema of a META record:
+#   # identity
+#   public_title          human-facing title (overrides the generated H1)
+#   subtitle              one-line dek under the public title
+#   formal_artifact_title the formal/paper title of the underlying artifact
+#   domain                field the instantiation lives in
+#   doi / repo / data     external links, or None
+#   central_concepts      [str, ...]  e.g. treewidth, κ, separability, cadence
+#   # lifecycle
+#   status                published / compile-ready / discovery-stage / superseded
+#   evidence_tier         short string describing strength of the evidence
+#   # correction tracking (the supported claim-failure model)
+#   claim_status          active / superseded / falsified / corrected / replication-needed
+#   old_measure           the measure that failed or was replaced
+#   new_measure           the measure that survived / replaced it
+#   correction_summary    plain-language account of what happened
+#   replication_status    what replication exists and what is still needed
+#   corrigendum_path       path to the running corrigendum record (site-relative)
+#   superseded_metrics    [metric_key, ...] metric pages now marked superseded
+
+META = {
+ "biological-connectomes": dict(
+   # identity
+   public_title="Connectomes and the Cost of Sparsification",
+   subtitle="Why treewidth failed, and what survived.",
+   formal_artifact_title="Biological Connectomes Complexity Profile",
+   domain="neuroscience · connectomics",
+   doi=None, repo=None, data=None,
+   central_concepts=["treewidth", "spectral gap κ", "separability",
+                     "global efficiency E_glob", "modularity Q"],
+   # lifecycle
+   status="discovery-stage",
+   evidence_tier="measurement · single-organism (C. elegans)",
+   # correction tracking
+   claim_status="corrected",
+   old_measure="raw treewidth; spectral-gap κ",
+   new_measure="global efficiency E_glob + modularity Q",
+   correction_summary=(
+     "raw treewidth and spectral κ failed sparsification robustness; the "
+     "integration/separation trade-off survived; E_glob + Q appears "
+     "near-conserved within C. elegans."),
+   replication_status=(
+     "one clean organism sweep; needs replication on ≥3 more connectomes."),
+   corrigendum_path="measurement/CORRIGENDA.md",
+   superseded_metrics=["treewidth-bounds", "fiedler-value-connectivity"],
+ ),
+}
+
+CLAIM_LABELS = {
+ "active": "Active",
+ "superseded": "Superseded",
+ "falsified": "Falsified",
+ "corrected": "Corrected",
+ "replication-needed": "Replication needed",
+}
+
+
+def _corr_href(meta):
+    p = meta.get("corrigendum_path") or ""
+    if p and not p.startswith("/"):
+        p = "/" + p
+    return p
+
+
+def render_correction_notice(ctx, meta, full=True):
+    """Render the corrigendum callout for an instantiation whose claim_status is
+    not `active`. full=True is the complete block (substrate hub); full=False is
+    the slim inline banner (a superseded leaf page). Returns '' for active claims."""
+    esc = ctx["esc"]
+    cs = meta.get("claim_status", "active")
+    if cs == "active":
+        return ""
+    label = CLAIM_LABELS.get(cs, cs.replace("-", " ").title())
+    href = _corr_href(meta)
+
+    if not full:
+        link = (f' &mdash; see the <a href="{href}">corrigendum</a>'
+                if href else "")
+        return (f'<div class="corrigendum slim">'
+                f'<span class="cbadge superseded">Superseded</span>'
+                f'<span>This measure is superseded for this instantiation{link}.</span>'
+                f'</div>')
+
+    rows = []
+    for dt, key in (("Old measure", "old_measure"),
+                    ("New measure", "new_measure"),
+                    ("Replication", "replication_status")):
+        if meta.get(key):
+            rows.append(f'<div class="row"><dt>{esc(dt)}</dt>'
+                        f'<dd>{esc(meta[key])}</dd></div>')
+    out = [f'<div class="corrigendum"><div class="chead">'
+           f'<span class="cbadge {esc(cs)}">{esc(label)}</span>'
+           f'<span class="ctitle">Corrigendum</span></div>']
+    if meta.get("correction_summary"):
+        out.append(f'<p class="csum">{esc(meta["correction_summary"])}</p>')
+    if rows:
+        out.append('<div class="cmeta">' + "".join(rows) + "</div>")
+    if href:
+        out.append('<div class="actions">'
+                   f'<a class="btn ghost" href="{href}">Read the corrigendum</a>'
+                   "</div>")
+    out.append("</div>")
+    return "".join(out)
+
 # additional CSS for the 3-tier template, appended to the shared STYLE
 TRINITY_CSS = """
 .profile-tag{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;color:var(--dim);}
@@ -157,6 +280,19 @@ TRINITY_CSS = """
 .matrixgrid a{text-decoration:none;border:1px solid var(--panelrule);border-radius:8px;background:var(--panel);padding:.7em .8em;font:400 13px/1.4 ui-sans-serif,system-ui,sans-serif;}
 .matrixgrid a:hover{border-color:var(--ink);}
 .matrixgrid a .v{display:block;font:400 11px/1.4 ui-monospace,Menlo,monospace;color:var(--dim);margin-top:.25em;}
+.corrigendum{margin:1.6em 0;border:1px solid var(--brass);border-radius:12px;background:var(--panel);padding:1.15em 1.35em;}
+.corrigendum .chead{display:flex;align-items:center;gap:.7em;margin-bottom:.55em;}
+.corrigendum .ctitle{font:600 12px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);}
+.cbadge{font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:.42em .68em;border-radius:999px;border:1px solid var(--brass);color:var(--brass);}
+.cbadge.falsified{color:#b3261e;border-color:#b3261e;}
+.cbadge.superseded{color:var(--dim);border-color:var(--dim);}
+.corrigendum .csum{margin:.3em 0 .8em;font-size:15.5px;}
+.corrigendum .cmeta{display:grid;grid-template-columns:max-content 1fr;gap:.45em 1.1em;margin:.2em 0 .2em;}
+.corrigendum .cmeta .row{display:contents;}
+.corrigendum dt{font:600 11px/1.5 ui-sans-serif,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:0;}
+.corrigendum dd{margin:0;font:400 14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);}
+.corrigendum.slim{padding:.7em 1em;border-radius:9px;font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif;display:flex;align-items:center;gap:.6em;flex-wrap:wrap;}
+.metricsuperseded{font:600 10px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);border-radius:999px;padding:.32em .55em;margin-left:.55em;vertical-align:.12em;}
 """
 
 
@@ -178,6 +314,8 @@ def render_leaf(ctx, sub_key, met_key, reg_key):
 
     sub = SUBSTRATES[sub_key]; met = METRICS[met_key]; reg = REGIMES[reg_key]
     intent = INTENTS[sub["intent"]]
+    meta = META.get(sub_key)
+    metric_superseded = bool(meta) and met_key in meta.get("superseded_metrics", [])
     value = VALUES[met_key][reg_key]
     phase = reg["phase"]; profile = reg["profile"]
     url_path = f"/matrix/{sub_key}/{slug(met_key, reg_key)}"
@@ -202,6 +340,8 @@ def render_leaf(ctx, sub_key, met_key, reg_key):
             f'modeled via graph theory &mdash; under {esc(met["label"].lower())}, '
             f'in the {esc(phase.lower())} regime.</p>',
             '<hr class="rule" />']
+    if metric_superseded:
+        body.append(render_correction_notice(ctx, meta, full=False))
 
     # --- Tier 2: the Graph Trinity (live data block)
     body.append(
@@ -344,14 +484,25 @@ def render_substrate_hub(ctx, sub_key):
     esc = ctx["esc"]; head = ctx["head"]; breadcrumbs = ctx["breadcrumbs"]
     write = ctx["write"]; SITE = ctx["SITE"]; PDF = ctx["PDF"]; FOOTER = ctx["FOOTER"]
     sub = SUBSTRATES[sub_key]; intent = INTENTS[sub["intent"]]
+    meta = META.get(sub_key)
+    superseded = set(meta.get("superseded_metrics", [])) if meta else set()
     canonical = f"{SITE}/matrix/{sub_key}"
-    nav, crumb_ld = breadcrumbs([("Matrix", "/matrix"), (sub["name"], None)])
+
+    h1 = (meta["public_title"] if meta and meta.get("public_title")
+          else f"{sub['name']} Complexity Profile")
+    subline = (meta["subtitle"] if meta and meta.get("subtitle")
+               else f"The algorithmic boundary of {sub['name'].lower()} "
+                    "modeled via graph theory.")
+    crumb_label = meta["public_title"] if meta and meta.get("public_title") else sub["name"]
+    nav, crumb_ld = breadcrumbs([("Matrix", "/matrix"), (crumb_label, None)])
 
     body = [nav, '<div class="profile-tag">Substrate &middot; '
             f'{esc(intent["label"])}</div>',
-            f'<h1>{esc(sub["name"])} Complexity Profile</h1>',
-            f'<p class="sub">The algorithmic boundary of {esc(sub["name"].lower())} '
-            f'modeled via graph theory.</p>',
+            f'<h1>{esc(h1)}</h1>',
+            f'<p class="sub">{esc(subline)}</p>']
+    if meta:
+        body.append(render_correction_notice(ctx, meta, full=True))
+    body += [
             f'<p>{esc(sub["what"])} Every profile below reads the same substrate '
             f'through a different graph invariant and structural regime, and prices '
             f'it with Ross&rsquo;s Law.</p>',
@@ -360,7 +511,9 @@ def render_substrate_hub(ctx, sub_key):
             '<hr class="rule" />']
 
     for met_key, met in METRICS.items():
-        body.append(f"<h2>{esc(met['label'])}</h2>")
+        tag = ('<span class="metricsuperseded">Superseded</span>'
+               if met_key in superseded else "")
+        body.append(f"<h2>{esc(met['label'])}{tag}</h2>")
         body.append('<div class="matrixgrid">')
         for reg_key in REGIME_ORDER:
             reg = REGIMES[reg_key]; value = VALUES[met_key][reg_key]
@@ -384,10 +537,12 @@ def render_substrate_hub(ctx, sub_key):
                "url": canonical,
                "isPartOf": {"@type": "CreativeWork", "name": "Shadow & Mirror",
                             "url": SITE + "/"}}
-    doc = (head(f"{sub['name']} Complexity Profile — Shadow & Mirror",
-                f"Graph-theoretic complexity profiles of {sub['name'].lower()} "
-                f"across treewidth, degeneracy, entanglement, and spectral "
-                f"metrics, priced by Ross's Law.", canonical,
+    page_title = f"{h1} — Shadow & Mirror"
+    page_desc = (f"{meta['correction_summary']}" if meta and meta.get("correction_summary")
+                 else (f"Graph-theoretic complexity profiles of {sub['name'].lower()} "
+                       f"across treewidth, degeneracy, entanglement, and spectral "
+                       f"metrics, priced by Ross's Law."))
+    doc = (head(page_title, page_desc, canonical,
                 [crumb_ld, item_ld], extra_css=TRINITY_CSS)
            + '<body><main class="wrap">' + "".join(body)
            + "</main>" + FOOTER + "</body></html>")

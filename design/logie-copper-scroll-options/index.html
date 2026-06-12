@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L.C. Ross Copper Scroll Mark Options</title>
+  <style>
+    :root {
+      --bg:#070604;
+      --panel:#11100c;
+      --ink:#fbf2df;
+      --dim:#b9ac92;
+      --muted:#7d715f;
+      --line:#fbf2df24;
+      --gold:#d9a85c;
+      --copper:#bc6b35;
+      --copper-hi:#f4c58f;
+      --copper-dark:#4b1d12;
+      --green:#74d985;
+      --blue:#82b6ff;
+      --red:#e55d4e;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 14% 4%, #6a3d1c55 0 20rem, transparent 36rem),
+        radial-gradient(circle at 82% 10%, #173b5b5d 0 18rem, transparent 34rem),
+        linear-gradient(180deg, #070604 0%, #0e0a07 58%, #050504 100%);
+      font:500 15px/1.45 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color:inherit; }
+    code {
+      color:#ffe2aa;
+      background:#0006;
+      border:1px solid var(--line);
+      border-radius:4px;
+      padding:.08em .3em;
+      font:850 .9em/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .wrap {
+      width:min(1500px, calc(100% - 32px));
+      margin:0 auto;
+      padding:32px 0 56px;
+    }
+    header {
+      display:grid;
+      grid-template-columns:minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap:24px;
+      align-items:end;
+      border-bottom:1px solid var(--line);
+      padding-bottom:24px;
+      margin-bottom:24px;
+    }
+    .kicker {
+      color:var(--gold);
+      font:950 12px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin:0 0 12px;
+    }
+    h1 {
+      margin:0;
+      max-width:920px;
+      font:950 clamp(44px, 7vw, 104px)/.86 Georgia, "Times New Roman", serif;
+      letter-spacing:-.03em;
+    }
+    .brief {
+      color:var(--dim);
+      margin:0;
+      font-size:17px;
+    }
+    .note {
+      color:var(--dim);
+      border:1px solid var(--line);
+      background:#0004;
+      padding:14px 16px;
+      margin:0;
+    }
+    .scan-panel {
+      display:grid;
+      grid-template-columns:minmax(0, 1.1fr) minmax(280px, .9fr);
+      gap:14px;
+      margin:14px 0 20px;
+    }
+    .scan-box {
+      border:1px solid #d9a85c5a;
+      background:linear-gradient(135deg, #d9a85c18, #0005 55%);
+      padding:14px 16px;
+    }
+    .scan-box h2 {
+      font:950 18px/1.05 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin:0 0 10px;
+    }
+    .scan-box ol, .scan-box ul {
+      margin:0;
+      padding-left:20px;
+      color:var(--dim);
+    }
+    .scan-box li + li { margin-top:6px; }
+    .scan-box b { color:var(--ink); }
+    .scan-box p {
+      color:var(--dim);
+      margin:0;
+    }
+    .sheet {
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:14px;
+    }
+    .card {
+      min-width:0;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, #15120e, #0c0b08);
+      padding:13px;
+      display:grid;
+      gap:12px;
+    }
+    .card-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:start;
+    }
+    .number {
+      color:var(--gold);
+      font:950 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing:.08em;
+    }
+    h2 {
+      margin:0;
+      font:950 20px/1.05 Georgia, "Times New Roman", serif;
+    }
+    .tag {
+      color:var(--muted);
+      font:900 10px/1.1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .surfaces {
+      display:grid;
+      grid-template-columns:44px 116px 1fr;
+      gap:10px;
+      align-items:center;
+    }
+    .surface {
+      display:grid;
+      gap:5px;
+      justify-items:center;
+      min-width:0;
+    }
+    .surface small {
+      color:var(--muted);
+      font:900 9px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    svg.use {
+      display:block;
+      width:100%;
+      height:auto;
+      filter:drop-shadow(0 16px 24px #0009);
+    }
+    .fav svg { width:32px; height:32px; border-radius:8px; }
+    .hero svg { width:116px; height:116px; border-radius:24px; }
+    .social svg { width:min(100%, 170px); height:auto; border-radius:28px; }
+    .copy {
+      color:var(--dim);
+      margin:0;
+      min-height:82px;
+    }
+    .small {
+      color:#d2c4a8;
+      border-top:1px solid var(--line);
+      padding-top:10px;
+      margin:0;
+      font-size:13px;
+    }
+    .recommend {
+      border-color:#d9a85c82;
+      box-shadow:0 0 0 1px #d9a85c22 inset;
+    }
+    .defs {
+      position:absolute;
+      width:0;
+      height:0;
+      overflow:hidden;
+    }
+    .bg { fill:#080705; }
+    .field { fill:#100b08; }
+    .field2 { fill:#0b0b0d; }
+    .field3 { fill:#12100c; }
+    .copper { fill:#bc6b35; }
+    .copper-dark { fill:#552214; }
+    .copper-mid { fill:#8c4425; }
+    .copper-hi { fill:#f4c58f; }
+    .gold { fill:#d9a85c; }
+    .cream { fill:#ffe2aa; }
+    .blue { fill:#82b6ff; }
+    .green { fill:#74d985; }
+    .red { fill:#e55d4e; }
+    .line { stroke:#ffe2aa; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .line-dark { stroke:#1a0b07; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .line-gold { stroke:#d9a85c; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .line-blue { stroke:#82b6ff; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .label {
+      font:700 27px Georgia, "Times New Roman", serif;
+      fill:#ffe2aa;
+      stroke:#1a0b07;
+      stroke-width:1.8px;
+      paint-order:stroke;
+      letter-spacing:.8px;
+    }
+    .label-small {
+      font:800 18px Georgia, "Times New Roman", serif;
+      fill:#ffe2aa;
+      stroke:#1a0b07;
+      stroke-width:1.2px;
+      paint-order:stroke;
+      letter-spacing:.5px;
+    }
+    .mono {
+      font:950 34px Georgia, "Times New Roman", serif;
+      fill:#ffe2aa;
+      stroke:#1a0b07;
+      stroke-width:1.8px;
+      paint-order:stroke;
+    }
+    .micro {
+      font:950 12px ui-sans-serif, system-ui, sans-serif;
+      fill:#1a0b07;
+      letter-spacing:1.2px;
+    }
+    .stamp {
+      font:950 11px ui-sans-serif, system-ui, sans-serif;
+      fill:#ffe2aa;
+      letter-spacing:1.4px;
+    }
+    @media (max-width:1180px) {
+      .sheet { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width:900px) {
+      header { grid-template-columns:1fr; }
+      .scan-panel { grid-template-columns:1fr; }
+      .sheet { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width:620px) {
+      .wrap { width:min(100% - 20px, 1500px); padding-top:20px; }
+      .sheet { grid-template-columns:1fr; }
+      .surfaces { grid-template-columns:40px 108px 1fr; }
+      .hero svg { width:108px; height:108px; }
+    }
+  </style>
+</head>
+<body>
+  <svg class="defs" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="mark-01" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="56"/>
+        <path class="copper" d="M68 50C94 38 163 38 188 50C179 79 179 177 188 206C162 219 94 219 68 206C77 176 77 80 68 50Z"/>
+        <path class="copper-dark" d="M68 50C51 60 51 82 68 94C78 82 78 61 68 50ZM188 206C205 195 205 174 188 162C178 176 178 195 188 206Z"/>
+        <path class="copper-mid" d="M188 50C205 60 205 82 188 94C178 82 178 61 188 50ZM68 206C51 195 51 174 68 162C78 176 78 195 68 206Z"/>
+        <path class="line" stroke-width="2" d="M86 64C108 56 148 56 170 64M88 192C109 200 147 200 168 192"/>
+        <path class="line-dark" stroke-width="13" opacity=".42" d="M94 121C112 114 144 114 162 121"/>
+        <text class="label" x="128" y="137" text-anchor="middle">L.C. Ross</text>
+        <g class="line" stroke-width="2.5"><path d="M83 128h13M128 56v13M160 128h13M128 187v13"/></g>
+      </symbol>
+      <symbol id="mark-02" viewBox="0 0 256 256">
+        <rect class="field" width="256" height="256" rx="50"/>
+        <path class="copper-mid" d="M56 73C91 54 164 54 199 73V184C164 204 91 204 56 184Z"/>
+        <path class="copper" d="M71 65C99 57 156 57 184 65C176 99 176 157 184 191C156 200 99 200 71 191C79 157 79 99 71 65Z"/>
+        <circle class="red" cx="128" cy="128" r="49"/>
+        <circle class="copper-dark" cx="128" cy="128" r="36"/>
+        <circle class="line" cx="128" cy="128" r="47" stroke-width="2"/>
+        <path class="line-gold" stroke-width="2" d="M96 95l64 66M160 95l-64 66"/>
+        <text class="label-small" x="128" y="133" text-anchor="middle">L.C. Ross</text>
+        <text class="stamp" x="128" y="82" text-anchor="middle">FOUR ROOMS</text>
+      </symbol>
+      <symbol id="mark-03" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="44"/>
+        <path class="copper" d="M49 49h158v158H49Z"/>
+        <path class="field2" d="M64 64h56v56H64ZM136 64h56v56h-56ZM64 136h56v56H64ZM136 136h56v56h-56Z" opacity=".94"/>
+        <path class="line-gold" stroke-width="3" d="M128 48v160M48 128h160"/>
+        <path class="copper-hi" d="M92 82h22v8H92ZM163 82h22v8h-22ZM92 154h22v8H92ZM163 154h22v8h-22Z"/>
+        <rect class="copper-dark" x="77" y="109" width="102" height="38" rx="4"/>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-04" viewBox="0 0 256 256">
+        <rect class="field2" width="256" height="256" rx="56"/>
+        <circle class="copper-dark" cx="128" cy="128" r="84"/>
+        <circle class="line" cx="128" cy="128" r="82" stroke-width="3"/>
+        <circle class="line-gold" cx="128" cy="128" r="58" stroke-width="2"/>
+        <path class="line-gold" stroke-width="4" d="M49 128h158M128 49v158"/>
+        <path class="line-blue" stroke-width="3" d="M62 128Q128 77 194 128M62 128Q128 179 194 128"/>
+        <path class="copper" d="M84 92C106 84 151 84 173 92C166 113 166 143 173 164C151 173 106 173 84 164C91 143 91 113 84 92Z"/>
+        <text class="label-small" x="128" y="134" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-05" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="52"/>
+        <circle class="copper-mid" cx="128" cy="128" r="84"/>
+        <path class="copper-hi" d="M60 128C82 95 174 95 196 128C174 161 82 161 60 128Z"/>
+        <path class="field" d="M75 128C93 105 163 105 181 128C163 151 93 151 75 128Z"/>
+        <text class="label" x="128" y="137" text-anchor="middle">L.C. Ross</text>
+        <g class="line-gold" stroke-width="2"><path d="M77 83l102 90M179 83L77 173"/><path d="M128 46v30M128 180v30"/></g>
+        <g class="cream"><circle cx="72" cy="128" r="4"/><circle cx="184" cy="128" r="4"/></g>
+      </symbol>
+      <symbol id="mark-06" viewBox="0 0 256 256">
+        <rect class="field3" width="256" height="256" rx="34"/>
+        <circle class="copper" cx="128" cy="128" r="88"/>
+        <circle class="field" cx="128" cy="128" r="68"/>
+        <path class="line" stroke-width="3" d="M128 38v28M128 190v28M38 128h28M190 128h28M65 65l20 20M171 171l20 20M191 65l-20 20M85 171l-20 20"/>
+        <circle class="line-gold" cx="128" cy="128" r="86" stroke-width="4"/>
+        <text class="label-small" x="128" y="124" text-anchor="middle">L.C. Ross</text>
+        <text class="stamp" x="128" y="146" text-anchor="middle">RECORDED</text>
+      </symbol>
+      <symbol id="mark-07" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="48"/>
+        <path class="copper" d="M128 32l69 28l28 68l-28 68l-69 28l-69-28l-28-68l28-68Z"/>
+        <path class="field2" d="M128 54l52 22l22 52l-22 52l-52 22l-52-22l-22-52l22-52Z"/>
+        <path class="line-gold" stroke-width="2" d="M128 34v188M34 128h188M72 72l112 112M184 72L72 184"/>
+        <rect class="copper-dark" x="73" y="105" width="110" height="47" rx="6"/>
+        <text class="label-small" x="128" y="134" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-08" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="52"/>
+        <path class="field2" d="M42 42h84v172H42Z"/>
+        <path class="copper-mid" d="M130 42h84v172h-84Z"/>
+        <path class="line-gold" stroke-width="3" d="M128 43v170"/>
+        <path class="copper" d="M70 68C94 61 162 61 186 68C178 99 178 157 186 188C162 196 94 196 70 188C78 157 78 99 70 68Z"/>
+        <path class="field" d="M86 105h84v48H86Z"/>
+        <text class="label-small" x="128" y="136" text-anchor="middle">L.C. Ross</text>
+        <text class="stamp" x="84" y="203" text-anchor="middle">SHADOW</text>
+        <text class="stamp" x="172" y="203" text-anchor="middle">MIRROR</text>
+      </symbol>
+      <symbol id="mark-09" viewBox="0 0 256 256">
+        <rect class="field2" width="256" height="256" rx="56"/>
+        <path class="line-blue" stroke-width="4" d="M36 151C63 119 89 119 116 151S169 183 220 136"/>
+        <path class="line-blue" stroke-width="2" opacity=".65" d="M39 116C62 139 88 139 111 116S165 85 217 116"/>
+        <path class="copper" d="M83 70C104 62 153 62 174 70C168 99 168 157 174 186C153 194 104 194 83 186C90 157 90 99 83 70Z"/>
+        <path class="copper-dark" d="M84 70C67 81 67 101 84 112C92 99 92 82 84 70Z"/>
+        <path class="copper-dark" d="M174 186C191 176 191 156 174 145C166 158 166 175 174 186Z"/>
+        <text class="label-small" x="128" y="133" text-anchor="middle">L.C. Ross</text>
+        <circle class="cream" cx="64" cy="150" r="4"/><circle class="cream" cx="194" cy="139" r="4"/>
+      </symbol>
+      <symbol id="mark-10" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="50"/>
+        <path class="copper" d="M54 79C91 56 165 56 202 79v98c-37 23-111 23-148 0Z"/>
+        <path class="field" d="M72 96C101 82 155 82 184 96v64c-29 14-83 14-112 0Z"/>
+        <g class="line-gold" stroke-width="3"><path d="M84 115c12-15 25-15 37 0s25 15 37 0"/><path d="M93 144c14 10 56 10 70 0"/></g>
+        <g class="cream"><path d="M83 79h9v16h-9zM118 70h9v18h-9zM156 70h9v18h-9zM193 79h9v16h-9z"/></g>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-11" viewBox="0 0 256 256">
+        <rect class="field3" width="256" height="256" rx="42"/>
+        <path class="copper-hi" d="M64 48h128v160H64Z"/>
+        <path class="copper-mid" d="M78 62h100v132H78Z"/>
+        <g class="line-dark" stroke-width="2" opacity=".58"><path d="M88 88h80M88 111h80M88 158h80M88 181h80"/><path d="M104 70v124M152 70v124"/></g>
+        <rect class="field" x="78" y="117" width="100" height="34" rx="4"/>
+        <text class="label-small" x="128" y="141" text-anchor="middle">L.C. Ross</text>
+        <text class="micro" x="128" y="84" text-anchor="middle">LEDGER</text>
+      </symbol>
+      <symbol id="mark-12" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="48"/>
+        <rect class="copper" x="52" y="52" width="152" height="152" rx="18"/>
+        <rect class="field" x="71" y="71" width="114" height="114" rx="10"/>
+        <g class="line-gold" stroke-width="3"><path d="M93 96h70M93 160h70M96 93v70M160 93v70"/><path d="M111 111h34v34h-34z"/></g>
+        <g class="cream"><circle cx="95" cy="95" r="4"/><circle cx="161" cy="95" r="4"/><circle cx="95" cy="161" r="4"/><circle cx="161" cy="161" r="4"/></g>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-13" viewBox="0 0 256 256">
+        <rect class="field2" width="256" height="256" rx="56"/>
+        <circle class="copper-dark" cx="128" cy="128" r="86"/>
+        <path class="copper" d="M128 48l78 80l-78 80l-78-80Z"/>
+        <circle class="field" cx="128" cy="128" r="47"/>
+        <circle class="line" cx="128" cy="128" r="64" stroke-width="3"/>
+        <path class="line-gold" stroke-width="2" d="M50 128h156M128 50v156"/>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+        <circle class="cream" cx="128" cy="128" r="4"/>
+      </symbol>
+      <symbol id="mark-14" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="50"/>
+        <path class="copper" d="M61 55h134v146H61Z"/>
+        <path class="field2" d="M81 76h94v104H81Z"/>
+        <path class="copper-dark" d="M128 85c20 0 36 16 36 36c0 13-7 24-17 31l8 29h-54l8-29c-10-7-17-18-17-31c0-20 16-36 36-36Z"/>
+        <text class="label-small" x="128" y="134" text-anchor="middle">L.C. Ross</text>
+        <g class="line-gold" stroke-width="3"><path d="M61 90H42M61 128H42M61 166H42M195 90h19M195 128h19M195 166h19"/></g>
+      </symbol>
+      <symbol id="mark-15" viewBox="0 0 256 256">
+        <rect class="field3" width="256" height="256" rx="56"/>
+        <circle class="copper" cx="128" cy="128" r="86"/>
+        <path class="field" d="M128 45l20 63l63 20l-63 20l-20 63l-20-63l-63-20l63-20Z"/>
+        <circle class="line" cx="128" cy="128" r="66" stroke-width="3"/>
+        <path class="line-gold" stroke-width="2" d="M128 47v162M47 128h162"/>
+        <rect class="copper-dark" x="78" y="109" width="100" height="38" rx="5"/>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-16" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="46"/>
+        <path class="copper-hi" d="M43 68l59-20l58 20l53-20v140l-53 20l-58-20l-59 20Z"/>
+        <path class="copper-mid" d="M102 48v140M160 68v140"/>
+        <path class="line-dark" stroke-width="2" opacity=".5" d="M56 90l33-12M114 78l34 12M173 88l27-10M57 166l33-12M114 154l34 12M173 164l27-10"/>
+        <rect class="field" x="76" y="109" width="104" height="38" rx="4"/>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-17" viewBox="0 0 256 256">
+        <rect class="field2" width="256" height="256" rx="42"/>
+        <path class="copper-hi" d="M52 61h152v134H52Z"/>
+        <path class="field" d="M69 78h118v100H69Z"/>
+        <path class="line-gold" stroke-width="2" d="M70 102h116M70 155h116M91 78v100M165 78v100"/>
+        <text class="label" x="128" y="137" text-anchor="middle">L.C. Ross</text>
+        <text class="micro" x="128" y="94" text-anchor="middle">ROOM 137</text>
+        <path class="copper-dark" d="M52 61c16 8 16 24 0 32ZM204 163c-16 8-16 24 0 32Z"/>
+      </symbol>
+      <symbol id="mark-18" viewBox="0 0 256 256">
+        <rect class="field2" width="256" height="256" rx="56"/>
+        <circle class="bg" cx="128" cy="128" r="91"/>
+        <g class="cream" opacity=".9"><circle cx="72" cy="81" r="3"/><circle cx="183" cy="73" r="2.5"/><circle cx="196" cy="154" r="3"/><circle cx="88" cy="179" r="2.5"/><circle cx="127" cy="52" r="2"/></g>
+        <circle class="line-gold" cx="128" cy="128" r="76" stroke-width="3"/>
+        <path class="line-blue" stroke-width="2" d="M60 128Q128 82 196 128M60 128Q128 174 196 128"/>
+        <path class="copper" d="M79 91C101 82 155 82 177 91C170 113 170 143 177 165C155 174 101 174 79 165C86 143 86 113 79 91Z"/>
+        <text class="label-small" x="128" y="135" text-anchor="middle">L.C. Ross</text>
+      </symbol>
+      <symbol id="mark-19" viewBox="0 0 256 256">
+        <rect class="bg" width="256" height="256" rx="52"/>
+        <circle class="copper" cx="128" cy="128" r="89"/>
+        <circle class="line" cx="128" cy="128" r="74" stroke-width="3"/>
+        <g class="copper-hi" opacity=".55"><circle cx="84" cy="91" r="7"/><circle cx="166" cy="79" r="5"/><circle cx="186" cy="149" r="8"/><circle cx="91" cy="174" r="6"/><circle cx="129" cy="70" r="4"/><circle cx="123" cy="189" r="5"/></g>
+        <path class="field" d="M74 105h108v47H74Z"/>
+        <text class="label-small" x="128" y="136" text-anchor="middle">L.C. Ross</text>
+        <path class="line-dark" stroke-width="3" opacity=".45" d="M91 159C112 169 145 169 166 159"/>
+      </symbol>
+      <symbol id="mark-20" viewBox="0 0 256 256">
+        <rect class="field3" width="256" height="256" rx="40"/>
+        <path class="copper-dark" d="M63 43h130v170H63Z"/>
+        <path class="copper" d="M81 43h94v170H81Z"/>
+        <path class="line" stroke-width="2" d="M91 63h74M91 193h74"/>
+        <path class="field" d="M86 89h84v78H86Z"/>
+        <text class="label-small" x="128" y="126" text-anchor="middle">L.C.</text>
+        <text class="label-small" x="128" y="148" text-anchor="middle">Ross</text>
+        <text class="stamp" x="128" y="78" text-anchor="middle">SHADOW &amp; MIRROR</text>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="wrap">
+    <header>
+      <div>
+        <p class="kicker">logan.engineering scratch chooser</p>
+        <h1>Twenty L.C. Ross copper mark directions</h1>
+      </div>
+      <p class="brief">Each option is shown as a favicon-sized mark, the 116px homepage hero mark, and a larger social/identity mark. The full <code>L.C. Ross</code> inscription is preserved at hero scale unless the option intentionally stacks it as <code>L.C.</code> / <code>Ross</code>.</p>
+    </header>
+
+    <p class="note">Scratch-only preview. Production favicon, homepage asset, public routing, <code>public/index.html</code>, <code>vercel.json</code>, and <code>public/logie-copper-scroll.svg</code> are not edited by this chooser.</p>
+
+    <section class="scan-panel" aria-label="Chooser summary">
+      <div class="scan-box">
+        <h2>Top 3 to inspect first</h2>
+        <ol>
+          <li><b>04 Planisphere Scroll</b> - best total-system bridge: copper scroll, witness geometry, record, and game.</li>
+          <li><b>01 Engraved Scroll Prime</b> - safest successor to the current public mark.</li>
+          <li><b>02 Wax-Sealed Scroll</b> - strongest handcrafted artifact feel.</li>
+        </ol>
+      </div>
+      <div class="scan-box">
+        <h2>Small-size rule</h2>
+        <p>At favicon size, full <code>L.C. Ross</code> usually becomes texture. Choose a silhouette that survives at 32px, then keep the full name legible at the 116px homepage mark and larger social mark.</p>
+      </div>
+    </section>
+
+    <section class="sheet" aria-label="L.C. Ross mark options">
+      <article class="card recommend">
+        <div class="card-head"><div><div class="number">01</div><h2>Engraved Scroll Prime</h2></div><div class="tag">top 3</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-01"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-01"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-01"/></svg><small>social</small></div></div>
+        <p class="copy">A disciplined refinement of the current scroll: handcrafted, mysterious, and immediately recognizable as Logan's copper artifact.</p>
+        <p class="small">Small simplification: curled silhouette plus four notches; text becomes a texture cue below 32px.</p>
+      </article>
+      <article class="card recommend">
+        <div class="card-head"><div><div class="number">02</div><h2>Wax-Sealed Scroll</h2></div><div class="tag">top 3</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-02"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-02"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-02"/></svg><small>social</small></div></div>
+        <p class="copy">Turns the mark into an impressed artifact: copper sheet plus red wax seal, good for game mystery and personal authorship.</p>
+        <p class="small">Small simplification: red seal and crossing impression carry the identity; full name is hero/social only.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">03</div><h2>Four-Door Tablet</h2></div><div class="tag">rooms</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-03"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-03"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-03"/></svg><small>social</small></div></div>
+        <p class="copy">Makes the four locked rooms literal: a copper square with four dark door panels around the central nameplate.</p>
+        <p class="small">Small simplification: four-square silhouette reads clearly; <code>L.C. Ross</code> resolves from 64px upward.</p>
+      </article>
+      <article class="card recommend">
+        <div class="card-head"><div><div class="number">04</div><h2>Planisphere Scroll</h2></div><div class="tag">top 3</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-04"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-04"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-04"/></svg><small>social</small></div></div>
+        <p class="copy">Blends the existing Planisphere seal language with the copper scroll, giving the mark record-weight without bureaucracy.</p>
+        <p class="small">Small simplification: circular cross and blue arcs survive; nameplate is legible at hero size.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">05</div><h2>Inscription Eye</h2></div><div class="tag">mystery</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-05"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-05"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-05"/></svg><small>social</small></div></div>
+        <p class="copy">An eye-like copper band hints at decipherment: the artifact looks back as the player reads patterns.</p>
+        <p class="small">Small simplification: almond eye plus center bar; full inscription works at hero scale.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">06</div><h2>Record Rosette</h2></div><div class="tag">stamp</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-06"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-06"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-06"/></svg><small>social</small></div></div>
+        <p class="copy">A warm academic stamp with radial authority: good for Zenodo record energy without looking like paperwork.</p>
+        <p class="small">Small simplification: rosette rays and central band; <code>RECORDED</code> drops out first.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">07</div><h2>Octagonal Game Token</h2></div><div class="tag">artifact</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-07"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-07"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-07"/></svg><small>social</small></div></div>
+        <p class="copy">Collectible token language without NFT vibes: substantial, tactile, and useful for game achievements or identity badges.</p>
+        <p class="small">Small simplification: octagon, cross, and nameplate; text becomes LCR-like texture at favicon size.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">08</div><h2>Shadow-Mirror Split</h2></div><div class="tag">site</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-08"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-08"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-08"/></svg><small>social</small></div></div>
+        <p class="copy">The public doctrine in one mark: dark shadow side, copper mirror side, scroll crossing the boundary.</p>
+        <p class="small">Small simplification: split field and central copper object remain strong; side words are large-use only.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">09</div><h2>Whale Cadence Scroll</h2></div><div class="tag">boss</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-09"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-09"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-09"/></svg><small>social</small></div></div>
+        <p class="copy">Adds a sonic wave around the copper scroll, connecting the final Whale Cadence room without becoming aquatic branding.</p>
+        <p class="small">Small simplification: blue cadence waves plus copper vertical form; inscription is hero/social.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">10</div><h2>Rongorongo Reed</h2></div><div class="tag">script</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-10"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-10"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-10"/></svg><small>social</small></div></div>
+        <p class="copy">A tablet/reed hybrid with repeated inscription strokes: pattern-first and decipherment-forward.</p>
+        <p class="small">Small simplification: top ticks and dark inset; internal strokes are texture below 32px.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">11</div><h2>Proto-Ledger Plate</h2></div><div class="tag">ledger</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-11"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-11"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-11"/></svg><small>social</small></div></div>
+        <p class="copy">A copper accounting tablet for the Proto-Elamite room: structured, methodical, and less mystical.</p>
+        <p class="small">Small simplification: rectangular ledger grid; <code>LEDGER</code> is optional at large sizes.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">12</div><h2>Indus Seal Square</h2></div><div class="tag">seal</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-12"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-12"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-12"/></svg><small>social</small></div></div>
+        <p class="copy">A compact seal-square silhouette with four-corner pressure points, suitable for favicon discipline.</p>
+        <p class="small">Small simplification: square seal and four dots read first; nameplate remains hero-scale.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">13</div><h2>Witness Aperture</h2></div><div class="tag">geometry</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-13"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-13"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-13"/></svg><small>social</small></div></div>
+        <p class="copy">Diamond aperture plus circular witness geometry: less scroll-like, more secret instrument.</p>
+        <p class="small">Small simplification: diamond-in-circle silhouette with center point; full name remains central at hero.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">14</div><h2>Keyhole Door</h2></div><div class="tag">locked</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-14"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-14"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-14"/></svg><small>social</small></div></div>
+        <p class="copy">The locked-room metaphor is immediate: a copper door, side notches, and the name inside the keyhole.</p>
+        <p class="small">Small simplification: keyhole silhouette is the favicon; nameplate is readable at hero/social scale.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">15</div><h2>Copper Compass</h2></div><div class="tag">method</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-15"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-15"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-15"/></svg><small>social</small></div></div>
+        <p class="copy">A navigational mark for method-finding: strong silhouette, less archive, more expedition.</p>
+        <p class="small">Small simplification: compass star and cross survive cleanly; <code>L.C. Ross</code> is the hero mark label.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">16</div><h2>Folded Map Scroll</h2></div><div class="tag">route</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-16"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-16"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-16"/></svg><small>social</small></div></div>
+        <p class="copy">A route-map artifact: essays, game rooms, and records all feel like folded paths through one field.</p>
+        <p class="small">Small simplification: folded map panels; inner inscription appears from 64px upward.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">17</div><h2>Archive Ticket</h2></div><div class="tag">record</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-17"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-17"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-17"/></svg><small>social</small></div></div>
+        <p class="copy">A warm pass/ticket to the archive: approachable for family, still credible for record and catalogue routes.</p>
+        <p class="small">Small simplification: ticket cuts and center text block; <code>ROOM 137</code> is optional at large size.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">18</div><h2>Night Planisphere</h2></div><div class="tag">stars</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-18"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-18"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-18"/></svg><small>social</small></div></div>
+        <p class="copy">A darker celestial variant: good if Logan wants the identity to lean mystery-instrument over scroll-first.</p>
+        <p class="small">Small simplification: circle, arcs, and scroll; star detail is social-size atmosphere.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">19</div><h2>Hammered Copper Coin</h2></div><div class="tag">tactile</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-19"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-19"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-19"/></svg><small>social</small></div></div>
+        <p class="copy">A physical coin impression with hammered texture: friendly, tactile, and highly favicon-stable.</p>
+        <p class="small">Small simplification: copper disk and central bar; hammer marks disappear gracefully.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><div><div class="number">20</div><h2>Library Spine</h2></div><div class="tag">identity</div></div>
+        <div class="surfaces"><div class="surface fav"><svg class="use"><use href="#mark-20"/></svg><small>32</small></div><div class="surface hero"><svg class="use"><use href="#mark-20"/></svg><small>116</small></div><div class="surface social"><svg class="use"><use href="#mark-20"/></svg><small>social</small></div></div>
+        <p class="copy">A volume-spine identity mark: strongest for the essay/catalogue side, weaker for the game artifact side.</p>
+        <p class="small">Small simplification: book spine plus stacked <code>L.C.</code> / <code>Ross</code>, making the identity readable earlier than most.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -142,14 +142,19 @@
       grid-template-columns:repeat(4, minmax(0,1fr));
       gap:8px;
     }
+    .room-slot {
+      position:relative;
+      min-width:0;
+    }
     .room-tab {
       appearance:none;
       border:1px solid var(--line);
       background:#0005;
       color:var(--dim);
       cursor:pointer;
+      width:100%;
       min-height:78px;
-      padding:11px;
+      padding:11px 44px 11px 11px;
       text-align:left;
       display:grid;
       gap:5px;
@@ -190,6 +195,34 @@
       cursor:not-allowed;
       opacity:.48;
       transform:none;
+    }
+    .room-reset {
+      appearance:none;
+      position:absolute;
+      top:8px;
+      right:8px;
+      width:28px;
+      height:28px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#050504d9;
+      color:var(--dim);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      font:950 16px/1 ui-sans-serif, system-ui, sans-serif;
+      transition:border-color .16s ease, color .16s ease, background .16s ease;
+    }
+    .room-reset:hover, .room-reset:focus-visible {
+      outline:0;
+      border-color:var(--gold);
+      color:var(--ink);
+      background:#d9a85c18;
+    }
+    .room-reset:disabled {
+      cursor:not-allowed;
+      opacity:.42;
+      color:var(--faint);
     }
     .game {
       display:grid;
@@ -1068,10 +1101,10 @@
           <p class="lede">Learn the method in rooms I-III: Rongorongo, Proto-Elamite, and Indus. Then Whale Cadence opens as the public gate.</p>
         </div>
         <div class="room-rail" data-room-rail aria-label="Locked rooms">
-          <button class="room-tab active" type="button"><span>I</span><b>Calendar Room</b><small>Tutorial</small></button>
-          <button class="room-tab" type="button"><span>II</span><b>Ledger Room</b><small>Locked</small></button>
-          <button class="room-tab" type="button"><span>III</span><b>Seal Room</b><small>Locked</small></button>
-          <button class="room-tab boss" type="button"><span>IV</span><b>Whale Room</b><small>Gate locked</small></button>
+          <div class="room-slot"><button class="room-tab active" type="button"><span>I</span><b>Calendar Room</b><small>Tutorial</small></button><button class="room-reset" type="button" aria-label="Reset Calendar Room">↺</button></div>
+          <div class="room-slot"><button class="room-tab" type="button" disabled><span>II</span><b>Ledger Room</b><small>Locked</small></button><button class="room-reset" type="button" aria-label="Reset Ledger Room" disabled>↺</button></div>
+          <div class="room-slot"><button class="room-tab" type="button" disabled><span>III</span><b>Seal Room</b><small>Locked</small></button><button class="room-reset" type="button" aria-label="Reset Seal Room" disabled>↺</button></div>
+          <div class="room-slot"><button class="room-tab boss" type="button" disabled><span>IV</span><b>Whale Room</b><small>Gate locked</small></button><button class="room-reset" type="button" aria-label="Reset Whale Room" disabled>↺</button></div>
         </div>
 
         <div class="tablet-wrap">

@@ -63,7 +63,8 @@ const mountHomepageGame = (manifest) => {
     selectedEvidence: new Set(),
     solvedRooms: new Set(saved.solvedRooms || []),
     scores: {},
-    traceIndex: 0
+    traceIndex: 0,
+    failed: false
   };
 
   const clamp = (metricId, value) => {
@@ -90,6 +91,11 @@ const mountHomepageGame = (manifest) => {
   };
 
   const activeRoom = () => roomById.get(state.roomId) || rooms[0];
+  const metricMax = (metricId) => metricId === "seals" ? 3 : metrics.get(metricId)?.max;
+  const isOverfitMaxed = () => {
+    const max = metricMax("overfit");
+    return Number.isFinite(max) && Number(state.scores.overfit || 0) >= max;
+  };
 
   const resetScores = (room) => {
     state.scores = { ...(room.startingScores || {}) };
@@ -119,6 +125,7 @@ const mountHomepageGame = (manifest) => {
     state.stage = "inspect";
     state.selectedEvidence = new Set();
     state.traceIndex = 0;
+    state.failed = false;
     resetScores(room);
     render();
     const guide = isTutorialRoom(room) ? room.stages.inspect.guide : progress.gateCopy;
@@ -149,21 +156,36 @@ const mountHomepageGame = (manifest) => {
   const renderRooms = () => {
     if (!nodes.rail) return;
     nodes.rail.replaceChildren(...rooms.map((room) => {
+      const slot = document.createElement("div");
+      slot.className = "room-slot";
       const button = document.createElement("button");
       button.type = "button";
       button.className = "room-tab";
       button.dataset.room = room.id;
-      button.disabled = !isUnlocked(room);
+      const unlocked = isUnlocked(room);
+      button.disabled = !unlocked;
       button.classList.toggle("active", room.id === state.roomId);
       button.classList.toggle("solved", state.solvedRooms.has(room.id));
       button.classList.toggle("boss", room.kind === "final-boss");
-      const unlocked = isUnlocked(room);
       const lock = unlocked
         ? (state.solvedRooms.has(room.id) ? "Solved" : (room.id === progress.finalBoss ? "Gate" : "Tutorial"))
         : (room.id === progress.finalBoss ? "Gate locked" : "Locked");
       button.innerHTML = `<span>${htmlEscape(room.roomNumber)}</span><b>${htmlEscape(room.name)}</b><small>${htmlEscape(lock)}</small>`;
       button.addEventListener("click", () => selectRoom(room.id));
-      return button;
+      const reset = document.createElement("button");
+      reset.type = "button";
+      reset.className = "room-reset";
+      reset.dataset.resetRoom = room.id;
+      reset.disabled = !unlocked;
+      reset.setAttribute("aria-label", `Reset ${room.name}`);
+      reset.textContent = "↺";
+      reset.addEventListener("click", (event) => {
+        event.stopPropagation();
+        resetRoom(room.id);
+        history.replaceState(null, "", `#room=${room.id}`);
+      });
+      slot.replaceChildren(button, reset);
+      return slot;
     }));
   };
 
@@ -355,11 +377,22 @@ const mountHomepageGame = (manifest) => {
     state.traceIndex = Math.min(activeRoom().trace.initial.length, state.traceIndex + 1);
   };
 
+  const failRoom = () => {
+    state.failed = true;
+    clearGuide();
+    if (nodes.prompt) nodes.prompt.textContent = "Overfit hit the ceiling. Reset the room and rebuild the proof with tighter choices.";
+    announce("Overfit maxed out. Reset the room to try again.");
+  };
+
   const handleEvidence = (room, item, button) => {
-    if (state.stage !== "inspect" || state.selectedEvidence.has(item.id)) return;
+    if (state.failed || state.stage !== "inspect" || state.selectedEvidence.has(item.id)) return;
     state.selectedEvidence.add(item.id);
     applyEffect(item.effect);
     button.classList.add(item.correct ? "good" : "bad");
+    if (isOverfitMaxed()) {
+      failRoom();
+      return;
+    }
     if (!item.correct) {
       if (nodes.prompt) nodes.prompt.textContent = "That card may matter later, but it does not open this room. Pick stronger structural evidence.";
       announce("Evidence priced as overfit risk. Pick stronger structural evidence.");
@@ -377,11 +410,19 @@ const mountHomepageGame = (manifest) => {
   };
 
   const handleChoice = (item, stage) => {
-    if (state.stage !== stage) return;
+    if (state.failed || state.stage !== stage) return;
+    if (isOverfitMaxed()) {
+      failRoom();
+      return;
+    }
     applyEffect(item.effect);
     const selector = stage === "method" ? `[data-method="${item.id}"]` : stage === "test" ? `[data-test="${item.id}"]` : `[data-counter-choice="${item.id}"]`;
     const button = $(selector);
     button?.classList.add(item.correct ? "good" : "bad");
+    if (isOverfitMaxed()) {
+      failRoom();
+      return;
+    }
     if (!item.correct) {
       if (nodes.prompt) nodes.prompt.textContent = item.recoveryPrompt || "That move costs proof strength. Try the constrained move.";
       announce("Temptation priced. Try the constrained move.");
