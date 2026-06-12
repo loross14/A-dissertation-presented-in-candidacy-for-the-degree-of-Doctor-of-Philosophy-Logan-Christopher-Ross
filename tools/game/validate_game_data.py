@@ -287,8 +287,13 @@ def validate_v2(manifest: dict) -> None:
     rooms = {room["id"]: room for room in rooms_list}
     progression = manifest.get("progression", {})
     require(progression.get("humanRooms") == ["rongorongo", "proto-elamite", "indus"], "v2 humanRooms must preserve the three human-language ladder")
+    require(progression.get("tutorialRooms") == progression["humanRooms"], "v2 tutorialRooms must be exactly rooms I-III")
     require(progression.get("finalBoss") == "whale-cadence", "v2 finalBoss must be whale-cadence")
+    require(progression["finalBoss"] not in progression["tutorialRooms"], "v2 finalBoss must not be tutorialized")
     require(rooms["whale-cadence"].get("unlockAfter") == progression["humanRooms"], "whale room must unlock after all human rooms")
+    require(rooms["whale-cadence"].get("role") == "public-gate", "whale room must be the public gate")
+    for room_id in progression["tutorialRooms"]:
+        require(rooms[room_id].get("role") == "tutorial-room", f"{room_id} must remain a tutorial room")
 
     for room in rooms_list:
         validate_room(room, room_ids, specs)

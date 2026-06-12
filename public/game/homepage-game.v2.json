@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "contentVersion": "2026-06-12.four-room-ladder",
+  "contentVersion": "2026-06-12.tutorial-three-whale-gate",
   "gameId": "shadow-mirror-four-locked-rooms-v2",
   "title": "The Four Locked Rooms",
-  "subtitle": "Win three human script rooms to unlock the Whale Cadence final boss.",
+  "subtitle": "Learn the method in three human script rooms, then clear Whale Cadence as the public gate.",
   "doctrine": {
     "player": "The player plays with patterns.",
     "game": "The game reveals the methods.",
@@ -26,11 +26,13 @@
   "progression": {
     "defaultRoom": "rongorongo",
     "humanRooms": ["rongorongo", "proto-elamite", "indus"],
+    "tutorialRooms": ["rongorongo", "proto-elamite", "indus"],
     "finalBoss": "whale-cadence",
     "storageKey": "shadowMirrorFourRooms.v1",
     "lockedCopy": "Solve the earlier room to open this door.",
-    "bossLockedCopy": "Whale knowledge is sealed until the three human script rooms are solved.",
-    "bossUnlockedCopy": "Final boss unlocked: words have run out, so cadence has to carry the signal."
+    "bossLockedCopy": "Whale knowledge is sealed until the three tutorial rooms are solved.",
+    "bossUnlockedCopy": "Public gate unlocked: words have run out, so cadence has to carry the signal.",
+    "gateCopy": "Whale is the public gate now. No gold pulse; use what rooms I-III taught you."
   },
   "metrics": [
     { "id": "confidence", "label": "confidence", "min": 0, "max": 6, "higherIsBetter": true },
@@ -46,7 +48,7 @@
       "state": "playable",
       "unlockAfter": [],
       "roomNumber": "I",
-      "role": "template-room",
+      "role": "tutorial-room",
       "headline": "Calendar or coincidence?",
       "lede": "A damaged tablet repeats. Is there a real calendar hiding here, or are we fooling ourselves?",
       "artifactLabel": "Mamari case file",
@@ -249,7 +251,7 @@
       "state": "playable",
       "unlockAfter": ["rongorongo"],
       "roomNumber": "II",
-      "role": "human-language-room",
+      "role": "tutorial-room",
       "headline": "Ledger or decoration?",
       "lede": "A tablet full of marks can look like ornament until accounting structure starts doing work.",
       "artifactLabel": "Administrative tablet case file",
@@ -452,7 +454,7 @@
       "state": "playable",
       "unlockAfter": ["proto-elamite"],
       "roomNumber": "III",
-      "role": "human-language-room",
+      "role": "tutorial-room",
       "headline": "Language or label?",
       "lede": "A short seal can look too brief to carry language until position and graph structure start doing work.",
       "artifactLabel": "Seal formula case file",
@@ -655,9 +657,9 @@
       "state": "playable",
       "unlockAfter": ["rongorongo", "proto-elamite", "indus"],
       "roomNumber": "IV",
-      "role": "locked-final-boss",
+      "role": "public-gate",
       "headline": "When words fail, what remains?",
-      "lede": "The final boss is not translation. It asks whether cadence can carry signal after vocabulary collapses into noise.",
+      "lede": "The tutorial is over. This public gate asks whether cadence can carry signal after vocabulary collapses into noise.",
       "artifactLabel": "Cadence spectrogram case file",
       "firstAction": "Earned room: match signal shape before claiming meaning.",
       "method": "Hear signal where terminal language first looks like noise.",
@@ -722,8 +724,8 @@
           "label": "Final Boss - Inspect",
           "question": "What survives without words?",
           "prompt": "Whale knowledge is earned by refusing translation until cadence earns structure.",
-          "depthTitle": "Boss rule",
-          "depth": "The prior rooms taught restraint. Now the game removes glyphs and asks whether the player still keeps the method.",
+          "depthTitle": "Public gate",
+          "depth": "Rooms I-III taught restraint. Now the gold pulse disappears and the player has to keep the method.",
           "guide": "Pick two cadence facts that can be measured without pretending to know the words."
         },
         "method": {

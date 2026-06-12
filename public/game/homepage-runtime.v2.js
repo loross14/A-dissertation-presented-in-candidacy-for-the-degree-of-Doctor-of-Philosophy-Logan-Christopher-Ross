@@ -19,6 +19,7 @@ const mountHomepageGame = (manifest) => {
   const metrics = new Map((manifest.metrics || []).map((metric) => [metric.id, metric]));
   const progress = manifest.progression || {};
   const storageKey = progress.storageKey || "shadowMirrorFourRooms.v1";
+  const tutorialRooms = new Set(progress.tutorialRooms || progress.humanRooms || []);
 
   const nodes = {
     brand: $(".brand"),
@@ -81,6 +82,7 @@ const mountHomepageGame = (manifest) => {
   };
 
   const isUnlocked = (room) => (room.unlockAfter || []).every((id) => state.solvedRooms.has(id));
+  const isTutorialRoom = (room) => tutorialRooms.has(room.id);
 
   const nextLockedReason = (room) => {
     if (room.id === progress.finalBoss) return progress.bossLockedCopy || "Solve the human rooms first.";
@@ -119,7 +121,9 @@ const mountHomepageGame = (manifest) => {
     state.traceIndex = 0;
     resetScores(room);
     render();
-    announce(`${room.name} ready. ${room.stages.inspect.guide}`);
+    const guide = isTutorialRoom(room) ? room.stages.inspect.guide : progress.gateCopy;
+    announce(`${room.name} ready. ${guide || ""}`);
+    window.requestAnimationFrame(updateGuide);
   };
 
   const selectRoom = (roomId) => {
@@ -153,7 +157,10 @@ const mountHomepageGame = (manifest) => {
       button.classList.toggle("active", room.id === state.roomId);
       button.classList.toggle("solved", state.solvedRooms.has(room.id));
       button.classList.toggle("boss", room.kind === "final-boss");
-      const lock = isUnlocked(room) ? (state.solvedRooms.has(room.id) ? "Solved" : "Open") : "Locked";
+      const unlocked = isUnlocked(room);
+      const lock = unlocked
+        ? (state.solvedRooms.has(room.id) ? "Solved" : (room.id === progress.finalBoss ? "Gate" : "Tutorial"))
+        : (room.id === progress.finalBoss ? "Gate locked" : "Locked");
       button.innerHTML = `<span>${htmlEscape(room.roomNumber)}</span><b>${htmlEscape(room.name)}</b><small>${htmlEscape(lock)}</small>`;
       button.addEventListener("click", () => selectRoom(room.id));
       return button;
@@ -290,7 +297,7 @@ const mountHomepageGame = (manifest) => {
     const body = nodes.booklet.querySelector(".booklet-body");
     if (!body) return;
     body.innerHTML = `
-      <p><b>${htmlEscape(manifest.title)}</b> is now the homepage UX: three human script rooms unlock the Whale Cadence final boss.</p>
+      <p><b>${htmlEscape(manifest.title)}</b> is now the homepage UX: rooms I-III are the tutorial ladder; Whale Cadence is the public gate.</p>
       <p>${htmlEscape(manifest.doctrine.player)} ${htmlEscape(manifest.doctrine.game)} ${htmlEscape(manifest.doctrine.essays)} ${htmlEscape(manifest.doctrine.zenodo)}</p>
       <p>${htmlEscape(room.method)}</p>
       <p>${Object.entries(room.routes || {}).map(([label, href]) => `<a href="${htmlEscape(href)}">${htmlEscape(label)}</a>`).join(" ")}</p>
@@ -422,6 +429,7 @@ const mountHomepageGame = (manifest) => {
 
   const updateGuide = () => {
     clearGuide();
+    if (!isTutorialRoom(activeRoom())) return;
     const target = guideTarget();
     if (!target || !nodes.coach || !nodes.coachText || !nodes.hand) return;
     target.classList.add("guide");
