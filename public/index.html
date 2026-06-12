@@ -48,15 +48,23 @@
     }
 
     /* The Rosetta Meter: a homepage-native entry game */
-    .rosetta { margin:2.2em 0 2.4em; border:1px solid var(--ink); background:linear-gradient(180deg, var(--panel), transparent 155%); }
+    .rosetta { margin:2.2em 0 2.4em; border:1px solid var(--ink); background:linear-gradient(180deg, var(--panel), transparent 155%); box-shadow:0 18px 55px #00000012; }
     .rosetta-head { padding:18px 20px 14px; border-bottom:1px solid var(--panelrule); }
     .rosetta h2 { font-size:clamp(24px,4vw,34px); line-height:1.1; margin:.25em 0 .2em; font-weight:600; }
     .rosetta .lede { margin:.65em 0 0; color:var(--dim); font-size:15px; }
+    .gamebar { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 20px; border-bottom:1px solid var(--panelrule); background:color-mix(in srgb, var(--brass) 8%, transparent); }
+    .keyring { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .key { min-width:35px; height:35px; border:1px solid var(--panelrule); border-radius:999px; display:grid; place-items:center; color:var(--dim); background:var(--panel); font:600 13px/1 ui-sans-serif,system-ui,sans-serif; }
+    .key.on { border-color:var(--ink); color:var(--paper); background:var(--ink); transform:translateY(-1px); }
+    .game-status { color:var(--dim); font:600 12px/1.4 ui-sans-serif,system-ui,sans-serif; text-align:right; }
     .room-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); border-bottom:1px solid var(--panelrule); }
-    .room-card { position:relative; min-height:150px; padding:16px; border-right:1px solid var(--panelrule); border-bottom:1px solid var(--panelrule); display:flex; flex-direction:column; gap:10px; }
+    .room-card { position:relative; min-height:150px; padding:16px; border-right:1px solid var(--panelrule); border-bottom:1px solid var(--panelrule); display:flex; flex-direction:column; gap:10px; transition:background .18s ease, opacity .18s ease, transform .18s ease; }
     .room-card:nth-child(2n) { border-right:0; }
     .room-card:nth-last-child(-n+2) { border-bottom:0; }
     .room-card.active { background:color-mix(in srgb, var(--brass) 12%, transparent); }
+    .room-card.solved::after { content:'key won'; position:absolute; top:14px; right:14px; color:var(--brass); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .room-card.locked { opacity:.42; }
+    .room-card.locked .room-pick { cursor:not-allowed; }
     .room-pick { border:0; padding:0; background:transparent; color:var(--ink); text-align:left; cursor:pointer; font:inherit; display:flex; flex-direction:column; gap:10px; }
     .room-pick:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
     .door { font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.13em; text-transform:uppercase; color:var(--brass); }
@@ -88,6 +96,7 @@
     .move-row { display:flex; flex-wrap:wrap; gap:9px; margin-top:10px; }
     .move { border:1px solid var(--ink); background:transparent; color:var(--ink); padding:10px 12px; border-radius:7px; cursor:pointer; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
     .move:hover, .move:focus-visible, .move.active { background:var(--ink); color:var(--paper); outline:0; }
+    .move.primary { background:var(--ink); color:var(--paper); }
     .reveal { margin-top:16px; border-left:3px solid var(--brass); padding-left:13px; }
     .reveal p { margin:.45em 0; }
     .reveal .method { color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; }
@@ -95,6 +104,9 @@
     .route-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .route-row a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
     .route-row a:hover { border-color:var(--ink); }
+    .archive-gate { margin:18px 20px 20px; padding:16px; border:1px solid var(--panelrule); background:var(--paper); }
+    .archive-gate.open { border-color:var(--ink); background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
+    .archive-gate p { margin:.35em 0; }
     .rosetta-fallback { padding:0 20px 18px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
 
     /* the Planisphere collaboration mark */
@@ -154,6 +166,8 @@
       .play-top { display:block; }
       .status-pill { display:inline-block; margin-top:10px; }
       .slots, .tiles, .shapes { grid-template-columns:1fr 1fr; }
+      .gamebar { display:block; }
+      .game-status { text-align:left; margin-top:10px; }
     }
 
     /* sign-off */
@@ -188,11 +202,22 @@
       <div class="rosetta-head">
         <div class="kicker">Homepage game &middot; The first door</div>
         <h2 id="rosetta-title">The Four Locked Rooms</h2>
-        <p class="lede">Pick a room, play the pattern, then choose how deep you want to go. The small move is the doorway into the full work.</p>
+        <p class="lede">Four doors are locked. Win the keys by spotting the pattern. Open the archive before the page turns back into a paper.</p>
+      </div>
+
+      <div class="gamebar">
+        <div class="keyring" data-keyring aria-label="Keys won">
+          <span class="key" data-key="rongorongo">C</span>
+          <span class="key" data-key="proto">L</span>
+          <span class="key" data-key="indus">S</span>
+          <span class="key" data-key="cadence">R</span>
+        </div>
+        <div class="game-status" data-game-status>First key: Calendar.</div>
+        <button class="move primary" type="button" data-new-game>Restart game</button>
       </div>
 
       <div class="room-grid" aria-label="Choose a locked room">
-        <article class="room-card active">
+        <article class="room-card active" data-card="rongorongo">
           <button class="room-pick" type="button" data-room="rongorongo" aria-pressed="true">
             <span class="door">Calendar room</span>
             <b>Rongorongo</b>
@@ -200,7 +225,7 @@
           </button>
           <a href="/essays/deciphering-rongorongo">Read the essay</a>
         </article>
-        <article class="room-card">
+        <article class="room-card" data-card="proto">
           <button class="room-pick" type="button" data-room="proto" aria-pressed="false">
             <span class="door">Ledger room</span>
             <b>Proto-Elamite</b>
@@ -208,7 +233,7 @@
           </button>
           <a href="/essays/reading-proto-elamite">Read the essay</a>
         </article>
-        <article class="room-card">
+        <article class="room-card" data-card="indus">
           <button class="room-pick" type="button" data-room="indus" aria-pressed="false">
             <span class="door">Seal room</span>
             <b>Indus</b>
@@ -216,7 +241,7 @@
           </button>
           <a href="/essays/reading-indus-valley-script">Read the essay</a>
         </article>
-        <article class="room-card">
+        <article class="room-card" data-card="cadence">
           <button class="room-pick" type="button" data-room="cadence" aria-pressed="false">
             <span class="door">Rhythm room</span>
             <b>Cadence</b>
@@ -240,6 +265,10 @@
       </div>
 
       <p class="rosetta-fallback">No trick here: the game is a map. Every room opens into a companion essay, a DOI record, or the full catalogue.</p>
+      <div class="archive-gate" data-archive-gate>
+        <p><b>Archive sealed.</b></p>
+        <p class="method">Win all four keys to open the full reader path.</p>
+      </div>
     </section>
 
     <div class="claim">
@@ -415,8 +444,16 @@
     const artifact = document.querySelector('[data-artifact]');
     const resetRow = document.querySelector('[data-reset-row]');
     const reveal = document.querySelector('[data-reveal]');
+    const keyEls = [...document.querySelectorAll('[data-key]')];
+    const gameStatus = document.querySelector('[data-game-status]');
+    const newGameBtn = document.querySelector('[data-new-game]');
+    const archiveGate = document.querySelector('[data-archive-gate]');
+    const roomOrder = ['rongorongo', 'proto', 'indus', 'cadence'];
+    const roomNames = { rongorongo: 'Calendar', proto: 'Ledger', indus: 'Seal', cadence: 'Rhythm' };
     let activeRoom = 'rongorongo';
     let formulaPick = [];
+    let solvedRooms = new Set();
+    let unlockedRooms = new Set(['rongorongo']);
 
     const routeLinks = (room) => '<div class="route-row">' + room.links.map(([label, href]) =>
       '<a href="' + href + '">' + label + '</a>'
@@ -429,6 +466,42 @@
         '<p><b>' + text[0] + '</b></p>' +
         '<p class="method">' + text[1] + '</p>' +
         (mode === 'success' ? routeLinks(room) : '');
+      if (mode === 'success') completeRoom(activeRoom);
+    };
+
+    const syncGameState = () => {
+      roomButtons.forEach((button) => {
+        const key = button.dataset.room;
+        const card = button.closest('.room-card');
+        const locked = !unlockedRooms.has(key);
+        card.classList.toggle('locked', locked);
+        card.classList.toggle('solved', solvedRooms.has(key));
+        button.disabled = locked;
+        button.setAttribute('aria-disabled', locked ? 'true' : 'false');
+      });
+      keyEls.forEach((keyEl) => keyEl.classList.toggle('on', solvedRooms.has(keyEl.dataset.key)));
+      const next = roomOrder.find((key) => !solvedRooms.has(key));
+      if (next) gameStatus.textContent = solvedRooms.size + '/4 keys won. Next key: ' + roomNames[next] + '.';
+      else gameStatus.textContent = '4/4 keys won. The archive is open.';
+      archiveGate.classList.toggle('open', solvedRooms.size === roomOrder.length);
+      archiveGate.innerHTML = solvedRooms.size === roomOrder.length
+        ? '<p><b>Archive open.</b></p><p class="method">You found all four patterns. Now choose the serious door.</p><div class="route-row"><a href="/essays">Enter the essays</a><a href="/vault">Inspect the DOI vault</a><a href="/matrix">Open the matrix</a><a href="/thesis.pdf">Read the volume</a></div>'
+        : '<p><b>Archive sealed.</b></p><p class="method">Win all four keys to open the full reader path.</p>';
+    };
+
+    const completeRoom = (key) => {
+      if (solvedRooms.has(key)) return;
+      solvedRooms.add(key);
+      const nextIndex = roomOrder.indexOf(key) + 1;
+      if (roomOrder[nextIndex]) unlockedRooms.add(roomOrder[nextIndex]);
+      syncGameState();
+    };
+
+    const newGame = () => {
+      solvedRooms = new Set();
+      unlockedRooms = new Set(['rongorongo']);
+      renderRoom('rongorongo');
+      syncGameState();
     };
 
     const drawBars = (bars) => '<div class="bars">' + bars.map((h, i) =>
@@ -519,6 +592,7 @@
     };
 
     const renderRoom = (key) => {
+      if (!unlockedRooms.has(key)) return;
       activeRoom = key;
       const room = rosettaRooms[key];
       roomButtons.forEach((button) => {
@@ -534,6 +608,7 @@
       if (room.kind === 'formula') renderFormula(room);
       if (room.kind === 'meter') renderMeter(room);
       if (room.kind === 'rhythm') renderRhythm(room);
+      syncGameState();
     };
 
     roomButtons.forEach((button) => {
@@ -542,7 +617,8 @@
     resetRow.addEventListener('click', (event) => {
       if (event.target.closest('[data-reset]')) renderRoom(activeRoom);
     });
-    renderRoom(activeRoom);
+    newGameBtn.addEventListener('click', newGame);
+    newGame();
 
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;
