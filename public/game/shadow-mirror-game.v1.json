@@ -1,0 +1,818 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "2026-06-12.game-first-core",
+  "gameId": "shadow-mirror-rosetta-meter",
+  "title": "The Four Locked Rooms",
+  "doctrine": {
+    "player": "The player plays with patterns.",
+    "game": "The game reveals the methods.",
+    "essays": "The essays tie it all together.",
+    "zenodo": "Zenodo stamps record."
+  },
+  "runtime": {
+    "defaultRoom": "rongorongo",
+    "defaultSeed": 137,
+    "replayPrefix": "v1",
+    "newCaseStep": 137,
+    "manifestUrl": "/game/shadow-mirror-game.v1.json"
+  },
+  "claimStatus": {
+    "proposed-structural-reading": "Claim status: proposed structural reading. Passing this miniature check means the hypothesis survived this pressure test; it does not turn a proposal into consensus.",
+    "claim-bearing-companion": "Claim status: live companion to a DOI-stamped claim. The essay is the reader route; Zenodo is the deposited record.",
+    "planned-playable-room": "Claim status: route is live, gameplay is not yet expanded. This room stays locked until its corpus loop has fixtures and validation."
+  },
+  "routes": {
+    "home": "/",
+    "essays": "/essays",
+    "vault": "/vault",
+    "matrix": "/matrix",
+    "topics": "/topics",
+    "thesis": "/thesis.pdf",
+    "genesis": "/genesis",
+    "seal": "/seal.json",
+    "genesisJson": "/genesis.json",
+    "sealSvg": "/seal.svg"
+  },
+  "records": {
+    "rongorongo": {
+      "title": "Reading Rongorongo",
+      "essayTitle": "Rongorongo and the Shape of an Undeciphered Script",
+      "zenodoTitle": "Reading Rongorongo",
+      "roomId": "rongorongo",
+      "claimStatus": "proposed-structural-reading",
+      "local": {
+        "essay": "/essays/deciphering-rongorongo",
+        "vault": "/vault/deciphering-rongorongo-corpus-analysis",
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "doi": {
+        "concept": "10.5281/zenodo.19362491",
+        "current": "10.5281/zenodo.19362491",
+        "records": [
+          {
+            "record": "19362491",
+            "doi": "10.5281/zenodo.19362491",
+            "url": "https://zenodo.org/records/19362491",
+            "version": "v2",
+            "current": true
+          }
+        ]
+      }
+    },
+    "proto-elamite": {
+      "title": "Reading Proto-Elamite",
+      "essayTitle": "Reading Proto-Elamite",
+      "zenodoTitle": "Reading Proto-Elamite",
+      "roomId": "proto",
+      "claimStatus": "claim-bearing-companion",
+      "local": {
+        "essay": "/essays/reading-proto-elamite",
+        "vault": null,
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "doi": {
+        "concept": "10.5281/zenodo.19362527",
+        "current": "10.5281/zenodo.19362528",
+        "records": [
+          {
+            "record": "19362528",
+            "doi": "10.5281/zenodo.19362528",
+            "url": "https://zenodo.org/records/19362528",
+            "version": "v1",
+            "current": true
+          }
+        ]
+      },
+      "normalizationNote": "Local essay names the concept DOI and current version; no local vault page exists in this repo slice."
+    },
+    "indus": {
+      "title": "Reading the Indus Valley Script",
+      "essayTitle": "Reading the Indus Valley Script",
+      "zenodoTitle": "Reading the Indus Valley Script",
+      "roomId": "indus",
+      "claimStatus": "claim-bearing-companion",
+      "local": {
+        "essay": "/essays/reading-indus-valley-script",
+        "vault": null,
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "doi": {
+        "concept": "10.5281/zenodo.19362547",
+        "current": "10.5281/zenodo.19362548",
+        "records": [
+          {
+            "record": "19362548",
+            "doi": "10.5281/zenodo.19362548",
+            "url": "https://zenodo.org/records/19362548",
+            "version": "v1",
+            "current": true
+          }
+        ]
+      },
+      "normalizationNote": "Local essay names the concept DOI and current version; no local vault page exists in this repo slice."
+    },
+    "cadence": {
+      "title": "A dying language sounds like noise.",
+      "essayTitle": null,
+      "zenodoTitle": "A dying language sounds like noise.",
+      "roomId": "cadence",
+      "claimStatus": "claim-bearing-companion",
+      "local": {
+        "essay": null,
+        "vault": "/vault/dying-language-sounds-like-noise",
+        "catalogue": "/essays",
+        "matrix": "/matrix"
+      },
+      "doi": {
+        "concept": "10.5281/zenodo.19617708",
+        "current": "10.5281/zenodo.19617709",
+        "records": [
+          {
+            "record": "19617709",
+            "doi": "10.5281/zenodo.19617709",
+            "url": "https://zenodo.org/records/19617709",
+            "current": true
+          }
+        ]
+      },
+      "normalizationNote": "Local vault and homepage point to current version; no local companion essay exists in this repo slice."
+    }
+  },
+  "scoreDimensions": [
+    {
+      "id": "coverage",
+      "label": "coverage",
+      "min": 0,
+      "max": 6,
+      "higherIsBetter": true
+    },
+    {
+      "id": "parsimony",
+      "label": "parsimony",
+      "min": 0,
+      "max": 6,
+      "higherIsBetter": true
+    },
+    {
+      "id": "confidence",
+      "label": "confidence",
+      "min": 0,
+      "max": 6,
+      "higherIsBetter": true
+    },
+    {
+      "id": "overfit",
+      "label": "overfit risk",
+      "min": 0,
+      "max": 6,
+      "higherIsBetter": false,
+      "className": "overfit"
+    }
+  ],
+  "methods": [
+    {
+      "id": "frequency",
+      "family": "coverage",
+      "tag": "Coverage",
+      "name": "Frequency count",
+      "text": "Ask what repeats more than chance."
+    },
+    {
+      "id": "position",
+      "family": "parsimony",
+      "tag": "Parsimony",
+      "name": "Position constraint",
+      "text": "Test whether a sign keeps a job in context."
+    },
+    {
+      "id": "calendar",
+      "family": "confidence",
+      "tag": "Confidence",
+      "name": "Calendar fit",
+      "text": "Risk a sky-shaped reading that makes predictions."
+    },
+    {
+      "id": "cross",
+      "family": "counterplay",
+      "tag": "Counterplay",
+      "name": "Cross-tablet check",
+      "text": "Make the hypothesis survive another line."
+    },
+    {
+      "id": "skeptic",
+      "family": "discipline",
+      "tag": "Discipline",
+      "name": "Skeptic challenge",
+      "text": "Attack the prettiest explanation first."
+    },
+    {
+      "id": "separator",
+      "family": "noise",
+      "tag": "Noise",
+      "name": "Separator test",
+      "text": "Decide what not to explain."
+    }
+  ],
+  "effects": {
+    "repeat:frequency": {
+      "scores": {
+        "coverage": 2,
+        "parsimony": 1,
+        "confidence": 1,
+        "overfit": 0
+      },
+      "note": "Frequency count turns the repeated cluster into evidence instead of atmosphere.",
+      "proof": "Repeated marks were measured before they were interpreted."
+    },
+    "position:position": {
+      "scores": {
+        "coverage": 2,
+        "parsimony": 1,
+        "confidence": 1,
+        "overfit": 0
+      },
+      "note": "Position constraint gives the mark a job: it appears where the proposed rule needs it.",
+      "proof": "The reading used neighborhood and order, not isolated glyph vibes."
+    },
+    "calendar:calendar": {
+      "scores": {
+        "coverage": 1,
+        "parsimony": 0,
+        "confidence": 2,
+        "overfit": 1
+      },
+      "note": "Calendar fit raises the stakes: the reading now has to meet the sky, not just the page.",
+      "proof": "The hypothesis made a calendar-shaped prediction."
+    },
+    "counter:cross": {
+      "scores": {
+        "coverage": 0,
+        "parsimony": 1,
+        "confidence": 1,
+        "overfit": -2
+      },
+      "flags": [
+        "countered"
+      ],
+      "note": "Cross-tablet check answers the missing twin without pretending it vanished.",
+      "proof": "A counterexample was tested instead of ignored."
+    },
+    "counter:skeptic": {
+      "scores": {
+        "coverage": 0,
+        "parsimony": 1,
+        "confidence": 1,
+        "overfit": -2
+      },
+      "flags": [
+        "countered"
+      ],
+      "note": "The skeptic challenge catches the weak joint and makes the rule smaller.",
+      "proof": "The case survived adversarial pressure."
+    },
+    "temptation:skeptic": {
+      "scores": {
+        "coverage": 0,
+        "parsimony": 1,
+        "confidence": 1,
+        "overfit": -1
+      },
+      "note": "The gorgeous sky story gets cut down to what the evidence can carry.",
+      "proof": "Tempting glosses were separated from structural support."
+    },
+    "temptation:calendar": {
+      "scores": {
+        "coverage": 1,
+        "parsimony": -1,
+        "confidence": 1,
+        "overfit": 3
+      },
+      "note": "The story feels exciting, but it spends too much risk for too little constraint.",
+      "proof": "A high-fit story was marked as overfit pressure."
+    },
+    "noise:separator": {
+      "scores": {
+        "coverage": 0,
+        "parsimony": 1,
+        "confidence": 0,
+        "overfit": -1
+      },
+      "note": "Separator test keeps damage from becoming fake grammar.",
+      "proof": "Noise was bounded before the reading claimed structure."
+    },
+    "noise:frequency": {
+      "scores": {
+        "coverage": 0,
+        "parsimony": -1,
+        "confidence": 0,
+        "overfit": 2
+      },
+      "note": "Counting damaged marks makes the rule bigger without making it better.",
+      "proof": "Damaged evidence was not allowed to carry the case alone."
+    }
+  },
+  "defaultEffects": [
+    {
+      "id": "signal-measured",
+      "when": {
+        "evidenceKind": "signal",
+        "methodIds": [
+          "frequency",
+          "position",
+          "calendar"
+        ]
+      },
+      "effect": {
+        "scores": {
+          "coverage": 1,
+          "parsimony": 0,
+          "confidence": 1,
+          "overfit": 1
+        },
+        "note": "Useful, but slightly loose: the move adds support and a little overfit risk.",
+        "proof": "A signal was tested, but the match was not the strongest available."
+      }
+    },
+    {
+      "id": "counter-admitted",
+      "when": {
+        "evidenceKind": "counter",
+        "methodIds": [
+          "cross",
+          "skeptic"
+        ]
+      },
+      "effect": {
+        "scores": {
+          "coverage": 0,
+          "parsimony": 1,
+          "confidence": 1,
+          "overfit": -1
+        },
+        "flags": [
+          "countered"
+        ],
+        "note": "The counterexample is now part of the case instead of sitting outside it.",
+        "proof": "Counterevidence was admitted into the reading."
+      }
+    },
+    {
+      "id": "weak-overfit",
+      "when": {
+        "otherwise": true
+      },
+      "effect": {
+        "scores": {
+          "coverage": 0,
+          "parsimony": -1,
+          "confidence": 0,
+          "overfit": 1
+        },
+        "note": "That move makes the story bigger without making the proof tighter.",
+        "proof": "A weak move was recorded and priced as overfit pressure."
+      }
+    }
+  ],
+  "rooms": [
+    {
+      "id": "rongorongo",
+      "recordId": "rongorongo",
+      "key": "C",
+      "door": "Calendar room",
+      "name": "Rongorongo",
+      "title": "Calendar room: build the case",
+      "status": "Playable - evidence",
+      "state": "playable",
+      "summary": "A proposed Mamari calendar reading only matters if repeated marks, position, and counterexamples can be held in one small rule.",
+      "intro": "Start here. Build a defensible reading from noisy marks, a lunar hypothesis, and counterexamples.",
+      "claimStatus": "proposed-structural-reading",
+      "actionsPerCase": 5,
+      "startingScores": {
+        "coverage": 0,
+        "parsimony": 3,
+        "confidence": 0,
+        "overfit": 1
+      },
+      "startingPrompt": "Pick evidence, then choose the method that tests it.",
+      "fallbackHint": "The first useful move is usually Frequency Count on a repeated mark.",
+      "aha": "This is what Logan did at full scale: measure order, test the calendar hypothesis, and keep the counterexamples in the proof trace.",
+      "sourceRefs": [
+        "essay",
+        "vault",
+        "zenodo"
+      ],
+      "corpusStatus": {
+        "status": "source-linked-scaffold",
+        "note": "Cards route to the companion essay, vault record, and Zenodo record. Canonical tablet-line IDs are not present in this repo slice yet.",
+        "needsCorpusIds": true
+      },
+      "links": [
+        {
+          "label": "Companion essay",
+          "href": "/essays/deciphering-rongorongo"
+        },
+        {
+          "label": "Vault record",
+          "href": "/vault/deciphering-rongorongo-corpus-analysis"
+        },
+        {
+          "label": "Zenodo DOI",
+          "href": "https://zenodo.org/records/19362491"
+        },
+        {
+          "label": "Full corpus",
+          "href": "/essays"
+        },
+        {
+          "label": "Complexity matrix",
+          "href": "/matrix"
+        }
+      ],
+      "proofTrace": {
+        "lockedTitle": "Proof trace sealed.",
+        "lockedBody": "Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.",
+        "openTitle": "Proof trace open.",
+        "openBody": "You built a calendar case that survived the miniature pressure test. Follow it into the full work."
+      },
+      "victory": {
+        "all": [
+          {
+            "metric": "coverage",
+            "op": "gte",
+            "value": 5,
+            "missing": "more coverage"
+          },
+          {
+            "metric": "parsimony",
+            "op": "gte",
+            "value": 3,
+            "missing": "a smaller rule"
+          },
+          {
+            "metric": "confidence",
+            "op": "gte",
+            "value": 4,
+            "missing": "stronger confidence"
+          },
+          {
+            "metric": "overfit",
+            "op": "lte",
+            "value": 2,
+            "missing": "lower overfit risk"
+          },
+          {
+            "flag": "countered",
+            "op": "true",
+            "missing": "a faced counterexample"
+          }
+        ]
+      },
+      "cases": [
+        {
+          "id": "mamari-ca",
+          "title": "Case file: Mamari calendar line",
+          "hypothesis": "Hypothesis: a repeated cluster marks a lunar count rather than random ornament.",
+          "evidence": [
+            {
+              "id": "repeat",
+              "tag": "Signal",
+              "title": "Repeated cluster",
+              "code": "730 | 730 | 730",
+              "text": "The same cluster returns often enough to become the first suspect.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "position",
+              "tag": "Signal",
+              "title": "Position constraint",
+              "code": "edge -> refrain -> count",
+              "text": "The cluster does not float anywhere; it likes a stable neighborhood.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "calendar",
+              "tag": "Fit",
+              "title": "Lunar spacing",
+              "code": "29 / 30 / 173",
+              "text": "The spacing can be tested against a calendar-shaped reading.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "counter",
+              "tag": "Counter",
+              "title": "Missing twin",
+              "code": "parallel line: no 730",
+              "text": "A similar line refuses the easy reading. The method has to answer that.",
+              "kind": "counter",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "temptation",
+              "tag": "Temptation",
+              "title": "Sky story",
+              "code": "Venus? Pleiades? king?",
+              "text": "A rich story can raise confidence while quietly raising overfit risk.",
+              "kind": "temptation",
+              "sourceLabel": "Interpretation pressure: keep separate from structure"
+            },
+            {
+              "id": "noise",
+              "tag": "Noise",
+              "title": "Broken edge",
+              "code": "gap / scar / uncertain hand",
+              "text": "Some marks are damaged. A good reading must know what not to explain.",
+              "kind": "noise",
+              "sourceLabel": "Corpus condition: damaged or uncertain marks"
+            }
+          ]
+        },
+        {
+          "id": "mamari-cb",
+          "title": "Case file: Mamari night count",
+          "hypothesis": "Hypothesis: repeated marks are doing calendar work across a damaged sequence.",
+          "evidence": [
+            {
+              "id": "repeat",
+              "tag": "Signal",
+              "title": "Recurring refrain",
+              "code": "crescent | 730 | crescent",
+              "text": "A repeated local pattern gives the case its first handle.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "position",
+              "tag": "Signal",
+              "title": "Neighbor lock",
+              "code": "before count / after count",
+              "text": "Neighboring signs constrain what the repeated mark can be doing.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "calendar",
+              "tag": "Fit",
+              "title": "Cycle pressure",
+              "code": "new moon -> dark -> return",
+              "text": "The reading gains force if it predicts a cycle, not just a label.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "counter",
+              "tag": "Counter",
+              "title": "Wrong-neighbor line",
+              "code": "same sign, wrong place",
+              "text": "A counterexample tests whether the rule is structural or just decorative.",
+              "kind": "counter",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "temptation",
+              "tag": "Temptation",
+              "title": "Mythic gloss",
+              "code": "bird / priest / star",
+              "text": "This makes a beautiful story, but beauty is cheap until the corpus pays for it.",
+              "kind": "temptation",
+              "sourceLabel": "Interpretation pressure: keep separate from structure"
+            },
+            {
+              "id": "noise",
+              "tag": "Noise",
+              "title": "Carving break",
+              "code": "missing teeth",
+              "text": "Damage can mimic separators. Treat it carefully or the reading invents evidence.",
+              "kind": "noise",
+              "sourceLabel": "Corpus condition: damaged or uncertain marks"
+            }
+          ]
+        },
+        {
+          "id": "mamari-cc",
+          "title": "Case file: Mamari eclipse window",
+          "hypothesis": "Hypothesis: the tablet preserves a compact astronomical reckoning.",
+          "evidence": [
+            {
+              "id": "repeat",
+              "tag": "Signal",
+              "title": "Return mark",
+              "code": "A B A B A",
+              "text": "A repeating mark makes the first bridge between inscription and meter.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "position",
+              "tag": "Signal",
+              "title": "Line boundary",
+              "code": "start / middle / close",
+              "text": "The same sign behaves differently by position, which is where grammar starts to appear.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "calendar",
+              "tag": "Fit",
+              "title": "Eclipse-sized span",
+              "code": "173-day pressure",
+              "text": "A testable sky interval is stronger than a free-floating translation.",
+              "kind": "signal",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "counter",
+              "tag": "Counter",
+              "title": "Silent tablet",
+              "code": "parallel object: absent",
+              "text": "If the same rule is absent elsewhere, the case must explain why.",
+              "kind": "counter",
+              "sourceLabel": "Corpus source: essay, vault, Zenodo"
+            },
+            {
+              "id": "temptation",
+              "tag": "Temptation",
+              "title": "Perfect alignment",
+              "code": "too many sky names",
+              "text": "A perfect-looking alignment can be the most dangerous move on the board.",
+              "kind": "temptation",
+              "sourceLabel": "Interpretation pressure: keep separate from structure"
+            },
+            {
+              "id": "noise",
+              "tag": "Noise",
+              "title": "Copy uncertainty",
+              "code": "variant hand",
+              "text": "Variant carving may be real structure, scribal habit, or noise.",
+              "kind": "noise",
+              "sourceLabel": "Corpus condition: damaged or uncertain marks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proto",
+      "recordId": "proto-elamite",
+      "key": "L",
+      "door": "Ledger room",
+      "name": "Proto-Elamite",
+      "title": "Ledger room: still sealed",
+      "status": "Locked - ledger",
+      "state": "planned",
+      "summary": "The next room will ask whether tablet formulas behave like administration instead of decoration.",
+      "intro": "Locked for this slice: administrative formulas, sign roles, and tablet-level structure.",
+      "claimStatus": "planned-playable-room",
+      "plannedLoop": "Inspect repeated tablet formulas, spend ledger methods, and test whether sign order behaves administratively.",
+      "links": [
+        {
+          "label": "Companion essay",
+          "href": "/essays/reading-proto-elamite"
+        },
+        {
+          "label": "Zenodo record",
+          "href": "https://zenodo.org/records/19362528"
+        },
+        {
+          "label": "Full catalogue",
+          "href": "/essays"
+        },
+        {
+          "label": "Complexity matrix",
+          "href": "/matrix"
+        }
+      ]
+    },
+    {
+      "id": "indus",
+      "recordId": "indus",
+      "key": "S",
+      "door": "Seal room",
+      "name": "Indus",
+      "title": "Seal room: still sealed",
+      "status": "Locked - seals",
+      "state": "planned",
+      "summary": "The seal room turns brevity into pressure: can short inscriptions still carry fixed positions and structural signal?",
+      "intro": "Locked for this slice: short seals, fixed positions, and structural signal under brevity.",
+      "claimStatus": "planned-playable-room",
+      "plannedLoop": "Build a four-slot seal formula under harsh length limits and test whether position beats ornament.",
+      "links": [
+        {
+          "label": "Companion essay",
+          "href": "/essays/reading-indus-valley-script"
+        },
+        {
+          "label": "Zenodo record",
+          "href": "https://zenodo.org/records/19362548"
+        },
+        {
+          "label": "Complexity matrix",
+          "href": "/matrix"
+        },
+        {
+          "label": "Full catalogue",
+          "href": "/essays"
+        }
+      ]
+    },
+    {
+      "id": "cadence",
+      "recordId": "cadence",
+      "key": "R",
+      "door": "Rhythm room",
+      "name": "Cadence",
+      "title": "Rhythm room: still sealed",
+      "status": "Locked - cadence",
+      "state": "planned",
+      "summary": "The rhythm room asks what survives when vocabulary fails and communication has to be measured by energy shape.",
+      "intro": "Locked for this slice: a dying language measured by energy shape after vocabulary fails.",
+      "claimStatus": "planned-playable-room",
+      "plannedLoop": "Match cadence shapes, separate signal from noise, and route rhythm into the vault record.",
+      "links": [
+        {
+          "label": "Vault record",
+          "href": "/vault/dying-language-sounds-like-noise"
+        },
+        {
+          "label": "Zenodo record",
+          "href": "https://zenodo.org/records/19617709"
+        },
+        {
+          "label": "The matrix",
+          "href": "/matrix"
+        },
+        {
+          "label": "Full catalogue",
+          "href": "/essays"
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "winning-calendar-line",
+      "roomId": "rongorongo",
+      "caseId": "mamari-ca",
+      "seed": 137,
+      "moves": [
+        {
+          "evidenceId": "repeat",
+          "methodId": "frequency"
+        },
+        {
+          "evidenceId": "position",
+          "methodId": "position"
+        },
+        {
+          "evidenceId": "calendar",
+          "methodId": "calendar"
+        },
+        {
+          "evidenceId": "counter",
+          "methodId": "cross"
+        }
+      ],
+      "commit": true,
+      "expect": {
+        "solved": true,
+        "traceLength": 4,
+        "scores": {
+          "coverage": 5,
+          "parsimony": 6,
+          "confidence": 5,
+          "overfit": 0
+        }
+      }
+    },
+    {
+      "id": "bad-overfit-line",
+      "roomId": "rongorongo",
+      "caseId": "mamari-ca",
+      "seed": 274,
+      "moves": [
+        {
+          "evidenceId": "temptation",
+          "methodId": "calendar"
+        },
+        {
+          "evidenceId": "noise",
+          "methodId": "frequency"
+        },
+        {
+          "evidenceId": "repeat",
+          "methodId": "skeptic"
+        }
+      ],
+      "commit": true,
+      "expect": {
+        "solved": false,
+        "traceLength": 3
+      }
+    }
+  ]
+}

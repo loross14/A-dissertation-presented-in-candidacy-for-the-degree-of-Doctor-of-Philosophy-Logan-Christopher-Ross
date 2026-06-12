@@ -7,7 +7,7 @@
   <meta name="description" content="Enter Logan Ross's research through four locked rooms: Rongorongo, Proto-Elamite, Indus, and cadence. Play the pattern, then read the evidence." />
   <meta property="og:title" content="Shadow &amp; Mirror" />
   <meta property="og:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="website" />
   <meta property="og:url" content="https://logan.engineering/" />
   <meta property="og:image" content="https://logan.engineering/og.png" />
   <meta property="og:image:width" content="1200" />
@@ -270,7 +270,20 @@
           <h3 class="play-title" data-play-title>Calendar room: build the case</h3>
           <span class="status-pill" data-status>Partial &middot; calendar</span>
         </div>
-        <div class="artifact" data-artifact></div>
+        <div class="artifact" data-artifact>
+          <div class="case-board" data-static-fallback>
+            <h4>Case file: Mamari calendar line</h4>
+            <p>Hypothesis: a repeated cluster marks a lunar count rather than random ornament.</p>
+            <div class="claim-note">Claim status: proposed structural reading. The live game tests the method; the essay carries the full argument and the Zenodo record stamps the deposit.</div>
+            <p><b>Seed proof line:</b> frequency count, position constraint, calendar fit, then a cross-tablet counterexample check.</p>
+            <div class="route-row">
+              <a href="/essays/deciphering-rongorongo">Companion essay</a>
+              <a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a>
+              <a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo DOI</a>
+              <a href="/essays">Full catalogue</a>
+            </div>
+          </div>
+        </div>
         <div class="move-row" data-action-row></div>
         <div class="reveal locked" data-reveal>
           <p><b>Pick one evidence card.</b></p>
@@ -278,7 +291,7 @@
         </div>
       </div>
 
-      <p class="rosetta-fallback">No JavaScript required to read the work: every room also links directly into the essay, DOI vault, or catalogue. The game is a proof-of-method, not a paywall.</p>
+      <p class="rosetta-fallback">No JavaScript required to read the work: every room also links directly into the essay, vault, DOI record, or catalogue. The game is a proof-of-method, not a paywall.</p>
       <div class="archive-gate" data-archive-gate>
         <p><b>Proof trace sealed.</b></p>
         <p class="method">Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.</p>
@@ -312,7 +325,7 @@
       <a class="btn" href="/thesis.pdf">Read the volume (PDF, 7.8&nbsp;MB)</a>
       <a class="btn" href="/essays" style="color:var(--ink);background:transparent;border:1px solid var(--ink)">Essays &mdash; the ideas, made plain</a>
     </div>
-    <p class="meta">895 pages. Best read in a desktop PDF viewer. &middot; New to the thesis? Start with the <a href="/topics">topic guides</a> &mdash; <a href="/graph-theory">treewidth</a>, <a href="/quantum">quantum simulation</a>, and <a href="/knowledge">knowledge architecture</a> &mdash; or browse the <a href="/matrix">complexity matrix</a> and the <a href="/vault">deposited-record vault</a>.</p>
+    <p class="meta">895 pages. Best read in a desktop PDF viewer. &middot; After the game, follow the <a href="/essays">essays</a>, the <a href="/vault">deposited-record vault</a>, and the <a href="/matrix">complexity matrix</a>. Topic guides for <a href="/topics">search discovery</a>, <a href="/graph-theory">treewidth</a>, <a href="/quantum">quantum simulation</a>, and <a href="/knowledge">knowledge architecture</a> remain as support routes.</p>
 
     <section class="attest" aria-label="Planisphere mirror chain genesis block">
       <div class="attest-head">
@@ -391,420 +404,9 @@
   <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
 
   <script type="module">
-    const rosettaRooms = {
-      rongorongo: {
-        title: 'Calendar room: build the case',
-        status: 'Playable · evidence',
-        door: 'Calendar room',
-        name: 'Rongorongo',
-        summary: 'A proposed Mamari calendar reading only matters if repeated marks, position, and counterexamples can be held in one small rule.',
-        links: [
-          ['Companion essay', '/essays/deciphering-rongorongo'],
-          ['Vault record', '/vault/deciphering-rongorongo-corpus-analysis'],
-          ['Zenodo record', 'https://zenodo.org/records/19362491'],
-          ['Full catalogue', '/essays'],
-        ],
-      },
-      proto: {
-        title: 'Ledger room: still sealed',
-        status: 'Locked · ledger',
-        door: 'Ledger room',
-        name: 'Proto-Elamite',
-        summary: 'The next room will ask whether tablet formulas behave like administration instead of decoration.',
-        links: [
-          ['Companion essay', '/essays/reading-proto-elamite'],
-          ['Zenodo record', 'https://zenodo.org/records/19362528'],
-          ['Full catalogue', '/essays'],
-        ],
-      },
-      indus: {
-        title: 'Seal room: still sealed',
-        status: 'Locked · seals',
-        door: 'Seal room',
-        name: 'Indus',
-        summary: 'The seal room turns brevity into pressure: can short inscriptions still carry fixed positions and structural signal?',
-        links: [
-          ['Companion essay', '/essays/reading-indus-valley-script'],
-          ['Zenodo record', 'https://zenodo.org/records/19362548'],
-          ['Complexity matrix', '/matrix'],
-        ],
-      },
-      cadence: {
-        title: 'Rhythm room: still sealed',
-        status: 'Locked · cadence',
-        door: 'Rhythm room',
-        name: 'Cadence',
-        summary: 'The rhythm room asks what survives when vocabulary fails and communication has to be measured by energy shape.',
-        links: [
-          ['Vault record', '/vault/dying-language-sounds-like-noise'],
-          ['Zenodo record', 'https://zenodo.org/records/19617709'],
-          ['The matrix', '/matrix'],
-        ],
-      },
-    };
+    import { mountRosettaGame } from './game/rosetta-runtime.js';
 
-    const caseDraws = [
-      {
-        id: 'mamari-ca',
-        title: 'Case file: Mamari calendar line',
-        hypothesis: 'Hypothesis: a repeated cluster marks a lunar count rather than random ornament.',
-        evidence: [
-          ['repeat', 'Signal', 'Repeated cluster', '730 | 730 | 730', 'The same cluster returns often enough to become the first suspect.', 'signal'],
-          ['position', 'Signal', 'Position constraint', 'edge -> refrain -> count', 'The cluster does not float anywhere; it likes a stable neighborhood.', 'signal'],
-          ['calendar', 'Fit', 'Lunar spacing', '29 / 30 / 173', 'The spacing can be tested against a calendar-shaped reading.', 'signal'],
-          ['counter', 'Counter', 'Missing twin', 'parallel line: no 730', 'A similar line refuses the easy reading. The method has to answer that.', 'counter'],
-          ['temptation', 'Temptation', 'Sky story', 'Venus? Pleiades? king?', 'A rich story can raise confidence while quietly raising overfit risk.', 'temptation'],
-          ['noise', 'Noise', 'Broken edge', 'gap / scar / uncertain hand', 'Some marks are damaged. A good reading must know what not to explain.', 'noise'],
-        ],
-      },
-      {
-        id: 'mamari-cb',
-        title: 'Case file: Mamari night count',
-        hypothesis: 'Hypothesis: repeated marks are doing calendar work across a damaged sequence.',
-        evidence: [
-          ['repeat', 'Signal', 'Recurring refrain', 'crescent | 730 | crescent', 'A repeated local pattern gives the case its first handle.', 'signal'],
-          ['position', 'Signal', 'Neighbor lock', 'before count / after count', 'Neighboring signs constrain what the repeated mark can be doing.', 'signal'],
-          ['calendar', 'Fit', 'Cycle pressure', 'new moon -> dark -> return', 'The reading gains force if it predicts a cycle, not just a label.', 'signal'],
-          ['counter', 'Counter', 'Wrong-neighbor line', 'same sign, wrong place', 'A counterexample tests whether the rule is structural or just decorative.', 'counter'],
-          ['temptation', 'Temptation', 'Mythic gloss', 'bird / priest / star', 'This makes a beautiful story, but beauty is cheap until the corpus pays for it.', 'temptation'],
-          ['noise', 'Noise', 'Carving break', 'missing teeth', 'Damage can mimic separators. Treat it carefully or the reading invents evidence.', 'noise'],
-        ],
-      },
-      {
-        id: 'mamari-cc',
-        title: 'Case file: Mamari eclipse window',
-        hypothesis: 'Hypothesis: the tablet preserves a compact astronomical reckoning.',
-        evidence: [
-          ['repeat', 'Signal', 'Return mark', 'A B A B A', 'A repeating mark makes the first bridge between inscription and meter.', 'signal'],
-          ['position', 'Signal', 'Line boundary', 'start / middle / close', 'The same sign behaves differently by position, which is where grammar starts to appear.', 'signal'],
-          ['calendar', 'Fit', 'Eclipse-sized span', '173-day pressure', 'A testable sky interval is stronger than a free-floating translation.', 'signal'],
-          ['counter', 'Counter', 'Silent tablet', 'parallel object: absent', 'If the same rule is absent elsewhere, the case must explain why.', 'counter'],
-          ['temptation', 'Temptation', 'Perfect alignment', 'too many sky names', 'A perfect-looking alignment can be the most dangerous move on the board.', 'temptation'],
-          ['noise', 'Noise', 'Copy uncertainty', 'variant hand', 'Variant carving may be real structure, scribal habit, or noise.', 'noise'],
-        ],
-      },
-    ];
-
-    const methods = [
-      ['frequency', 'Coverage', 'Frequency count', 'Ask what repeats more than chance.'],
-      ['position', 'Parsimony', 'Position constraint', 'Test whether a sign keeps a job in context.'],
-      ['calendar', 'Confidence', 'Calendar fit', 'Risk a sky-shaped reading that makes predictions.'],
-      ['cross', 'Counterplay', 'Cross-tablet check', 'Make the hypothesis survive another line.'],
-      ['skeptic', 'Discipline', 'Skeptic challenge', 'Attack the prettiest explanation first.'],
-      ['separator', 'Noise', 'Separator test', 'Decide what not to explain.'],
-    ].map(([id, tag, name, text]) => ({ id, tag, name, text }));
-
-    const comboEffects = {
-      'repeat:frequency': {
-        coverage: 2, parsimony: 1, confidence: 1, overfit: 0,
-        note: 'Frequency count turns the repeated cluster into evidence instead of atmosphere.',
-        proof: 'Repeated marks were measured before they were interpreted.',
-      },
-      'position:position': {
-        coverage: 2, parsimony: 1, confidence: 1, overfit: 0,
-        note: 'Position constraint gives the mark a job: it appears where the proposed rule needs it.',
-        proof: 'The reading used neighborhood and order, not isolated glyph vibes.',
-      },
-      'calendar:calendar': {
-        coverage: 1, parsimony: 0, confidence: 2, overfit: 1,
-        note: 'Calendar fit raises the stakes: the reading now has to meet the sky, not just the page.',
-        proof: 'The hypothesis made a calendar-shaped prediction.',
-      },
-      'counter:cross': {
-        coverage: 0, parsimony: 1, confidence: 1, overfit: -2, countered: true,
-        note: 'Cross-tablet check answers the missing twin without pretending it vanished.',
-        proof: 'A counterexample was tested instead of ignored.',
-      },
-      'counter:skeptic': {
-        coverage: 0, parsimony: 1, confidence: 1, overfit: -2, countered: true,
-        note: 'The skeptic challenge catches the weak joint and makes the rule smaller.',
-        proof: 'The case survived adversarial pressure.',
-      },
-      'temptation:skeptic': {
-        coverage: 0, parsimony: 1, confidence: 1, overfit: -1,
-        note: 'The gorgeous sky story gets cut down to what the evidence can carry.',
-        proof: 'Tempting glosses were separated from structural support.',
-      },
-      'temptation:calendar': {
-        coverage: 1, parsimony: -1, confidence: 1, overfit: 3,
-        note: 'The story feels exciting, but it spends too much risk for too little constraint.',
-        proof: 'A high-fit story was marked as overfit pressure.',
-      },
-      'noise:separator': {
-        coverage: 0, parsimony: 1, confidence: 0, overfit: -1,
-        note: 'Separator test keeps damage from becoming fake grammar.',
-        proof: 'Noise was bounded before the reading claimed structure.',
-      },
-      'noise:frequency': {
-        coverage: 0, parsimony: -1, confidence: 0, overfit: 2,
-        note: 'Counting damaged marks makes the rule bigger without making it better.',
-        proof: 'Damaged evidence was not allowed to carry the case alone.',
-      },
-    };
-
-    const roomButtons = [...document.querySelectorAll('[data-room]')];
-    const playTitle = document.querySelector('[data-play-title]');
-    const statusPill = document.querySelector('[data-status]');
-    const artifact = document.querySelector('[data-artifact]');
-    const actionRow = document.querySelector('[data-action-row]');
-    const reveal = document.querySelector('[data-reveal]');
-    const keyEls = [...document.querySelectorAll('[data-key]')];
-    const gameStatus = document.querySelector('[data-game-status]');
-    const newGameBtn = document.querySelector('[data-new-game]');
-    const archiveGate = document.querySelector('[data-archive-gate]');
-    const roomOrder = ['rongorongo', 'proto', 'indus', 'cadence'];
-    const roomNames = { rongorongo: 'Calendar', proto: 'Ledger', indus: 'Seal', cadence: 'Rhythm' };
-    let activeRoom = 'rongorongo';
-    let solvedRooms = new Set();
-    let state = null;
-
-    const routeLinks = (room) => '<div class="route-row">' + room.links.map(([label, href]) =>
-      '<a href="' + href + '"' + (href.startsWith('http') ? ' rel="noopener"' : '') + '>' + label + '</a>'
-    ).join('') + '</div>';
-
-    const clamp = (value, min = 0, max = 6) => Math.max(min, Math.min(max, value));
-    const shuffle = (items) => items
-      .map((item) => [Math.random(), item])
-      .sort((a, b) => a[0] - b[0])
-      .map((entry) => entry[1]);
-
-    const makeState = () => {
-      const draw = caseDraws[Math.floor(Math.random() * caseDraws.length)];
-      return {
-        draw,
-        evidence: shuffle(draw.evidence.map(([id, tag, title, code, text, kind]) => ({ id, tag, title, code, text, kind }))),
-        selectedEvidence: draw.evidence[0][0],
-        actionsLeft: 5,
-        scores: { coverage: 0, parsimony: 3, confidence: 0, overfit: 1 },
-        usedMethods: new Set(),
-        trace: [],
-        countered: false,
-        solved: false,
-        lastNote: 'Pick evidence, then choose the method that tests it.',
-      };
-    };
-
-    const scoreBlock = (label, value, className = '') => {
-      const width = Math.round((clamp(value) / 6) * 100);
-      return '<div class="score ' + className + '"><b>' + label + '</b><strong>' + value + '/6</strong><span class="track"><span class="fill" style="width:' + width + '%"></span></span></div>';
-    };
-
-    const syncGameState = () => {
-      roomButtons.forEach((button) => {
-        const key = button.dataset.room;
-        const card = button.closest('.room-card');
-        const locked = key !== 'rongorongo';
-        card.classList.toggle('locked', locked && activeRoom !== key);
-        card.classList.toggle('solved', solvedRooms.has(key));
-        button.disabled = false;
-        button.setAttribute('aria-disabled', 'false');
-      });
-      keyEls.forEach((keyEl) => keyEl.classList.toggle('on', solvedRooms.has(keyEl.dataset.key)));
-      if (state.solved) gameStatus.textContent = 'Calendar trace open. The other rooms now point into the catalogue.';
-      else if (state.actionsLeft === 0) gameStatus.textContent = 'No method cards left. Commit the case or draw again.';
-      else gameStatus.textContent = state.actionsLeft + ' method cards left. Selected: ' + selectedEvidence().title + '.';
-      renderArchive();
-    };
-
-    const completeRoom = (key) => {
-      if (solvedRooms.has(key)) return;
-      solvedRooms.add(key);
-      syncGameState();
-    };
-
-    const newCase = () => {
-      solvedRooms = new Set();
-      state = makeState();
-      renderRoom('rongorongo');
-      syncGameState();
-    };
-
-    const selectedEvidence = () => state.evidence.find((item) => item.id === state.selectedEvidence) || state.evidence[0];
-
-    const scoreSummary = () =>
-      scoreBlock('coverage', state.scores.coverage) +
-      scoreBlock('parsimony', state.scores.parsimony) +
-      scoreBlock('confidence', state.scores.confidence) +
-      scoreBlock('overfit risk', state.scores.overfit, 'overfit');
-
-    const renderTrace = () => {
-      if (!state.trace.length) return '<p class="vhint">No moves yet. The first useful move is usually Frequency Count on a repeated mark.</p>';
-      return '<ol>' + state.trace.map((item) => '<li>' + item + '</li>').join('') + '</ol>';
-    };
-
-    const renderReveal = (headline, body, open = false) => {
-      reveal.classList.toggle('locked', !open);
-      reveal.innerHTML = '<p><b>' + headline + '</b></p><p class="method">' + body + '</p>';
-    };
-
-    const renderCalendar = () => {
-      const evidence = selectedEvidence();
-      artifact.innerHTML =
-        '<div class="case-board">' +
-          '<h4>' + state.draw.title + '</h4>' +
-          '<p>' + state.draw.hypothesis + '</p>' +
-          '<div class="claim-note">Claim status: proposed structural reading. Passing this miniature check means the hypothesis survived this pressure test; it does not turn a proposal into consensus.</div>' +
-          '<div class="score-grid">' + scoreSummary() + '</div>' +
-          '<div class="turn-hint">Selected evidence: ' + evidence.title + '. Now choose a method card.</div>' +
-        '</div>' +
-        '<div class="evidence-grid" aria-label="Evidence cards">' + state.evidence.map((item) =>
-          '<button class="evidence-card' + (item.id === state.selectedEvidence ? ' active' : '') + '" type="button" data-evidence="' + item.id + '">' +
-            '<span class="tag">' + item.tag + '</span>' +
-            '<b>' + item.title + '</b>' +
-            '<span>' + item.code + '</span>' +
-            '<span>' + item.text + '</span>' +
-          '</button>'
-        ).join('') + '</div>' +
-        '<div class="method-hand" aria-label="Method cards">' + methods.map((method) =>
-          '<button class="method-card" type="button" data-method="' + method.id + '"' + (state.usedMethods.has(method.id) || state.actionsLeft === 0 || state.solved ? ' disabled' : '') + '>' +
-            '<span class="tag">' + method.tag + '</span>' +
-            '<b>' + method.name + '</b>' +
-            '<span>' + method.text + '</span>' +
-          '</button>'
-        ).join('') + '</div>' +
-        '<div class="case-log"><h4>Case log</h4>' + renderTrace() + '</div>';
-
-      actionRow.innerHTML =
-        '<button class="move primary" type="button" data-commit' + (state.trace.length < 3 || state.solved ? ' disabled' : '') + '>Commit calendar reading</button>' +
-        '<button class="move" type="button" data-new-game>Draw another case</button>';
-
-      renderReveal(state.solved ? 'Calendar trace open.' : 'Current reading: ' + state.lastNote,
-        state.solved
-          ? 'This is what Logan did at full scale: measure order, test the calendar hypothesis, and keep the counterexamples in the proof trace.'
-          : 'Use the method cards to raise coverage and confidence without letting overfit risk outrun the case.',
-        state.solved);
-    };
-
-    const fallbackEffect = (evidence, method) => {
-      if (evidence.kind === 'signal' && ['frequency', 'position', 'calendar'].includes(method.id)) {
-        return {
-          coverage: 1, parsimony: 0, confidence: 1, overfit: 1,
-          note: 'Useful, but slightly loose: the move adds support and a little overfit risk.',
-          proof: 'A signal was tested, but the match was not the strongest available.',
-        };
-      }
-      if (evidence.kind === 'counter' && ['cross', 'skeptic'].includes(method.id)) {
-        return {
-          coverage: 0, parsimony: 1, confidence: 1, overfit: -1, countered: true,
-          note: 'The counterexample is now part of the case instead of sitting outside it.',
-          proof: 'Counterevidence was admitted into the reading.',
-        };
-      }
-      return {
-        coverage: 0, parsimony: -1, confidence: 0, overfit: 1,
-        note: 'That move makes the story bigger without making the proof tighter.',
-        proof: 'A weak move was recorded and priced as overfit pressure.',
-      };
-    };
-
-    const applyMethod = (methodId) => {
-      if (state.actionsLeft === 0 || state.usedMethods.has(methodId) || state.solved) return;
-      const evidence = selectedEvidence();
-      const method = methods.find((item) => item.id === methodId);
-      const effect = comboEffects[evidence.id + ':' + method.id] || fallbackEffect(evidence, method);
-      state.actionsLeft -= 1;
-      state.usedMethods.add(methodId);
-      state.scores.coverage = clamp(state.scores.coverage + (effect.coverage || 0));
-      state.scores.parsimony = clamp(state.scores.parsimony + (effect.parsimony || 0));
-      state.scores.confidence = clamp(state.scores.confidence + (effect.confidence || 0));
-      state.scores.overfit = clamp(state.scores.overfit + (effect.overfit || 0));
-      state.countered = state.countered || Boolean(effect.countered);
-      state.lastNote = effect.note;
-      state.trace.push(method.name + ' on ' + evidence.title + ': ' + effect.proof);
-      renderCalendar();
-      syncGameState();
-      if (state.actionsLeft === 0 && !state.solved) {
-        renderReveal('Out of method cards.', 'Commit if the case is strong enough, or draw another case and try a tighter proof line.');
-      }
-    };
-
-    const commitCase = () => {
-      const pass = state.scores.coverage >= 5 &&
-        state.scores.parsimony >= 3 &&
-        state.scores.confidence >= 4 &&
-        state.scores.overfit <= 2 &&
-        state.countered;
-      if (pass) {
-        state.solved = true;
-        state.lastNote = 'The case is defensible: broad enough to explain, small enough to test, and honest about counterevidence.';
-        completeRoom('rongorongo');
-        renderCalendar();
-        renderArchive();
-        return;
-      }
-      const missing = [];
-      if (state.scores.coverage < 5) missing.push('more coverage');
-      if (state.scores.parsimony < 3) missing.push('a smaller rule');
-      if (state.scores.confidence < 4) missing.push('stronger confidence');
-      if (state.scores.overfit > 2) missing.push('lower overfit risk');
-      if (!state.countered) missing.push('a faced counterexample');
-      state.lastNote = 'The reading buckles: it needs ' + missing.join(', ') + '.';
-      renderCalendar();
-      renderReveal('Not defensible yet.', state.lastNote + (state.actionsLeft > 0 ? ' Spend another method card.' : ' Draw another case and try a cleaner line.'));
-    };
-
-    const renderArchive = () => {
-      const proof = state.solved
-        ? '<ol class="proof-trace">' + state.trace.map((item) => '<li>' + item + '</li>').join('') + '</ol>'
-        : '';
-      archiveGate.classList.toggle('open', state.solved);
-      archiveGate.innerHTML = state.solved
-        ? '<p><b>Proof trace open.</b></p><p class="method">You built a calendar case that survived the miniature pressure test. Follow it into the full work.</p>' + proof +
-          '<div class="route-row"><a href="/essays/deciphering-rongorongo">Companion essay</a><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo DOI</a><a href="/essays">Full corpus</a><a href="/matrix">Complexity matrix</a></div>'
-        : '<p><b>Proof trace sealed.</b></p><p class="method">Commit a calendar case that balances coverage, parsimony, counterexamples, and overfit risk.</p><div class="route-row"><a href="/essays/deciphering-rongorongo">Essay</a><a href="/vault/deciphering-rongorongo-corpus-analysis">Vault record</a><a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo</a><a href="/essays">Full catalogue</a></div>';
-    };
-
-    const renderPreviewRoom = (key) => {
-      const room = rosettaRooms[key];
-      artifact.innerHTML =
-        '<div class="case-board">' +
-          '<span class="door-state">' + room.door + '</span>' +
-          '<h4>' + room.name + '</h4>' +
-          '<p>' + room.summary + '</p>' +
-          '<div class="claim-note">This room is a route into the live catalogue in the current prototype. The Spencer-grade playable slice begins in Rongorongo.</div>' +
-          routeLinks(room) +
-        '</div>';
-      actionRow.innerHTML = '<button class="move primary" type="button" data-room-jump="rongorongo">Return to Calendar room</button>';
-      renderReveal('Room still locked.', 'The public link is open, but the playable system is being proven one serious room at a time.');
-    };
-
-    const renderRoom = (key) => {
-      activeRoom = key;
-      const room = rosettaRooms[key];
-      roomButtons.forEach((button) => {
-        const active = button.dataset.room === key;
-        button.setAttribute('aria-pressed', active ? 'true' : 'false');
-        button.closest('.room-card').classList.toggle('active', active);
-      });
-      playTitle.textContent = room.title;
-      statusPill.textContent = room.status;
-      if (key === 'rongorongo') renderCalendar();
-      else renderPreviewRoom(key);
-      syncGameState();
-    };
-
-    roomButtons.forEach((button) => {
-      button.addEventListener('click', () => renderRoom(button.dataset.room));
-    });
-    artifact.addEventListener('click', (event) => {
-      const evidence = event.target.closest('[data-evidence]');
-      if (evidence) {
-        state.selectedEvidence = evidence.dataset.evidence;
-        renderCalendar();
-        syncGameState();
-      }
-      const method = event.target.closest('[data-method]');
-      if (method) applyMethod(method.dataset.method);
-    });
-    actionRow.addEventListener('click', (event) => {
-      if (event.target.closest('[data-commit]')) commitCase();
-      if (event.target.closest('[data-new-game]')) newCase();
-      const jump = event.target.closest('[data-room-jump]');
-      if (jump) renderRoom(jump.dataset.roomJump);
-    });
-    newGameBtn.addEventListener('click', newCase);
-    state = makeState();
-    renderRoom('rongorongo');
+    void mountRosettaGame({ manifestUrl: './game/shadow-mirror-game.v1.json' });
 
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;

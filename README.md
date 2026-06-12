@@ -36,26 +36,48 @@ Both re-derive the published hashes from the bytes in `public/`. The signing key
 is `derived-dev` (deterministic from the committed hashes); set
 `PLANISPHERE_SECP256K1_PRIVKEY_HEX` to an operator key for a production address.
 
-## Discovery — the pSEO campaign
+## Game-first discovery
 
-`tools/pseo/` generates a hub-and-spoke content campaign (three pillar clusters —
-graph theory, quantum simulation, knowledge architecture — and 18 keyword-targeted
-pages) that all route to the volume. Regenerate with:
+The public spine is now the homepage game, companion essays, deposited-record
+vault, and complexity matrix:
+
+- The player plays with patterns.
+- The game reveals the methods.
+- The essays tie it all together.
+- Zenodo stamps record.
+
+The homepage game data lives in `public/game/shadow-mirror-game.v1.json`; the
+deterministic runtime lives in `public/game/rosetta-runtime.js`. Validate routes,
+DOI normalization, game IDs, seeded proof traces, and pass/fail fixtures with:
+
+```bash
+python3 tools/game/validate_game_data.py
+```
+
+`tools/pseo/` remains a support layer for search discovery. It generates a
+hub-and-spoke content campaign (three pillar clusters — graph theory, quantum
+simulation, knowledge architecture — and keyword-targeted pages) that routes back
+to the game, essays, vault, matrix, and volume. Regenerate only after checking the
+generator status and current diff:
 
 ```bash
 python3 tools/pseo/generate.py
 ```
 
 It emits `public/topics`, the three hubs, the spoke pages, `sitemap.xml`, and
-`robots.txt`, each with `Article`/`FAQPage`/`BreadcrumbList` JSON-LD and full
-internal linking. Off-site link-building plans live in `outreach/`. Add pages by
-appending to `tools/pseo/corpus.py` and re-running the generator.
+`robots.txt`, each with `Article`/`FAQPage`/`BreadcrumbList` JSON-LD and internal
+linking. Off-site link-building plans live in `outreach/`. Add pages by appending
+to `tools/pseo/corpus.py` and re-running the generator.
 
 ## Layout
 
 ```
 public/
   index.html     the landing page (served by Vercel)
+  game/          the versioned homepage-game manifest and deterministic runtime
+  essays/        reader-facing companion essays
+  vault/         DOI/deposited-record pages
+  matrix/        complexity matrix metadata pages
   topics.html    the pSEO campaign index
   graph-theory/  quantum/  knowledge/   the generated topic clusters
   sitemap.xml    robots.txt             crawl surface
@@ -64,6 +86,7 @@ public/
   seal.json      the EIP-712 attestation (block payload)
   genesis.json   the mirror-chain genesis block
 tools/
+  game/          manifest validation for the homepage game
   pseo/          the programmatic-SEO generator (corpus.py + generate.py)
   seal_eip712.py mint the EIP-712 seal
   mint_block.py  mint a mirror-chain block
