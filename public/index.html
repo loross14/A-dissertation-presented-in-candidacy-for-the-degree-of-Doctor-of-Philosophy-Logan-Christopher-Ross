@@ -13,6 +13,7 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Shadow &amp; Mirror — a volume by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
+  <link rel="icon" href="data:," />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Shadow &amp; Mirror" />
   <meta name="twitter:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
@@ -45,6 +46,75 @@
       font:600 14px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.02em;
       text-decoration:none; color:var(--paper); background:var(--ink);
       padding:13px 18px; border-radius:7px; display:inline-flex; align-items:center; gap:8px;
+    }
+
+    /* homepage game: the work becomes the door */
+    .game-shell { margin:2.1em 0 2.4em; border:1px solid var(--ink); background:linear-gradient(180deg, var(--panel), transparent 150%); box-shadow:0 18px 55px #00000012; }
+    .game-head { padding:18px 20px 16px; border-bottom:1px solid var(--panelrule); display:grid; gap:10px; }
+    .game-head h2 { margin:.1em 0 0; font-size:clamp(26px,4.5vw,38px); line-height:1.02; }
+    .game-head p { margin:0; color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; max-width:62ch; }
+    .room-strip { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); border-bottom:1px solid var(--panelrule); }
+    .room-door { min-height:112px; padding:14px; border-right:1px solid var(--panelrule); color:var(--ink); text-decoration:none; display:grid; align-content:space-between; gap:8px; background:color-mix(in srgb, var(--panel) 82%, transparent); }
+    .room-door:last-child { border-right:0; }
+    .room-door.active { background:color-mix(in srgb, var(--brass) 14%, var(--panel)); }
+    .room-door .num { color:var(--brass); font:700 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; }
+    .room-door b { font:600 17px/1.1 Georgia, "Times New Roman", serif; }
+    .room-door span:not(.num) { color:var(--dim); font:400 12px/1.35 ui-sans-serif,system-ui,sans-serif; }
+    .room-door[data-state="queued"] { opacity:.62; }
+    .game-board { display:grid; grid-template-columns:.9fr 1.1fr; min-height:520px; }
+    .door-panel { position:relative; padding:20px; border-right:1px solid var(--panelrule); display:grid; gap:14px; align-content:start; overflow:hidden; background:
+      radial-gradient(circle at 50% 16%, color-mix(in srgb, var(--brass) 18%, transparent), transparent 36%),
+      repeating-linear-gradient(90deg, transparent 0 34px, color-mix(in srgb, var(--ink) 5%, transparent) 35px);
+    }
+    .door-panel::before { content:''; position:absolute; inset:22px 28px auto; height:260px; border:1px solid var(--ink); border-bottom:0; border-radius:160px 160px 0 0; opacity:.22; pointer-events:none; }
+    .door-title { position:relative; margin-top:112px; text-align:center; font:600 18px/1.2 Georgia, "Times New Roman", serif; }
+    .door-status { position:relative; text-align:center; color:var(--dim); font:600 11px/1.35 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .glyph-lock { position:relative; margin:0 auto; width:min(210px, 100%); aspect-ratio:1; border:1px solid var(--ink); border-radius:50%; display:grid; place-items:center; background:color-mix(in srgb, var(--panel) 76%, transparent); }
+    .glyph-lock::before, .glyph-lock::after { content:''; position:absolute; inset:18%; border:1px solid var(--panelrule); border-radius:50%; }
+    .glyph-lock::after { inset:34%; }
+    .glyph-core { font:600 42px/1 Georgia, "Times New Roman", serif; color:var(--brass); }
+    .rune { position:absolute; width:42px; height:42px; border:1px solid var(--panelrule); border-radius:50%; display:grid; place-items:center; background:var(--paper); color:var(--dim); font:700 13px/1 ui-sans-serif,system-ui,sans-serif; }
+    .rune.lit { border-color:var(--ink); background:var(--ink); color:var(--paper); }
+    .rune:nth-child(2) { top:-8px; left:50%; transform:translateX(-50%); }
+    .rune:nth-child(3) { right:-8px; top:50%; transform:translateY(-50%); }
+    .rune:nth-child(4) { bottom:-8px; left:50%; transform:translateX(-50%); }
+    .rune:nth-child(5) { left:-8px; top:50%; transform:translateY(-50%); }
+    .trace { position:relative; list-style:none; padding:0; margin:4px 0 0; display:grid; gap:8px; }
+    .trace li { min-height:40px; border:1px solid var(--panelrule); background:var(--panel); padding:9px 10px; color:var(--dim); font:600 11px/1.35 ui-sans-serif,system-ui,sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+    .trace li.filled { color:var(--ink); border-color:color-mix(in srgb, var(--brass) 45%, var(--panelrule)); }
+    .play-panel { padding:18px 20px 20px; display:grid; gap:14px; }
+    .turn { margin:0; border-left:3px solid var(--brass); padding-left:12px; color:var(--ink); font:600 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .tile-grid, .method-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:9px; }
+    .tile, .method { border:1px solid var(--panelrule); background:var(--panel); color:var(--ink); text-align:left; cursor:pointer; padding:12px; min-height:94px; display:grid; gap:6px; }
+    .tile:hover, .tile:focus-visible, .tile.active, .method:hover, .method:focus-visible, .method.hot { border-color:var(--ink); outline:0; }
+    .tile.active, .method.hot { background:color-mix(in srgb, var(--brass) 10%, var(--panel)); }
+    .tile .mark { color:var(--brass); font:600 20px/1 Georgia, "Times New Roman", serif; }
+    .tile b, .method b { font:700 13px/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .tile span:not(.mark), .method span { color:var(--dim); font:400 12px/1.35 ui-sans-serif,system-ui,sans-serif; }
+    .method:disabled { opacity:.45; cursor:default; }
+    .score-row { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; }
+    .meter { border:1px solid var(--panelrule); background:var(--paper); padding:9px; display:grid; gap:6px; }
+    .meter b { color:var(--dim); font:700 10px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .bar { height:6px; background:var(--panelrule); overflow:hidden; }
+    .fill { display:block; height:100%; width:0; background:var(--ink); transition:width .2s ease; }
+    .fill.risk { background:#c62828; }
+    .result { border:1px solid var(--panelrule); background:var(--paper); padding:14px; display:grid; gap:10px; }
+    .result.open { border-color:var(--ink); background:color-mix(in srgb, var(--brass) 11%, var(--panel)); }
+    .result p { margin:0; color:var(--dim); font:400 13px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .result b { color:var(--ink); }
+    .route-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .route-row a, .reset { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; background:var(--panel); font:700 12px/1 ui-sans-serif,system-ui,sans-serif; }
+    .route-row a:hover, .route-row a:focus-visible, .reset:hover, .reset:focus-visible { border-color:var(--ink); outline:0; }
+    .reset { cursor:pointer; }
+    .manual-note { color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    .claim { margin:1.4em 0; padding:1em 1.2em; border-left:3px solid var(--ink); font-style:italic; }
+    .claim .status { display:block; margin-top:.55em; color:var(--dim); font:600 11px/1.45 ui-sans-serif,system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; font-style:normal; }
+    @media (max-width:760px){
+      .wrap { padding-top:7vh; }
+      .room-strip, .game-board, .tile-grid, .method-grid, .score-row { grid-template-columns:1fr; }
+      .room-door { border-right:0; border-bottom:1px solid var(--panelrule); min-height:88px; }
+      .door-panel { border-right:0; border-bottom:1px solid var(--panelrule); min-height:430px; }
+      .door-title { margin-top:92px; }
     }
 
     /* the Planisphere collaboration mark */
@@ -125,28 +195,107 @@
     <p class="sub">Treewidth as the Universal Meter of Computation, Physics, and Consciousness</p>
     <p class="meta">Logan Christopher Ross &middot; 895 pages &middot;<svg class="stamp mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere · Room 137"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>June 1, 2026</p>
 
+    <section class="game-shell" id="calendar-game" aria-labelledby="game-title">
+      <div class="game-head">
+        <div class="kicker">Homepage game &middot; first door playable</div>
+        <h2 id="game-title">Open the Calendar Door</h2>
+        <p>Do what the reader wants to do first: touch the strange marks. Pick one clue, spend one method seal, and try to open a proof trace without letting the story overfit the evidence.</p>
+      </div>
+
+      <nav class="room-strip" aria-label="Four locked rooms">
+        <a class="room-door active" href="/essays/deciphering-rongorongo" aria-current="step">
+          <span class="num">Door I</span>
+          <b>Calendar Room</b>
+          <span>Rongorongo. Playable now: repeated signs, lunar fit, counterexample.</span>
+        </a>
+        <a class="room-door" href="/essays/reading-proto-elamite" data-state="queued">
+          <span class="num">Door II</span>
+          <b>Ledger Room</b>
+          <span>Proto-Elamite. Formula, quantity, office, tablet.</span>
+        </a>
+        <a class="room-door" href="/essays/reading-indus-valley-script" data-state="queued">
+          <span class="num">Door III</span>
+          <b>Seal Room</b>
+          <span>Indus. Short inscriptions under brutal length pressure.</span>
+        </a>
+        <a class="room-door" href="/vault/dying-language-sounds-like-noise" data-state="queued">
+          <span class="num">Door IV</span>
+          <b>Rhythm Room</b>
+          <span>Cadence. What survives when vocabulary fails.</span>
+        </a>
+      </nav>
+
+      <div class="game-board" data-game>
+        <div class="door-panel">
+          <div class="glyph-lock" aria-hidden="true">
+            <span class="glyph-core">C</span>
+            <span class="rune" data-rune="count">1</span>
+            <span class="rune" data-rune="place">2</span>
+            <span class="rune" data-rune="cycle">3</span>
+            <span class="rune" data-rune="challenge">4</span>
+          </div>
+          <div class="door-title" data-door-title>Calendar door sealed</div>
+          <div class="door-status" data-door-status>Four proof marks required</div>
+          <ol class="trace" aria-label="Proof trace">
+            <li data-slot="count">Count the repeated sign.</li>
+            <li data-slot="place">Place it in the line.</li>
+            <li data-slot="cycle">Test the lunar cycle.</li>
+            <li data-slot="challenge">Face the counterexample.</li>
+          </ol>
+        </div>
+
+        <div class="play-panel">
+          <p class="turn" data-turn>Pick a clue tile. The right method seal will glow.</p>
+
+          <div class="tile-grid" aria-label="Clue tiles">
+            <button class="tile" type="button" data-clue="repeat"><span class="mark">730 | 730</span><b>Repeated glyph</b><span>The same cluster returns often enough to count.</span></button>
+            <button class="tile" type="button" data-clue="position"><span class="mark">edge -&gt; mark</span><b>Line position</b><span>The mark has neighbors. It does not float free.</span></button>
+            <button class="tile" type="button" data-clue="calendar"><span class="mark">29 / 30</span><b>Moon count</b><span>The spacing can be tested as calendar work.</span></button>
+            <button class="tile" type="button" data-clue="counter"><span class="mark">parallel: absent</span><b>Missing twin</b><span>A similar line refuses the easy reading.</span></button>
+            <button class="tile" type="button" data-clue="story"><span class="mark">star? king?</span><b>Beautiful story</b><span>A tempting gloss that can outrun the proof.</span></button>
+            <button class="tile" type="button" data-clue="damage"><span class="mark">scar / gap</span><b>Broken edge</b><span>Damage can imitate signal if you force it.</span></button>
+          </div>
+
+          <div class="method-grid" aria-label="Method seals">
+            <button class="method" type="button" data-method="count"><b>Count</b><span>Frequency first. Translation later.</span></button>
+            <button class="method" type="button" data-method="place"><b>Place</b><span>Neighbor and position pressure.</span></button>
+            <button class="method" type="button" data-method="cycle"><b>Cycle</b><span>Risk a lunar hypothesis.</span></button>
+            <button class="method" type="button" data-method="challenge"><b>Challenge</b><span>Let the counterexample in.</span></button>
+          </div>
+
+          <div class="score-row" aria-label="Reading meters">
+            <div class="meter"><b>Coverage</b><span class="bar"><span class="fill" data-meter="coverage"></span></span></div>
+            <div class="meter"><b>Confidence</b><span class="bar"><span class="fill" data-meter="confidence"></span></span></div>
+            <div class="meter"><b>Overfit</b><span class="bar"><span class="fill risk" data-meter="overfit"></span></span></div>
+          </div>
+
+          <div class="result" data-result>
+            <p data-result-text><b>Proof trace sealed.</b> Open the Calendar Door to reveal the method line. The routes stay visible because the site is never a paywall.</p>
+            <div class="route-row">
+              <a href="/essays/deciphering-rongorongo">Read the companion essay</a>
+              <a href="/vault/deciphering-rongorongo-corpus-analysis">Open the vault record</a>
+              <a href="https://zenodo.org/records/19362491" rel="noopener">Zenodo DOI</a>
+              <a href="/essays">Full Field Manual</a>
+            </div>
+            <button class="reset" type="button" data-reset>Reset the door</button>
+          </div>
+
+          <p class="manual-note">No JavaScript required: the room doors and proof routes are ordinary links. Claim status: proposed structural reading; the game reveals method, the essays tie it together, Zenodo stamps the record.</p>
+        </div>
+      </div>
+    </section>
+
     <div class="claim">
       The gap between any separable structure and the inseparable whole it
       belongs to is measured by one invariant&nbsp;&mdash;&nbsp;treewidth.
+      <span class="status">Theorem floor: Ross's Law for quantum circuit simulation. Wider corpus claims keep their own status.</span>
     </div>
-
-    <hr class="rule" />
-
-    <p class="abstract">
-      A series of formal constructions spanning eight substrates, from the
-      hydrogen bond to the cosmic microwave background, each exhibiting the same
-      three&#8209;term <b>shadow&ndash;mirror&ndash;coupling</b> architecture under a shared
-      treewidth meter. The central theorem is <b>Ross&rsquo;s Law</b>: the cost of
-      classically simulating a quantum circuit with entanglement graph <i>G</i>
-      scales as exp(&Theta;(tw(<i>G</i>))) &mdash; quantum advantage exists iff that
-      treewidth grows with input size.
-    </p>
 
     <div class="actions">
       <a class="btn" href="/thesis.pdf">Read the volume (PDF, 7.8&nbsp;MB)</a>
-      <a class="btn" href="/essays" style="color:var(--ink);background:transparent;border:1px solid var(--ink)">Essays &mdash; the ideas, made plain</a>
+      <a class="btn" href="/essays" style="color:var(--ink);background:transparent;border:1px solid var(--ink)">Full Field Manual</a>
     </div>
-    <p class="meta">895 pages. Best read in a desktop PDF viewer. &middot; New to the thesis? Start with the <a href="/topics">topic guides</a> &mdash; <a href="/graph-theory">treewidth</a>, <a href="/quantum">quantum simulation</a>, and <a href="/knowledge">knowledge architecture</a> &mdash; or browse the <a href="/matrix">complexity matrix</a> and the <a href="/vault">deposited-record vault</a>.</p>
+    <p class="meta">895 pages. Best read in a desktop PDF viewer. &middot; Support maps: <a href="/topics">topic guides</a>, <a href="/matrix">complexity matrix</a>, and <a href="/vault">deposited-record vault</a>.</p>
 
     <section class="attest" aria-label="Planisphere mirror chain genesis block">
       <div class="attest-head">
@@ -225,6 +374,132 @@
   <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
 
   <script type="module">
+    const game = document.querySelector('[data-game]');
+    if (game) {
+      const proof = {
+        repeat: { method: 'count', slot: 'count', text: 'Counted repeated glyphs before naming them.', coverage: 2, confidence: 1, overfit: 0 },
+        position: { method: 'place', slot: 'place', text: 'Pinned the sign to a stable neighborhood.', coverage: 1, confidence: 1, overfit: 0 },
+        calendar: { method: 'cycle', slot: 'cycle', text: 'Risked a lunar count that can be attacked.', coverage: 1, confidence: 2, overfit: 0 },
+        counter: { method: 'challenge', slot: 'challenge', text: 'Let the missing twin constrain the reading.', coverage: 1, confidence: 1, overfit: -1 },
+      };
+      const clueHints = {
+        repeat: 'Repeated glyph selected. Spend Count to turn recurrence into evidence.',
+        position: 'Line position selected. Spend Place to make the sign answer to context.',
+        calendar: 'Moon count selected. Spend Cycle to risk a testable calendar reading.',
+        counter: 'Missing twin selected. Spend Challenge to let the counterexample into the proof.',
+        story: 'Beautiful story selected. Challenge it or the reading starts inventing meaning.',
+        damage: 'Broken edge selected. Challenge it; not every mark deserves an explanation.',
+      };
+      const scores = { coverage: 0, confidence: 0, overfit: 1 };
+      const completed = new Set();
+      let selected = null;
+
+      const tiles = Array.from(game.querySelectorAll('[data-clue]'));
+      const methods = Array.from(game.querySelectorAll('[data-method]'));
+      const turn = game.querySelector('[data-turn]');
+      const result = game.querySelector('[data-result]');
+      const resultText = game.querySelector('[data-result-text]');
+      const doorTitle = game.querySelector('[data-door-title]');
+      const doorStatus = game.querySelector('[data-door-status]');
+      const clamp = (value) => Math.max(0, Math.min(6, value));
+      const expectedMethod = (clue) => proof[clue]?.method || 'challenge';
+      const writeMeters = () => {
+        Object.entries(scores).forEach(([key, value]) => {
+          const fill = game.querySelector('[data-meter="' + key + '"]');
+          if (fill) fill.style.width = Math.round((clamp(value) / 6) * 100) + '%';
+        });
+      };
+      const writeMethods = () => {
+        methods.forEach((button) => {
+          const method = button.dataset.method;
+          button.classList.toggle('hot', Boolean(selected) && expectedMethod(selected) === method);
+          button.disabled = completed.has(method);
+        });
+      };
+      const openDoor = () => {
+        const won = ['count', 'place', 'cycle', 'challenge'].every((key) => completed.has(key)) && scores.overfit <= 3;
+        result.classList.toggle('open', won);
+        if (!won) return;
+        doorTitle.textContent = 'Calendar door open';
+        doorStatus.textContent = 'Proof trace unlocked';
+        turn.textContent = 'Door open. The toy proof now routes into the essay, vault, DOI, and full Field Manual.';
+        if (resultText) {
+          resultText.innerHTML = '<b>This is what Logan did at full scale:</b> counted repeated signs, constrained them by position, tested the calendar hypothesis, and kept counterexamples in the trace.';
+        }
+      };
+      const reset = () => {
+        selected = null;
+        completed.clear();
+        scores.coverage = 0; scores.confidence = 0; scores.overfit = 1;
+        tiles.forEach((tile) => tile.classList.remove('active'));
+        methods.forEach((button) => { button.classList.remove('hot'); button.disabled = false; });
+        game.querySelectorAll('[data-rune]').forEach((rune) => rune.classList.remove('lit'));
+        game.querySelectorAll('[data-slot]').forEach((slot) => {
+          slot.classList.remove('filled');
+          slot.textContent = {
+            count: 'Count the repeated sign.',
+            place: 'Place it in the line.',
+            cycle: 'Test the lunar cycle.',
+            challenge: 'Face the counterexample.',
+          }[slot.dataset.slot];
+        });
+        result.classList.remove('open');
+        if (resultText) {
+          resultText.innerHTML = '<b>Proof trace sealed.</b> Open the Calendar Door to reveal the method line. The routes stay visible because the site is never a paywall.';
+        }
+        doorTitle.textContent = 'Calendar door sealed';
+        doorStatus.textContent = 'Four proof marks required';
+        turn.textContent = 'Pick a clue tile. The right method seal will glow.';
+        writeMeters();
+      };
+
+      tiles.forEach((tile) => {
+        tile.addEventListener('click', () => {
+          selected = tile.dataset.clue;
+          tiles.forEach((item) => item.classList.toggle('active', item === tile));
+          turn.textContent = clueHints[selected];
+          writeMethods();
+        });
+      });
+
+      methods.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (!selected) {
+            turn.textContent = 'Pick a clue tile first, then spend a method seal.';
+            return;
+          }
+          const method = button.dataset.method;
+          const move = proof[selected];
+          if (move && move.method === method) {
+            completed.add(method);
+            scores.coverage += move.coverage;
+            scores.confidence += move.confidence;
+            scores.overfit += move.overfit;
+            const slot = game.querySelector('[data-slot="' + move.slot + '"]');
+            const rune = game.querySelector('[data-rune="' + move.slot + '"]');
+            if (slot) { slot.classList.add('filled'); slot.textContent = move.text; }
+            if (rune) rune.classList.add('lit');
+            turn.textContent = move.text;
+          } else {
+            scores.overfit += selected === 'story' ? 2 : 1;
+            scores.confidence = Math.max(0, scores.confidence - 1);
+            turn.textContent = selected === 'story'
+              ? 'The story got prettier, but the proof got weaker. Challenge the marks, not the mood.'
+              : 'That seal does not fit this clue. The door prices it as overfit.';
+          }
+          selected = null;
+          tiles.forEach((tile) => tile.classList.remove('active'));
+          writeMeters();
+          writeMethods();
+          openDoor();
+        });
+      });
+
+      const resetButton = game.querySelector('[data-reset]');
+      if (resetButton) resetButton.addEventListener('click', reset);
+      writeMeters();
+    }
+
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;
     const viem = async () => (_viem ||= await import('/vendor/viem-2.52.0.min.js'));
