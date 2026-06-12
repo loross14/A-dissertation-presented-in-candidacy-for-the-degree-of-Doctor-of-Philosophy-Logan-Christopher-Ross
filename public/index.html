@@ -67,9 +67,21 @@
     .play-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
     .play-title { margin:0; font-size:20px; line-height:1.2; }
     .status-pill { flex:none; border:1px solid var(--panelrule); color:var(--brass); padding:6px 8px; border-radius:999px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
-    .artifact { margin:16px 0; padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:10px; }
+    .artifact { margin:16px 0; padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:12px; }
     .glyph-line { display:flex; flex-wrap:wrap; gap:8px; min-height:42px; align-items:center; }
-    .glyph { min-width:38px; padding:8px 10px; border:1px solid var(--ink); background:var(--panel); text-align:center; font:600 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .glyph { min-width:38px; padding:8px 10px; border:1px solid var(--ink); background:var(--panel); color:var(--ink); text-align:center; font:600 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace; cursor:pointer; }
+    .glyph:hover, .glyph:focus-visible, .glyph.hit { background:var(--ink); color:var(--paper); outline:0; }
+    .glyph.miss { border-color:#c62828; color:#c62828; }
+    .slots, .tiles { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; }
+    .slot { min-height:42px; border:1px dashed var(--brass); display:flex; align-items:center; justify-content:center; color:var(--dim); font:600 11px/1.2 ui-sans-serif,system-ui,sans-serif; text-align:center; }
+    .slot.filled { border-style:solid; color:var(--ink); background:var(--panel); }
+    .tile, .shape-choice { border:1px solid var(--ink); background:var(--panel); color:var(--ink); padding:10px 8px; cursor:pointer; font:600 12px/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .tile:hover, .tile:focus-visible, .shape-choice:hover, .shape-choice:focus-visible { background:var(--ink); color:var(--paper); outline:0; }
+    .tile:disabled { opacity:.38; cursor:default; background:transparent; color:var(--dim); }
+    .meter-wrap { display:grid; gap:10px; }
+    .meter-labels { display:flex; justify-content:space-between; color:var(--dim); font:600 11px/1 ui-sans-serif,system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; }
+    .signal-meter { width:100%; accent-color:var(--brass); }
+    .shapes { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; }
     .bars { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; align-items:end; height:78px; }
     .bar { background:var(--ink); min-height:10px; position:relative; }
     .bar::after { content:attr(data-label); position:absolute; left:0; right:0; bottom:-19px; color:var(--dim); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; text-align:center; }
@@ -79,6 +91,7 @@
     .reveal { margin-top:16px; border-left:3px solid var(--brass); padding-left:13px; }
     .reveal p { margin:.45em 0; }
     .reveal .method { color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; }
+    .reveal.locked { opacity:.7; }
     .route-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .route-row a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
     .route-row a:hover { border-color:var(--ink); }
@@ -140,6 +153,7 @@
       .room-card:last-child { border-bottom:0; }
       .play-top { display:block; }
       .status-pill { display:inline-block; margin-top:10px; }
+      .slots, .tiles, .shapes { grid-template-columns:1fr 1fr; }
     }
 
     /* sign-off */
@@ -218,10 +232,10 @@
           <span class="status-pill" data-status>Partial &middot; calendar</span>
         </div>
         <div class="artifact" data-artifact></div>
-        <div class="move-row" data-moves></div>
-        <div class="reveal" data-reveal>
-          <p><b>The door opens when repetition becomes a calendar.</b></p>
-          <p class="method">This is what Logan did at full scale: measure the corpus before asking meaning to carry the whole claim.</p>
+        <div class="move-row" data-reset-row></div>
+        <div class="reveal locked" data-reveal>
+          <p><b>Try the room move.</b></p>
+          <p class="method">Each little pattern is a doorway into the full method.</p>
         </div>
       </div>
 
@@ -332,37 +346,28 @@
       rongorongo: {
         title: 'Calendar room: tap the repeat',
         status: 'Partial · calendar',
+        kind: 'repeat',
+        prompt: 'Tap every mark that repeats like a drumbeat.',
         tokens: ['730', 'moon', '173', '730', 'Venus', 'Pleiades', '730'],
-        moves: [
-          ['tap-repeat', 'Tap the repeated sign'],
-          ['ask-meaning', 'Guess the whole language'],
-          ['open-doi', 'Skip to the record'],
-        ],
-        reveals: {
-          'tap-repeat': ['The door opens when repetition becomes a calendar.', 'This is what Logan did at full scale: measured order first. The live record reports an 89-entry dictionary covering 96.9% of tokens, with the Mamari tablet read as an eclipse-cycle calendar.'],
-          'ask-meaning': ['Not yet. Coverage is not correctness.', 'The honest move is smaller and stronger: identify a calendrical structure, then let specialists attack the proposed readings.'],
-          'open-doi': ['The academic object is stamped on Zenodo.', 'Zenodo makes the record citable and version-pinned. It does not make the claim peer-reviewed consensus.'],
-        },
+        target: '730',
+        locked: ['Find the repeated mark.', 'The door opens when a pattern stops feeling random.'],
+        success: ['The door opens when repetition becomes a calendar.', 'This is what Logan did at full scale: measured order first, then read the Mamari pattern against the sky.'],
         links: [
           ['Companion essay', '/essays/deciphering-rongorongo'],
           ['Zenodo record', 'https://zenodo.org/records/19362491'],
-          ['The vault', '/vault/deciphering-rongorongo-corpus-analysis'],
+          ['Vault record', '/vault/deciphering-rongorongo-corpus-analysis'],
         ],
       },
       proto: {
-        title: 'Ledger room: find the total',
+        title: 'Ledger room: arrange the tablet',
         status: 'Partial · accounting',
-        tokens: ['HEADER', 'grain', 'worker', 'TOTAL', 'seal', 'grain', 'TOTAL'],
-        moves: [
-          ['find-total', 'Find the total'],
-          ['compare-sites', 'Compare capital to edge'],
-          ['translate-all', 'Translate everything'],
-        ],
-        reveals: {
-          'find-total': ['The door opens when a mark behaves like bookkeeping.', 'This is what Logan did at full scale: treat tablets as an administrative system. The record reports 349 entries across 1,275 tablets and 15,534 sign tokens.'],
-          'compare-sites': ['The center carries more structure than the edge.', 'Susa behaves like complex bookkeeping; peripheral sites collapse toward commodity labels. That contrast is the playable aha.'],
-          'translate-all': ['Careful: ledgers can be partially understood before a language is recovered.', 'The strong public claim is bounded: accounting structure and sign roles, not a finished natural-language translation.'],
-        },
+        kind: 'formula',
+        prompt: 'Put the tablet back into bookkeeping order.',
+        slots: ['Header', 'Commodity', 'Admin', 'Total'],
+        tiles: ['TOTAL', 'HEADER', 'ADMIN', 'COMMODITY'],
+        answer: ['HEADER', 'COMMODITY', 'ADMIN', 'TOTAL'],
+        locked: ['Build the little ledger.', 'A record becomes readable when its parts start doing jobs.'],
+        success: ['The door opens when marks behave like bookkeeping.', 'This is what Logan did at full scale: compare sign roles across tablets until administration appears as structure.'],
         links: [
           ['Companion essay', '/essays/reading-proto-elamite'],
           ['Zenodo record', 'https://zenodo.org/records/19362528'],
@@ -370,19 +375,12 @@
         ],
       },
       indus: {
-        title: 'Seal room: spot the fixed place',
+        title: 'Seal room: slide signal from noise',
         status: 'Structural signal',
-        tokens: ['P324', 'name', 'P122', 'rank', 'P385', 'P324', 'P122'],
-        moves: [
-          ['fixed-place', 'Spot the fixed sign'],
-          ['signal-noise', 'Slide signal from noise'],
-          ['declare-proof', 'Call it solved'],
-        ],
-        reveals: {
-          'fixed-place': ['The door opens when a sign keeps its place.', 'This is what Logan did at full scale: look for positional structure in short seals. The record reports treewidth 26 and a rigid formulaic pattern.'],
-          'signal-noise': ['Short does not mean structureless.', 'The game is showing the intuition: labels collapse; structured systems carry dependencies. The semantic reading remains the hard part.'],
-          'declare-proof': ['Too far. The honest win is structural signal.', 'The Indus room should hook curiosity without claiming public consensus on translation or language family.'],
-        },
+        kind: 'meter',
+        prompt: 'Move the meter until the seal feels structured, not random.',
+        locked: ['Find the signal threshold.', 'A short inscription can still carry a rule.'],
+        success: ['The door opens when short marks hold fixed positions.', 'This is what Logan did at full scale: treat brevity as measurable structure instead of dismissing it.'],
         links: [
           ['Companion essay', '/essays/reading-indus-valley-script'],
           ['Zenodo record', 'https://zenodo.org/records/19362548'],
@@ -392,17 +390,17 @@
       cadence: {
         title: 'Rhythm room: match the shape',
         status: 'Comparative measurement',
+        kind: 'rhythm',
+        prompt: 'Which rhythm shape matches a collapse into noise?',
         bars: [60, 5, 5, 30],
-        moves: [
-          ['match-shape', 'Match the rhythm'],
-          ['hear-noise', 'Compare with noise'],
-          ['claim-language', 'Call it decipherment'],
+        choices: [
+          ['regular', 'Heartbeat', [25, 25, 25, 25]],
+          ['grace', 'Bow', [35, 30, 20, 15]],
+          ['drama', 'Spike / flatline', [60, 5, 5, 30]],
         ],
-        reveals: {
-          'match-shape': ['The door opens when function leaves a rhythm.', 'This is what Logan did at full scale: compress utterances into a cadence shape and compare systems by energy, not vocabulary.'],
-          'hear-noise': ['A collapse can sound like noise.', 'The record frames cadence as comparative measurement across scripts, species, and controls. It is not a translation claim.'],
-          'claim-language': ['Wrong door. Cadence measures shape, not meaning.', 'The beautiful part is that a very small measurement can still route a reader toward the deeper corpus.'],
-        },
+        target: 'drama',
+        locked: ['Match the rhythm shape.', 'When words are gone, cadence can still leave a fingerprint.'],
+        success: ['The door opens when function leaves a rhythm.', 'This is what Logan did at full scale: compare communication by energy shape, not vocabulary.'],
         links: [
           ['Vault record', '/vault/dying-language-sounds-like-noise'],
           ['Zenodo record', 'https://zenodo.org/records/19617709'],
@@ -415,30 +413,109 @@
     const playTitle = document.querySelector('[data-play-title]');
     const statusPill = document.querySelector('[data-status]');
     const artifact = document.querySelector('[data-artifact]');
-    const moves = document.querySelector('[data-moves]');
+    const resetRow = document.querySelector('[data-reset-row]');
     const reveal = document.querySelector('[data-reveal]');
     let activeRoom = 'rongorongo';
+    let formulaPick = [];
 
-    const renderArtifact = (room) => {
-      if (room.bars) {
-        artifact.innerHTML = '<div class="bars">' + room.bars.map((h, i) =>
-          '<span class="bar" data-label="Q' + (i + 1) + '" style="height:' + h + '%"></span>'
-        ).join('') + '</div>';
-        return;
-      }
-      artifact.innerHTML = '<div class="glyph-line">' + room.tokens.map((token) =>
-        '<span class="glyph">' + token + '</span>'
-      ).join('') + '</div>';
+    const routeLinks = (room) => '<div class="route-row">' + room.links.map(([label, href]) =>
+      '<a href="' + href + '">' + label + '</a>'
+    ).join('') + '</div>';
+
+    const setReveal = (room, mode) => {
+      const text = mode === 'success' ? room.success : room.locked;
+      reveal.classList.toggle('locked', mode !== 'success');
+      reveal.innerHTML =
+        '<p><b>' + text[0] + '</b></p>' +
+        '<p class="method">' + text[1] + '</p>' +
+        (mode === 'success' ? routeLinks(room) : '');
     };
 
-    const renderReveal = (room, key) => {
-      const [headline, method] = room.reveals[key];
-      reveal.innerHTML =
-        '<p><b>' + headline + '</b></p>' +
-        '<p class="method">' + method + '</p>' +
-        '<div class="route-row">' + room.links.map(([label, href]) =>
-          '<a href="' + href + '">' + label + '</a>'
+    const drawBars = (bars) => '<div class="bars">' + bars.map((h, i) =>
+      '<span class="bar" data-label="Q' + (i + 1) + '" style="height:' + h + '%"></span>'
+    ).join('') + '</div>';
+
+    const renderRepeat = (room) => {
+      artifact.innerHTML =
+        '<p class="vhint">' + room.prompt + '</p>' +
+        '<div class="glyph-line">' + room.tokens.map((token, i) =>
+          '<button class="glyph" type="button" data-token="' + token + '" data-index="' + i + '">' + token + '</button>'
         ).join('') + '</div>';
+      const hits = new Set();
+      artifact.querySelectorAll('[data-token]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.dataset.token === room.target) {
+            button.classList.add('hit');
+            hits.add(button.dataset.index);
+            if (hits.size === room.tokens.filter((token) => token === room.target).length) setReveal(room, 'success');
+          } else {
+            button.classList.add('miss');
+            setTimeout(() => button.classList.remove('miss'), 450);
+          }
+        });
+      });
+    };
+
+    const paintFormulaSlots = (room) => {
+      const slots = artifact.querySelector('[data-slots]');
+      slots.innerHTML = room.slots.map((slot, i) =>
+        '<div class="slot' + (formulaPick[i] ? ' filled' : '') + '">' + (formulaPick[i] || slot) + '</div>'
+      ).join('');
+      if (formulaPick.length === room.answer.length) {
+        const ok = formulaPick.every((pick, i) => pick === room.answer[i]);
+        if (ok) setReveal(room, 'success');
+        else {
+          setReveal({ ...room, locked: ['Almost. Totals close the tablet.', 'Try the order a bookkeeper would need: header, thing counted, admin mark, total.'] }, 'locked');
+          formulaPick = [];
+          setTimeout(() => paintFormulaSlots(room), 650);
+          artifact.querySelectorAll('[data-tile]').forEach((tile) => { tile.disabled = false; });
+        }
+      }
+    };
+
+    const renderFormula = (room) => {
+      formulaPick = [];
+      artifact.innerHTML =
+        '<p class="vhint">' + room.prompt + '</p>' +
+        '<div class="slots" data-slots></div>' +
+        '<div class="tiles">' + room.tiles.map((tile) =>
+          '<button class="tile" type="button" data-tile="' + tile + '">' + tile + '</button>'
+        ).join('') + '</div>';
+      paintFormulaSlots(room);
+      artifact.querySelectorAll('[data-tile]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (formulaPick.length >= room.answer.length) return;
+          formulaPick.push(button.dataset.tile);
+          button.disabled = true;
+          paintFormulaSlots(room);
+        });
+      });
+    };
+
+    const renderMeter = (room) => {
+      artifact.innerHTML =
+        '<p class="vhint">' + room.prompt + '</p>' +
+        '<div class="glyph-line"><span class="glyph">P324</span><span class="glyph">P122</span><span class="glyph">P385</span><span class="glyph">P324</span><span class="glyph">P122</span></div>' +
+        '<div class="meter-wrap"><div class="meter-labels"><span>noise</span><span>signal</span></div><input class="signal-meter" type="range" min="0" max="100" value="18" aria-label="Signal meter"></div>';
+      const meter = artifact.querySelector('.signal-meter');
+      meter.addEventListener('input', () => {
+        if (Number(meter.value) > 72) setReveal(room, 'success');
+      });
+    };
+
+    const renderRhythm = (room) => {
+      artifact.innerHTML =
+        '<p class="vhint">' + room.prompt + '</p>' +
+        drawBars(room.bars) +
+        '<div class="shapes">' + room.choices.map(([id, label, bars]) =>
+          '<button class="shape-choice" type="button" data-shape="' + id + '">' + label + '<br><small>' + bars.join(' · ') + '</small></button>'
+        ).join('') + '</div>';
+      artifact.querySelectorAll('[data-shape]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.dataset.shape === room.target) setReveal(room, 'success');
+          else setReveal({ ...room, locked: ['Not that shape. Listen for the spike.', 'The room wants the pattern that surges, drops, and returns at the end.'] }, 'locked');
+        });
+      });
     };
 
     const renderRoom = (key) => {
@@ -451,22 +528,19 @@
       });
       playTitle.textContent = room.title;
       statusPill.textContent = room.status;
-      renderArtifact(room);
-      moves.innerHTML = room.moves.map(([id, label], index) =>
-        '<button class="move' + (index === 0 ? ' active' : '') + '" type="button" data-move="' + id + '">' + label + '</button>'
-      ).join('');
-      renderReveal(room, room.moves[0][0]);
+      resetRow.innerHTML = '<button class="move" type="button" data-reset>Reset this room</button>';
+      setReveal(room, 'locked');
+      if (room.kind === 'repeat') renderRepeat(room);
+      if (room.kind === 'formula') renderFormula(room);
+      if (room.kind === 'meter') renderMeter(room);
+      if (room.kind === 'rhythm') renderRhythm(room);
     };
 
     roomButtons.forEach((button) => {
       button.addEventListener('click', () => renderRoom(button.dataset.room));
     });
-    moves.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-move]');
-      if (!button) return;
-      moves.querySelectorAll('.move').forEach((move) => move.classList.remove('active'));
-      button.classList.add('active');
-      renderReveal(rosettaRooms[activeRoom], button.dataset.move);
+    resetRow.addEventListener('click', (event) => {
+      if (event.target.closest('[data-reset]')) renderRoom(activeRoom);
     });
     renderRoom(activeRoom);
 
