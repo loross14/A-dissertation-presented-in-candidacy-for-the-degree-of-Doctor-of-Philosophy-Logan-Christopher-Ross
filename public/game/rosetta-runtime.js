@@ -72,6 +72,58 @@ const linkHtml = (links = []) => `<div class="route-row">${links.map((link) => {
   return `<a href="${href}"${external ? ' rel="noopener"' : ''}>${escapeHtml(link.label)}</a>`;
 }).join('')}</div>`;
 
+const manualLinks = (links = []) => links.length
+  ? `<div class="links">${links.map((link) => {
+    const href = escapeHtml(link.href);
+    const external = /^https?:\/\//.test(link.href);
+    return `<a href="${href}"${external ? ' rel="noopener"' : ''}>${escapeHtml(link.label)}</a>`;
+  }).join('')}</div>`
+  : '';
+
+const renderManual = (manifest) => {
+  const manual = manifest.manual;
+  const manualEl = qs('[data-manual]');
+  if (!manual || !manualEl) return;
+
+  const summary = qs('summary', manualEl);
+  const body = qs('[data-manual-body]', manualEl);
+  if (!summary || !body) return;
+
+  summary.innerHTML =
+    `<span class="manual-cover">
+      <span class="manual-folio">Field manual &middot; Room 137</span>
+      <b>${escapeHtml(manual.label)}</b>
+      <small>${escapeHtml(manual.subtitle)}</small>
+    </span>
+    <span class="manual-cue"><span class="cue-open">${escapeHtml(manual.closedLabel || 'Open')}</span><span class="cue-close">${escapeHtml(manual.openLabel || 'Close')}</span></span>`;
+
+  const intro = manual.intro || {};
+  const pathItems = (manual.path || []).map((item) => `<span role="listitem">${escapeHtml(item)}</span>`).join('');
+  const axes = (manual.axes || []).map((axis) =>
+    `<div class="manual-section">
+      <h3>${escapeHtml(axis.title)}</h3>
+      <div class="manual-grid">${(axis.cards || []).map((card) =>
+        `<div class="manual-card">
+          <span class="tag">${escapeHtml(card.tag)}</span>
+          <b>${escapeHtml(card.title)}</b>
+          <p>${escapeHtml(card.body)}</p>
+          ${manualLinks(card.links)}
+        </div>`
+      ).join('')}</div>
+    </div>`
+  ).join('');
+
+  body.innerHTML =
+    `<div class="manual-intro">
+      <p><b>${escapeHtml(intro.title)}</b> ${escapeHtml(intro.body)}</p>
+      <div class="manual-path" aria-label="${escapeHtml(manual.pathLabel || 'Reader path')}" role="list">${pathItems}</div>
+      <p class="manual-note">${escapeHtml(manual.claimNote)}</p>
+    </div>
+    ${axes}`;
+
+  manualEl.dataset.manualRendered = 'true';
+};
+
 const methodMap = (manifest) => new Map(manifest.methods.map((method) => [method.id, method]));
 const roomMap = (manifest) => new Map(manifest.rooms.map((room) => [room.id, room]));
 const recordMap = (manifest) => new Map(Object.entries(manifest.records || {}));
@@ -241,6 +293,12 @@ export async function mountRosettaGame({ manifestUrl = './game/shadow-mirror-gam
     reveal.classList.remove('locked');
     reveal.innerHTML = `<p><b>Readable fallback is active.</b></p><p class="method">${escapeHtml(error.message || error)}</p>`;
     return null;
+  }
+
+  try {
+    renderManual(manifest);
+  } catch (error) {
+    console.warn('Field Manual render failed; using no-JS fallback.', error);
   }
 
   const rooms = roomMap(manifest);

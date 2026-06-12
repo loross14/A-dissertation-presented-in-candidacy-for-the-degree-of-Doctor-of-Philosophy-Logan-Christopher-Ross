@@ -71,6 +71,39 @@ def validate_route(href: str, context: str) -> None:
     require(local_route_exists(href), f"{context}: local route does not resolve: {href}")
 
 
+def validate_manual(manifest: dict) -> None:
+    manual = manifest.get("manual")
+    require(isinstance(manual, dict), "manual is required")
+    require(manual.get("label"), "manual.label is required")
+    require(manual.get("subtitle"), "manual.subtitle is required")
+    intro = manual.get("intro", {})
+    require(intro.get("title") and intro.get("body"), "manual.intro title/body are required")
+
+    path = manual.get("path", [])
+    require(isinstance(path, list) and len(path) >= 2, "manual.path must contain at least two steps")
+    for index, item in enumerate(path):
+        require(isinstance(item, str) and item, f"manual.path[{index}] must be a non-empty string")
+
+    axes = manual.get("axes", [])
+    require(isinstance(axes, list) and len(axes) >= 2, "manual.axes must contain at least two axes")
+    ids_unique(axes, "manual.axes")
+    for axis in axes:
+        require(axis.get("title"), f"manual axis {axis['id']}: missing title")
+        cards = axis.get("cards", [])
+        require(isinstance(cards, list) and cards, f"manual axis {axis['id']}: missing cards")
+        ids_unique(cards, f"manual axis {axis['id']} cards")
+        for card in cards:
+            context = f"manual axis {axis['id']} card {card['id']}"
+            require(card.get("tag"), f"{context}: missing tag")
+            require(card.get("title"), f"{context}: missing title")
+            require(card.get("body"), f"{context}: missing body")
+            links = card.get("links", [])
+            require(isinstance(links, list) and links, f"{context}: missing links")
+            for link in links:
+                require(link.get("label"), f"{context}: link missing label")
+                validate_route(link.get("href"), f"{context} link {link.get('label')}")
+
+
 def score_specs(manifest: dict) -> dict[str, dict]:
     specs = manifest.get("scoreDimensions", [])
     ids_unique(specs, "scoreDimensions")
@@ -185,6 +218,9 @@ def validate_manifest(manifest: dict) -> None:
 
     for route_id, href in manifest.get("routes", {}).items():
         validate_route(href, f"routes.{route_id}")
+    for route_id in ("thesis", "seal", "genesisJson", "sealSvg"):
+        require(route_id in manifest.get("routes", {}), f"routes.{route_id} is required for Planisphere verification")
+    validate_manual(manifest)
 
     for record_id, record in records.items():
         require(record.get("title"), f"record {record_id}: missing normalized title")

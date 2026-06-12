@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "2026-06-12.game-first-core",
+  "contentVersion": "2026-06-12.game-first-manual",
   "gameId": "shadow-mirror-rosetta-meter",
   "title": "The Four Locked Rooms",
   "doctrine": {
@@ -8,6 +8,184 @@
     "game": "The game reveals the methods.",
     "essays": "The essays tie it all together.",
     "zenodo": "Zenodo stamps record."
+  },
+  "manual": {
+    "id": "field-manual",
+    "label": "Instructions booklet",
+    "subtitle": "Two-axis field manual: what the game asks, and where Logan explains it at full scale.",
+    "closedLabel": "Open booklet",
+    "openLabel": "Close booklet",
+    "intro": {
+      "title": "The board is not the whole argument.",
+      "body": "The player plays with patterns; the game reveals the methods; the essays tie it together; Zenodo stamps the record."
+    },
+    "pathLabel": "Reader path",
+    "path": [
+      "Play",
+      "Method",
+      "Essay",
+      "Record",
+      "Matrix"
+    ],
+    "claimNote": "Zenodo is the deposited record, not consensus. Claim status lives beside the companion essay and the proof trace.",
+    "axes": [
+      {
+        "id": "game-asks",
+        "title": "Axis I: What The Game Asks",
+        "cards": [
+          {
+            "id": "find-signal",
+            "tag": "Find signal",
+            "title": "Repeated signs are evidence only after they survive counting.",
+            "body": "That is why the first method card is frequency, not translation.",
+            "links": [
+              {
+                "label": "Rongorongo essay",
+                "href": "/essays/deciphering-rongorongo"
+              },
+              {
+                "label": "Treewidth basics",
+                "href": "/graph-theory/what-is-treewidth"
+              }
+            ]
+          },
+          {
+            "id": "constrain-position",
+            "tag": "Constrain position",
+            "title": "A sign needs a job in context, not a beautiful isolated meaning.",
+            "body": "Position, neighbor, and separator pressure are the small rules the game makes visible.",
+            "links": [
+              {
+                "label": "Tree decomposition",
+                "href": "/graph-theory/tree-decomposition-explained"
+              },
+              {
+                "label": "Complexity matrix",
+                "href": "/matrix"
+              }
+            ]
+          },
+          {
+            "id": "risk-hypothesis",
+            "tag": "Risk a hypothesis",
+            "title": "A calendar fit becomes serious when it predicts and can be attacked.",
+            "body": "The proof trace is where confidence, parsimony, overfit, and counterexample pressure meet.",
+            "links": [
+              {
+                "label": "Vault record",
+                "href": "/vault/deciphering-rongorongo-corpus-analysis"
+              },
+              {
+                "label": "Measurement example",
+                "href": "/essays/riemann-repulsion-collapse-treewidth"
+              }
+            ]
+          },
+          {
+            "id": "open-receipt",
+            "tag": "Open the receipt",
+            "title": "Winning the room routes you out of the toy case and into the corpus.",
+            "body": "The essay is the readable argument, the vault is the record drawer, and the seal proves the served bytes.",
+            "links": [
+              {
+                "label": "Vault",
+                "href": "/vault"
+              },
+              {
+                "label": "Genesis seal",
+                "href": "/genesis"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "corpus-lives",
+        "title": "Axis II: Where The Corpus Lives",
+        "cards": [
+          {
+            "id": "field-guides",
+            "tag": "Field guides",
+            "title": "Essays are the humane instructions.",
+            "body": "Start with the proven floor, then the theorem-vs-wager distinction, then the rooms.",
+            "links": [
+              {
+                "label": "Equals sign",
+                "href": "/essays/the-equals-sign-as-a-rotation"
+              },
+              {
+                "label": "Two Laws",
+                "href": "/essays/two-laws-one-name"
+              },
+              {
+                "label": "Full Field Manual",
+                "href": "/essays"
+              }
+            ]
+          },
+          {
+            "id": "locked-rooms",
+            "tag": "Locked rooms",
+            "title": "Decipherment is the first wing of the game.",
+            "body": "Rongorongo is playable now; Proto-Elamite, Indus, and Cadence are live routes before full room expansion.",
+            "links": [
+              {
+                "label": "Proto-Elamite",
+                "href": "/essays/reading-proto-elamite"
+              },
+              {
+                "label": "Indus",
+                "href": "/essays/reading-indus-valley-script"
+              },
+              {
+                "label": "Cadence",
+                "href": "/vault/dying-language-sounds-like-noise"
+              }
+            ]
+          },
+          {
+            "id": "the-meter",
+            "tag": "The meter",
+            "title": "The matrix shows why the same scoring language keeps returning.",
+            "body": "Substrate, graph invariant, and structural regime are the deeper board underneath the rooms.",
+            "links": [
+              {
+                "label": "Matrix",
+                "href": "/matrix"
+              },
+              {
+                "label": "Tensor networks",
+                "href": "/matrix/tensor-network-contraction"
+              },
+              {
+                "label": "Ross's Law",
+                "href": "/quantum/rosss-law"
+              }
+            ]
+          },
+          {
+            "id": "learn-rules",
+            "tag": "Learn the rules",
+            "title": "Topic guides are support, not the spine.",
+            "body": "Use them when a hard word blocks play: treewidth, quantum simulation, knowledge graphs.",
+            "links": [
+              {
+                "label": "Topic guides",
+                "href": "/topics"
+              },
+              {
+                "label": "Quantum guide",
+                "href": "/quantum/rosss-law"
+              },
+              {
+                "label": "Knowledge framework",
+                "href": "/knowledge/shadow-and-mirror-knowledge-framework"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "runtime": {
     "defaultRoom": "rongorongo",
@@ -423,7 +601,7 @@
           "href": "https://zenodo.org/records/19362491"
         },
         {
-          "label": "Full corpus",
+          "label": "Full Field Manual",
           "href": "/essays"
         },
         {
@@ -679,7 +857,7 @@
           "href": "https://zenodo.org/records/19362528"
         },
         {
-          "label": "Full catalogue",
+          "label": "Full Field Manual",
           "href": "/essays"
         },
         {
@@ -715,7 +893,7 @@
           "href": "/matrix"
         },
         {
-          "label": "Full catalogue",
+          "label": "Full Field Manual",
           "href": "/essays"
         }
       ]
@@ -747,7 +925,7 @@
           "href": "/matrix"
         },
         {
-          "label": "Full catalogue",
+          "label": "Full Field Manual",
           "href": "/essays"
         }
       ]
