@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rongorongo and the Shape of an Undeciphered Script — Shadow &amp; Mirror</title>
-  <meta name="description" content="An LLM-driven structural analysis of the Rongorongo corpus of Easter Island: a proposed 119-entry dictionary covering 96.9% of surviving tokens, the Mamari tablet read as an eclipse calendar. The claim, the method, and how to read it honestly." />
+  <meta name="description" content="An LLM-driven structural analysis of the Rongorongo corpus of Easter Island: a proposed 89-entry dictionary covering 96.9% of surviving tokens, the Mamari tablet read as an eclipse calendar. The claim, the method, and how to read it honestly." />
   <link rel="canonical" href="https://logan.engineering/essays/deciphering-rongorongo" />
   <meta property="og:title" content="Rongorongo and the Shape of an Undeciphered Script" />
-  <meta property="og:description" content="An LLM-driven structural analysis of the Rongorongo corpus: a proposed 119-entry dictionary, the Mamari tablet as eclipse calendar. The claim, the method, and how to read it honestly." />
+  <meta property="og:description" content="An LLM-driven structural analysis of the Rongorongo corpus: a proposed 89-entry dictionary, the Mamari tablet as eclipse calendar. The claim, the method, and how to read it honestly." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://logan.engineering/essays/deciphering-rongorongo" />
   <meta property="og:image" content="https://logan.engineering/og.png" />
@@ -15,7 +15,7 @@
   <meta name="twitter:title" content="Rongorongo and the Shape of an Undeciphered Script" />
   <meta name="twitter:image" content="https://logan.engineering/og.png" />
   <link rel="stylesheet" href="/essays/essay.css" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Rongorongo and the Shape of an Undeciphered Script","name":"Rongorongo and the Shape of an Undeciphered Script","alternateName":"Deciphering Rongorongo","description":"An LLM-driven structural analysis of the surviving Rongorongo corpus of Easter Island, proposing a 119-entry dictionary that covers 96.9% of tokens and reading the Mamari tablet as an eclipse-prediction calendar.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/deciphering-rongorongo","url":"https://logan.engineering/essays/deciphering-rongorongo","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19362491"},"sameAs":["https://zenodo.org/records/19362491","https://doi.org/10.5281/zenodo.19362491"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-05","keywords":"Rongorongo, Easter Island script, corpus structural analysis, treewidth, co-occurrence network, Mamari tablet, computational decipherment"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Rongorongo and the Shape of an Undeciphered Script","name":"Rongorongo and the Shape of an Undeciphered Script","alternateName":"Deciphering Rongorongo","description":"An LLM-driven structural analysis of the surviving Rongorongo corpus of Easter Island, proposing an 89-entry dictionary that covers 96.9% of tokens and reading the Mamari tablet as an eclipse-prediction calendar.","author":{"@type":"Person","name":"Logan Christopher Ross"},"publisher":{"@type":"Person","name":"Logan Christopher Ross"},"mainEntityOfPage":"https://logan.engineering/essays/deciphering-rongorongo","url":"https://logan.engineering/essays/deciphering-rongorongo","isPartOf":{"@type":"CreativeWork","name":"Shadow & Mirror","url":"https://logan.engineering/"},"identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.5281/zenodo.19362491"},"sameAs":["https://zenodo.org/records/19362491","https://doi.org/10.5281/zenodo.19362491"],"license":"https://creativecommons.org/licenses/by-nc/4.0/","dateModified":"2026-06-05","keywords":"Rongorongo, Easter Island script, corpus structural analysis, treewidth, co-occurrence network, Mamari tablet, computational decipherment"}</script>
 </head>
 <body>
   <main class="wrap">
@@ -23,7 +23,7 @@
 
     <p class="kicker">The Decipherment Wing · Rapa Nui</p>
     <h1>Rongorongo and the Shape of an Undeciphered Script</h1>
-    <p class="dek">An LLM-driven structural reading of Easter Island's undeciphered script: a proposed 119-entry dictionary covering 96.9% of surviving tokens, and the Mamari tablet read as an eclipse calendar. Here is the claim, the method — and how to read a claim like this honestly.</p>
+    <p class="dek">An LLM-driven structural reading of Easter Island's undeciphered script: a proposed 89-entry dictionary covering 96.9% of surviving tokens, and the Mamari tablet read as an eclipse calendar. Here is the claim, the method — and how to read a claim like this honestly.</p>
     <p class="byline">Logan Christopher Ross<span class="sep">·</span>June 5, 2026<svg class="stamp mark" viewBox="0 0 24 24" aria-hidden="true"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg></p>
 
     <hr class="rule" />
@@ -37,7 +37,7 @@
 
       <h2>The claims, stated plainly</h2>
       <ul>
-        <li>A proposed <strong>119-entry dictionary</strong> that assigns readings to glyphs and glyph-clusters.</li>
+        <li>A proposed <strong>89-entry dictionary</strong> that assigns readings to glyphs and glyph-clusters.</li>
         <li>Coverage of <strong>96.9% of tokens</strong> in the surviving corpus by that dictionary.</li>
         <li>The <strong>Mamari tablet</strong> read as an <strong>eclipse-prediction calendar</strong> — a lunar/astronomical reckoning, consistent with a long-standing minority view that part of Mamari is calendrical.</li>
         <li>Several narrative tablets read as <strong>liturgical / genealogical</strong> texts.</li>

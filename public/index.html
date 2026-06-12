@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shadow &amp; Mirror — Treewidth as the Universal Meter</title>
-  <meta name="description" content="A volume by Logan Christopher Ross. Treewidth as the universal meter of computation, physics, and consciousness. Central theorem: Ross's Law. Sealed as the genesis block of the Planisphere mirror chain." />
+  <title>Shadow &amp; Mirror — The Rosetta Meter</title>
+  <meta name="description" content="Enter Logan Ross's research through four locked rooms: Rongorongo, Proto-Elamite, Indus, and cadence. Play the pattern, then read the evidence." />
   <meta property="og:title" content="Shadow &amp; Mirror" />
-  <meta property="og:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
+  <meta property="og:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://logan.engineering/" />
   <meta property="og:image" content="https://logan.engineering/og.png" />
@@ -15,7 +15,7 @@
   <meta property="og:image:alt" content="Shadow &amp; Mirror — a volume by Logan Christopher Ross, sealed as genesis #0 of the Planisphere mirror chain." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Shadow &amp; Mirror" />
-  <meta name="twitter:description" content="Treewidth as the universal meter of computation, physics, and consciousness. Sealed on the Planisphere mirror chain." />
+  <meta name="twitter:description" content="Four locked rooms into one research corpus: lost scripts, cadence, treewidth, essays, and DOI records." />
   <meta name="twitter:image" content="https://logan.engineering/og.png" />
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://logan.engineering/#person","name":"Logan Christopher Ross","jobTitle":"Computational Architect & Independent Researcher","url":"https://logan.engineering/","knowsAbout":["Graph theory","Treewidth","Computational complexity","Quantum circuit simulation","Corpus linguistics"]},{"@type":"WebSite","@id":"https://logan.engineering/#website","url":"https://logan.engineering/","name":"logan.engineering","author":{"@id":"https://logan.engineering/#person"}},{"@type":"Book","@id":"https://logan.engineering/#volume","name":"Shadow & Mirror: Treewidth as the Universal Meter of Computation, Physics, and Consciousness","author":{"@id":"https://logan.engineering/#person"},"url":"https://logan.engineering/thesis.pdf","numberOfPages":895}]}</script>
   <style>
@@ -46,6 +46,43 @@
       text-decoration:none; color:var(--paper); background:var(--ink);
       padding:13px 18px; border-radius:7px; display:inline-flex; align-items:center; gap:8px;
     }
+
+    /* The Rosetta Meter: a homepage-native entry game */
+    .rosetta { margin:2.2em 0 2.4em; border:1px solid var(--ink); background:linear-gradient(180deg, var(--panel), transparent 155%); }
+    .rosetta-head { padding:18px 20px 14px; border-bottom:1px solid var(--panelrule); }
+    .rosetta h2 { font-size:clamp(24px,4vw,34px); line-height:1.1; margin:.25em 0 .2em; font-weight:600; }
+    .rosetta .lede { margin:.65em 0 0; color:var(--dim); font-size:15px; }
+    .room-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); border-bottom:1px solid var(--panelrule); }
+    .room-card { position:relative; min-height:150px; padding:16px; border-right:1px solid var(--panelrule); border-bottom:1px solid var(--panelrule); display:flex; flex-direction:column; gap:10px; }
+    .room-card:nth-child(2n) { border-right:0; }
+    .room-card:nth-last-child(-n+2) { border-bottom:0; }
+    .room-card.active { background:color-mix(in srgb, var(--brass) 12%, transparent); }
+    .room-pick { border:0; padding:0; background:transparent; color:var(--ink); text-align:left; cursor:pointer; font:inherit; display:flex; flex-direction:column; gap:10px; }
+    .room-pick:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+    .door { font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.13em; text-transform:uppercase; color:var(--brass); }
+    .room-pick b { font-size:18px; line-height:1.15; }
+    .room-pick span:not(.door) { color:var(--dim); font:400 13px/1.45 ui-sans-serif,system-ui,sans-serif; }
+    .room-card a { margin-top:auto; color:var(--ink); font:600 12px/1 ui-sans-serif,system-ui,sans-serif; text-decoration:none; border-bottom:1px solid var(--panelrule); width:max-content; }
+    .playfield { padding:18px 20px 20px; }
+    .play-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+    .play-title { margin:0; font-size:20px; line-height:1.2; }
+    .status-pill { flex:none; border:1px solid var(--panelrule); color:var(--brass); padding:6px 8px; border-radius:999px; font:600 11px/1 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .artifact { margin:16px 0; padding:16px; background:var(--paper); border:1px solid var(--panelrule); display:grid; gap:10px; }
+    .glyph-line { display:flex; flex-wrap:wrap; gap:8px; min-height:42px; align-items:center; }
+    .glyph { min-width:38px; padding:8px 10px; border:1px solid var(--ink); background:var(--panel); text-align:center; font:600 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .bars { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; align-items:end; height:78px; }
+    .bar { background:var(--ink); min-height:10px; position:relative; }
+    .bar::after { content:attr(data-label); position:absolute; left:0; right:0; bottom:-19px; color:var(--dim); font:600 10px/1 ui-sans-serif,system-ui,sans-serif; text-align:center; }
+    .move-row { display:flex; flex-wrap:wrap; gap:9px; margin-top:10px; }
+    .move { border:1px solid var(--ink); background:transparent; color:var(--ink); padding:10px 12px; border-radius:7px; cursor:pointer; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
+    .move:hover, .move:focus-visible, .move.active { background:var(--ink); color:var(--paper); outline:0; }
+    .reveal { margin-top:16px; border-left:3px solid var(--brass); padding-left:13px; }
+    .reveal p { margin:.45em 0; }
+    .reveal .method { color:var(--dim); font:400 14px/1.55 ui-sans-serif,system-ui,sans-serif; }
+    .route-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .route-row a { color:var(--ink); text-decoration:none; border:1px solid var(--panelrule); border-radius:999px; padding:8px 10px; font:600 12px/1 ui-sans-serif,system-ui,sans-serif; }
+    .route-row a:hover { border-color:var(--ink); }
+    .rosetta-fallback { padding:0 20px 18px; color:var(--dim); font:400 12px/1.5 ui-sans-serif,system-ui,sans-serif; }
 
     /* the Planisphere collaboration mark */
     .stamp { width:1.4em; height:1.4em; vertical-align:-0.34em; margin:0 .12em 0 .3em; opacity:.92; }
@@ -96,6 +133,14 @@
       .checks li.ok .ck { color:#7bd88f; } .verdict.pass { color:#7bd88f; }
       .checks li.bad .ck { color:#ff8a80; } .verdict.fail { color:#ff8a80; }
     }
+    @media (max-width: 620px){
+      .wrap { padding-top:7vh; }
+      .room-grid { grid-template-columns:1fr; }
+      .room-card, .room-card:nth-child(2n), .room-card:nth-last-child(-n+2) { border-right:0; border-bottom:1px solid var(--panelrule); }
+      .room-card:last-child { border-bottom:0; }
+      .play-top { display:block; }
+      .status-pill { display:inline-block; margin-top:10px; }
+    }
 
     /* sign-off */
     .sign { margin-top:2.2em; }
@@ -124,6 +169,64 @@
     <h1>Shadow &amp; Mirror</h1>
     <p class="sub">Treewidth as the Universal Meter of Computation, Physics, and Consciousness</p>
     <p class="meta">Logan Christopher Ross &middot; 895 pages &middot;<svg class="stamp mark" viewBox="0 0 24 24" role="img" aria-label="Sealed by Planisphere · Room 137"><circle class="ink" cx="12" cy="12" r="11" stroke-width="1.4"/><circle class="ink" cx="12" cy="12" r="8.2" stroke-width="1"/><line class="ink" x1="12" y1="1.4" x2="12" y2="22.6" stroke-width="1"/><line class="ink" x1="1.4" y1="12" x2="22.6" y2="12" stroke-width="1"/><path class="brass" d="M 4 12 Q 12 5.6 20 12" stroke-width="1.5" stroke-linecap="round"/><path class="brass" d="M 4 12 Q 12 18.4 20 12" stroke-width="1.5" stroke-linecap="round"/><circle class="ink-fill" cx="12" cy="12" r="1.2"/></svg>June 1, 2026</p>
+
+    <section class="rosetta" id="rosetta-meter" aria-labelledby="rosetta-title">
+      <div class="rosetta-head">
+        <div class="kicker">Homepage game &middot; The first door</div>
+        <h2 id="rosetta-title">The Four Locked Rooms</h2>
+        <p class="lede">Pick a room, play the pattern, then choose how deep you want to go. The small move is the doorway into the full work.</p>
+      </div>
+
+      <div class="room-grid" aria-label="Choose a locked room">
+        <article class="room-card active">
+          <button class="room-pick" type="button" data-room="rongorongo" aria-pressed="true">
+            <span class="door">Calendar room</span>
+            <b>Rongorongo</b>
+            <span>Repeated marks, lunar order, one tablet that behaves like a sky clock.</span>
+          </button>
+          <a href="/essays/deciphering-rongorongo">Read the essay</a>
+        </article>
+        <article class="room-card">
+          <button class="room-pick" type="button" data-room="proto" aria-pressed="false">
+            <span class="door">Ledger room</span>
+            <b>Proto-Elamite</b>
+            <span>Clay tablets, totals, commodities, and a capital whose records carry more structure.</span>
+          </button>
+          <a href="/essays/reading-proto-elamite">Read the essay</a>
+        </article>
+        <article class="room-card">
+          <button class="room-pick" type="button" data-room="indus" aria-pressed="false">
+            <span class="door">Seal room</span>
+            <b>Indus</b>
+            <span>Short seals, fixed positions, and a sign system too structured to treat casually.</span>
+          </button>
+          <a href="/essays/reading-indus-valley-script">Read the essay</a>
+        </article>
+        <article class="room-card">
+          <button class="room-pick" type="button" data-room="cadence" aria-pressed="false">
+            <span class="door">Rhythm room</span>
+            <b>Cadence</b>
+            <span>When the words are lost, the energy of the utterance still leaves a shape.</span>
+          </button>
+          <a href="/vault/dying-language-sounds-like-noise">Open the record</a>
+        </article>
+      </div>
+
+      <div class="playfield" aria-live="polite">
+        <div class="play-top">
+          <h3 class="play-title" data-play-title>Calendar room: tap the repeat</h3>
+          <span class="status-pill" data-status>Partial &middot; calendar</span>
+        </div>
+        <div class="artifact" data-artifact></div>
+        <div class="move-row" data-moves></div>
+        <div class="reveal" data-reveal>
+          <p><b>The door opens when repetition becomes a calendar.</b></p>
+          <p class="method">This is what Logan did at full scale: measure the corpus before asking meaning to carry the whole claim.</p>
+        </div>
+      </div>
+
+      <p class="rosetta-fallback">No trick here: the game is a map. Every room opens into a companion essay, a DOI record, or the full catalogue.</p>
+    </section>
 
     <div class="claim">
       The gap between any separable structure and the inseparable whole it
@@ -225,6 +328,148 @@
   <footer>&plus; &nbsp; Room 137 &middot; The Forge &middot; V&sup2; &plus; D&sup2; &equals; 1</footer>
 
   <script type="module">
+    const rosettaRooms = {
+      rongorongo: {
+        title: 'Calendar room: tap the repeat',
+        status: 'Partial · calendar',
+        tokens: ['730', 'moon', '173', '730', 'Venus', 'Pleiades', '730'],
+        moves: [
+          ['tap-repeat', 'Tap the repeated sign'],
+          ['ask-meaning', 'Guess the whole language'],
+          ['open-doi', 'Skip to the record'],
+        ],
+        reveals: {
+          'tap-repeat': ['The door opens when repetition becomes a calendar.', 'This is what Logan did at full scale: measured order first. The live record reports an 89-entry dictionary covering 96.9% of tokens, with the Mamari tablet read as an eclipse-cycle calendar.'],
+          'ask-meaning': ['Not yet. Coverage is not correctness.', 'The honest move is smaller and stronger: identify a calendrical structure, then let specialists attack the proposed readings.'],
+          'open-doi': ['The academic object is stamped on Zenodo.', 'Zenodo makes the record citable and version-pinned. It does not make the claim peer-reviewed consensus.'],
+        },
+        links: [
+          ['Companion essay', '/essays/deciphering-rongorongo'],
+          ['Zenodo record', 'https://zenodo.org/records/19362491'],
+          ['The vault', '/vault/deciphering-rongorongo-corpus-analysis'],
+        ],
+      },
+      proto: {
+        title: 'Ledger room: find the total',
+        status: 'Partial · accounting',
+        tokens: ['HEADER', 'grain', 'worker', 'TOTAL', 'seal', 'grain', 'TOTAL'],
+        moves: [
+          ['find-total', 'Find the total'],
+          ['compare-sites', 'Compare capital to edge'],
+          ['translate-all', 'Translate everything'],
+        ],
+        reveals: {
+          'find-total': ['The door opens when a mark behaves like bookkeeping.', 'This is what Logan did at full scale: treat tablets as an administrative system. The record reports 349 entries across 1,275 tablets and 15,534 sign tokens.'],
+          'compare-sites': ['The center carries more structure than the edge.', 'Susa behaves like complex bookkeeping; peripheral sites collapse toward commodity labels. That contrast is the playable aha.'],
+          'translate-all': ['Careful: ledgers can be partially understood before a language is recovered.', 'The strong public claim is bounded: accounting structure and sign roles, not a finished natural-language translation.'],
+        },
+        links: [
+          ['Companion essay', '/essays/reading-proto-elamite'],
+          ['Zenodo record', 'https://zenodo.org/records/19362528'],
+          ['Essays catalogue', '/essays'],
+        ],
+      },
+      indus: {
+        title: 'Seal room: spot the fixed place',
+        status: 'Structural signal',
+        tokens: ['P324', 'name', 'P122', 'rank', 'P385', 'P324', 'P122'],
+        moves: [
+          ['fixed-place', 'Spot the fixed sign'],
+          ['signal-noise', 'Slide signal from noise'],
+          ['declare-proof', 'Call it solved'],
+        ],
+        reveals: {
+          'fixed-place': ['The door opens when a sign keeps its place.', 'This is what Logan did at full scale: look for positional structure in short seals. The record reports treewidth 26 and a rigid formulaic pattern.'],
+          'signal-noise': ['Short does not mean structureless.', 'The game is showing the intuition: labels collapse; structured systems carry dependencies. The semantic reading remains the hard part.'],
+          'declare-proof': ['Too far. The honest win is structural signal.', 'The Indus room should hook curiosity without claiming public consensus on translation or language family.'],
+        },
+        links: [
+          ['Companion essay', '/essays/reading-indus-valley-script'],
+          ['Zenodo record', 'https://zenodo.org/records/19362548'],
+          ['Learn the meter', '/graph-theory'],
+        ],
+      },
+      cadence: {
+        title: 'Rhythm room: match the shape',
+        status: 'Comparative measurement',
+        bars: [60, 5, 5, 30],
+        moves: [
+          ['match-shape', 'Match the rhythm'],
+          ['hear-noise', 'Compare with noise'],
+          ['claim-language', 'Call it decipherment'],
+        ],
+        reveals: {
+          'match-shape': ['The door opens when function leaves a rhythm.', 'This is what Logan did at full scale: compress utterances into a cadence shape and compare systems by energy, not vocabulary.'],
+          'hear-noise': ['A collapse can sound like noise.', 'The record frames cadence as comparative measurement across scripts, species, and controls. It is not a translation claim.'],
+          'claim-language': ['Wrong door. Cadence measures shape, not meaning.', 'The beautiful part is that a very small measurement can still route a reader toward the deeper corpus.'],
+        },
+        links: [
+          ['Vault record', '/vault/dying-language-sounds-like-noise'],
+          ['Zenodo record', 'https://zenodo.org/records/19617709'],
+          ['The matrix', '/matrix'],
+        ],
+      },
+    };
+
+    const roomButtons = [...document.querySelectorAll('[data-room]')];
+    const playTitle = document.querySelector('[data-play-title]');
+    const statusPill = document.querySelector('[data-status]');
+    const artifact = document.querySelector('[data-artifact]');
+    const moves = document.querySelector('[data-moves]');
+    const reveal = document.querySelector('[data-reveal]');
+    let activeRoom = 'rongorongo';
+
+    const renderArtifact = (room) => {
+      if (room.bars) {
+        artifact.innerHTML = '<div class="bars">' + room.bars.map((h, i) =>
+          '<span class="bar" data-label="Q' + (i + 1) + '" style="height:' + h + '%"></span>'
+        ).join('') + '</div>';
+        return;
+      }
+      artifact.innerHTML = '<div class="glyph-line">' + room.tokens.map((token) =>
+        '<span class="glyph">' + token + '</span>'
+      ).join('') + '</div>';
+    };
+
+    const renderReveal = (room, key) => {
+      const [headline, method] = room.reveals[key];
+      reveal.innerHTML =
+        '<p><b>' + headline + '</b></p>' +
+        '<p class="method">' + method + '</p>' +
+        '<div class="route-row">' + room.links.map(([label, href]) =>
+          '<a href="' + href + '">' + label + '</a>'
+        ).join('') + '</div>';
+    };
+
+    const renderRoom = (key) => {
+      activeRoom = key;
+      const room = rosettaRooms[key];
+      roomButtons.forEach((button) => {
+        const active = button.dataset.room === key;
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        button.closest('.room-card').classList.toggle('active', active);
+      });
+      playTitle.textContent = room.title;
+      statusPill.textContent = room.status;
+      renderArtifact(room);
+      moves.innerHTML = room.moves.map(([id, label], index) =>
+        '<button class="move' + (index === 0 ? ' active' : '') + '" type="button" data-move="' + id + '">' + label + '</button>'
+      ).join('');
+      renderReveal(room, room.moves[0][0]);
+    };
+
+    roomButtons.forEach((button) => {
+      button.addEventListener('click', () => renderRoom(button.dataset.room));
+    });
+    moves.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-move]');
+      if (!button) return;
+      moves.querySelectorAll('.move').forEach((move) => move.classList.remove('active'));
+      button.classList.add('active');
+      renderReveal(rosettaRooms[activeRoom], button.dataset.move);
+    });
+    renderRoom(activeRoom);
+
     // Self-hosted, version-pinned, audited viem (no CDN, no rolled crypto).
     let _viem = null;
     const viem = async () => (_viem ||= await import('/vendor/viem-2.52.0.min.js'));
